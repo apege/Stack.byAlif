@@ -117,9 +117,19 @@ export default function Services() {
                   </button>
                 </div>
               </motion.div>
+              
             );
           })}
         </motion.div>
+        <motion.p
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="text-center text-xs text-[#64748B] mt-8"
+        >
+          * Harga dapat berubah sesuai kebutuhan dan kompleksitas proyek.
+        </motion.p>
       </div>
     </section>
   );

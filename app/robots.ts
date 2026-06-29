@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://apege.dev/sitemap.xml',
+    sitemap: 'https://stackbyalif.my.id/sitemap.xml',
   };
 }
