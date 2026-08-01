@@ -7,20 +7,23 @@ import { Project } from '@/types';
 import { fadeUp, stagger } from '@/lib/motion';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface Props {
   project: Project;
   nextProject: Project;
 }
 
-const sections = [
-  { key: 'overview', label: 'Overview' },
-  { key: 'challenge', label: 'Challenge' },
-  { key: 'process', label: 'Process' },
-  { key: 'results', label: 'Results' },
-] as const;
-
 export default function ProjectDetail({ project, nextProject }: Props) {
+  const { t } = useLanguage();
+
+  const sections = [
+    { key: 'overview', label: t('cs.overview') },
+    { key: 'challenge', label: t('cs.problem') },
+    { key: 'process', label: t('cs.solution') },
+    { key: 'results', label: t('cs.result') },
+  ] as const;
+
   return (
     <main>
       <Navbar />
@@ -37,7 +40,7 @@ export default function ProjectDetail({ project, nextProject }: Props) {
             href="/#projects"
             className="inline-flex items-center gap-2 text-sm text-[#94A3B8] hover:text-white transition-colors"
           >
-            <ArrowLeft className="w-4 h-4" /> Back to Projects
+            <ArrowLeft className="w-4 h-4" /> {t('cs.back')}
           </Link>
         </motion.div>
 
@@ -78,7 +81,7 @@ export default function ProjectDetail({ project, nextProject }: Props) {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 bg-[#38BDF8] hover:bg-[#29a8e0] text-[#0F172A] font-bold px-5 py-2.5 rounded-lg transition-all text-sm hover:shadow-[0_0_25px_rgba(56,189,248,0.35)]"
               >
-                <ExternalLink className="w-4 h-4" /> Live Demo
+                <ExternalLink className="w-4 h-4" /> {t('cs.liveWebsite')}
               </a>
             )}
             {project.githubUrl && (
@@ -170,7 +173,7 @@ export default function ProjectDetail({ project, nextProject }: Props) {
           {/* Sidebar */}
           <div className="space-y-5">
             <div className="glass rounded-2xl p-5 border border-white/8 sticky top-24">
-              <h3 className="font-bold text-white text-sm mb-4">Technologies Used</h3>
+              <h3 className="font-bold text-white text-sm mb-4">{t('cs.techStack')}</h3>
               <div className="flex flex-wrap gap-2">
                 {project.tags.map((tag) => (
                   <span

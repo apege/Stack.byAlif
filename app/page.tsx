@@ -1,14 +1,13 @@
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/sections/Hero';
 import TrustSection from '@/components/sections/TrustSection';
-import About from '@/components/sections/About';
-import Achievements from '@/components/sections/Achievements';
-import TechStack from '@/components/sections/TechStack';
-import Projects from '@/components/sections/Projects';
+import BusinessProblems from '@/components/sections/BusinessProblems';
 import Services from '@/components/sections/Services';
+import Projects from '@/components/sections/Projects';
+import Pricing from '@/components/sections/Pricing';
+import About from '@/components/sections/About';
 import WorkProcess from '@/components/sections/WorkProcess';
 import Testimonials from '@/components/sections/Testimonials';
-// import BlogPreview from '@/components/sections/BlogPreview';
 import Contact from '@/components/sections/Contact';
 import Footer from '@/components/Footer';
 
@@ -18,16 +17,16 @@ export default function Home() {
       <Navbar />
       <Hero />
       <TrustSection />
-      <About />
-      <Achievements />
-      <TechStack />
+      <BusinessProblems />
+      {/* <Services /> */}
       <Projects />
-      <Services />
+      <Pricing />
+      <About />
       <WorkProcess />
       <Testimonials />
-      {/* <BlogPreview /> */}
       <Contact />
       <Footer />
     </main>
   );
 }
+

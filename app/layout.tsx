@@ -67,6 +67,8 @@ export const metadata: Metadata = {
   },
 };
 
+import ClientLayout from './ClientLayout';
+
 export default function RootLayout({
   children,
 }: {
@@ -109,8 +111,9 @@ export default function RootLayout({
           fontFamily: "'Inter', system-ui, sans-serif",
         }}
       >
-        {children}
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
 }
+
