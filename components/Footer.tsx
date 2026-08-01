@@ -1,15 +1,9 @@
-import Link from 'next/link';
-import { GitFork, Globe, Mail, MessageCircle, Camera } from 'lucide-react';
-import Image from 'next/image';
+'use client';
 
-const quickLinks = [
-  { href: '#home', label: 'Home' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#certificates', label: 'Certificates' }, 
-  { href: '#about', label: 'About' },
-  { href: '#services', label: 'Services' },
-  { href: '#contact', label: 'Contact' },
-];
+import Link from 'next/link';
+import { GitFork, Mail, MessageCircle, Camera } from 'lucide-react';
+import Image from 'next/image';
+import { useLanguage } from '@/context/LanguageContext';
 
 const socials = [
   { icon: GitFork, href: 'https://github.com/apege', label: 'GitHub' },
@@ -19,6 +13,16 @@ const socials = [
 ];
 
 export default function Footer() {
+  const { t } = useLanguage();
+
+  const quickLinks = [
+    { href: '#home', label: t('nav.home') },
+    { href: '#problems', label: t('nav.solutions') },
+    { href: '#projects', label: t('nav.portfolio') },
+    { href: '#pricing', label: t('nav.pricing') },
+    { href: '#about', label: t('nav.about') },
+  ];
+
   return (
     <footer className="border-t border-white/5 py-12">
       <div className="max-w-[1280px] mx-auto px-6">
@@ -26,20 +30,19 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-2 mb-3">
-                <Image
-                  src="/images/logo.png"
-                  alt="Stack.byAlif Logo"
-                  width={32}
-                  height={32}
-                  className="rounded-lg"
-                />
+              <Image
+                src="/images/logo.png"
+                alt="Stack.byAlif Logo"
+                width={32}
+                height={32}
+                className="rounded-lg"
+              />
               <span className="font-bold text-white tracking-tight text-sm">
                 Stack<span className="text-[#38BDF8]">.</span>byAlif
               </span>
             </Link>
             <p className="text-[#94A3B8] text-xs leading-relaxed max-w-xs">
-              Full Stack Web Developer building modern websites and applications for businesses
-              that want to grow online.
+              {t('footer.tagline')}
             </p>
           </div>
 
@@ -90,13 +93,14 @@ export default function Footer() {
         {/* Bottom */}
         <div className="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-[#94A3B8]">
-            © {new Date().getFullYear()} Stack.byAlif · All rights reserved.
+            © {new Date().getFullYear()} {t('footer.rights')}
           </p>
           <p className="text-xs text-[#64748B]">
-            Built with Next.js, TypeScript & Tailwind CSS
+            Built with Next.js, TypeScript &amp; Tailwind CSS
           </p>
         </div>
       </div>
     </footer>
   );
 }
+
