@@ -48,3 +48,23 @@ export interface TechStack {
   icon: string;
   category: string;
 }
+
+export interface BusinessProblem {
+  id: number;
+  icon: string;
+  problem: string;
+  description: string;
+  solution: string;
+}
+
+export interface PricingPackage {
+  id: number;
+  name: string;
+  badge?: string;
+  price: string;
+  description: string;
+  features: string[];
+  recommendedFor: string;
+  isPopular?: boolean;
+}
+

@@ -1,280 +1,83 @@
-import { Project, Testimonial, Service, BlogPost } from '@/types';
+import { Project, Testimonial, Service, BlogPost, BusinessProblem, PricingPackage } from '@/types';
 
-export const projects: Project[] = [
+export const businessProblems: BusinessProblem[] = [
   {
-    slug: 'jumpscare-industriez',
-    title: 'Jumpscare Industriez',
-    shortDesc: 'Streetwear fashion e-commerce platform with secure checkout and payment integration',
-    description: 'A full-featured fashion e-commerce platform developed for Jumpscare Industriez, enabling customers to browse products, manage carts, complete secure purchases, and track orders through a seamless shopping experience.',
-    thumbnail: '/images/jumpscareindustriez/home.png',
-    tags: [
-      'PHP Native',
-      'Tailwind CSS',
-      'JavaScript',
-      'MySQL',
-      'Payment Gateway',
-      'E-Commerce'
-    ],
-    liveUrl: 'https://jumpscareindustriez.com/',
-    githubUrl: '',
-    overview: 'Developed a complete fashion e-commerce platform for Jumpscare Industriez, featuring product management, shopping cart functionality, customer authentication, checkout flow, payment gateway integration, and responsive user experience.',
-    challenge: 'The main challenge was building a scalable e-commerce system that delivers a smooth shopping experience while handling product management, user authentication, order processing, and payment integration efficiently.',
-    process: 'Designed the database structure, developed both customer-facing and administrative interfaces, implemented authentication and cart systems, integrated payment processing, and optimized the platform for responsiveness and performance across devices.',
-    results: 'Successfully launched a fully functional online store that streamlined product sales, improved customer purchasing experience, and provided the business with a centralized platform for managing products, orders, and transactions.',
-    gallery: [
-      '/images/jumpscareindustriez/home.png',
-      '/images/jumpscareindustriez/katalog.png',
-      '/images/jumpscareindustriez/checkout.png',
-      '/images/jumpscareindustriez/cart.png',
-      '/images/jumpscareindustriez/register.png',
-      '/images/jumpscareindustriez/login.png',
-      '/images/jumpscareindustriez/order.png',
-      '/images/jumpscareindustriez/profile.png',
-      '/images/jumpscareindustriez/admin_home.png',
-      '/images/jumpscareindustriez/admin_produk.png',
-      '/images/jumpscareindustriez/admin_kategori.png',
-      '/images/jumpscareindustriez/admin_banner.png',
-      '/images/jumpscareindustriez/admin_order.png',
-    ],
+    id: 1,
+    icon: 'FileSpreadsheet',
+    problem: 'Operasional Masih Manual',
+    description: 'Pencatatan pesanan, inventaris, atau laporan bisnis masih menggunakan spreadsheet/kertas yang memakan waktu dan rawan kesalahan.',
+    solution: 'Pengembangan sistem manajemen otomatisasi internal yang terpusat dan efisien.',
   },
   {
-    slug: 'vision9-store',
-    title: 'Vision9 Store',
-    shortDesc: 'Gaming top-up platform with automated order processing and poster generation',
-    description: 'A comprehensive gaming top-up platform developed for Vision9 Store, featuring dynamic product management, WhatsApp-based ordering, transaction management, testimonial systems, and automated promotional poster generation.',
-    thumbnail: '/images/vision9store/home.png',
-    tags: [
-    'PHP Native',
-    'Tailwind CSS',
-    'JavaScript',
-    'MySQL',
-    'WhatsApp Integration',
-    'Admin Dashboard',
-    'Image Generation',
-    'Digital Products'
-    ],
-    liveUrl: 'https://vision9store.com/',
-    githubUrl: '',
-    overview: 'Developed a complete gaming top-up management platform that enables customers to place orders through dynamic forms while providing administrators with tools to manage products, categories, transactions, testimonials, and automatically generate promotional posters.',
-    challenge: 'The client required a centralized system capable of simplifying order management, reducing manual administrative work, organizing digital product catalogs, and automating promotional content creation.',
-    process: 'Designed and developed a responsive customer-facing website alongside a powerful administration panel, implemented dynamic order workflows, integrated WhatsApp order generation, built transaction and category management modules, and created an automated poster generation system to streamline marketing activities.',
-    results: 'Successfully delivered a custom business platform that improved operational efficiency, accelerated order handling, simplified content management, and automated promotional asset creation for the business.',
-    gallery: [
-    '/images/vision9store/home.png',
-    '/images/vision9store/produk.png',
-    '/images/vision9store/testimoni.png',
-    '/images/vision9store/detail.png',
-    '/images/vision9store/detail2.png',
-    '/images/vision9store/kontak.png',
-    '/images/vision9store/profile.png',
-    '/images/vision9store/order.png',
-    '/images/vision9store/login.png',
-    '/images/vision9store/dashboard.png',
-    '/images/vision9store/transaksi.png',
-    '/images/vision9store/kelola.png',
-    '/images/vision9store/kategori.png',
-    '/images/vision9store/payment.png',
-    '/images/vision9store/admin_testi.png',
-    '/images/vision9store/poster.png',
-    ],
+    id: 2,
+    icon: 'DatabaseZap',
+    problem: 'Data Bisnis Tidak Terstruktur',
+    description: 'Informasi pelanggan, stok barang, dan riwayat transaksi tersebar di banyak tempat sehingga sulit dianalisis.',
+    solution: 'Database terintegrasi dengan dashboard analitik real-time untuk pengambilan keputusan cepat.',
   },
   {
-    slug: 'mlr-game-store',
-    title: 'MLR Game Store',
-    shortDesc: 'Gaming top-up platform with automated WhatsApp ordering and poster generation',
-    description: 'A custom gaming top-up platform developed for MLR Game Store, featuring digital product ordering, WhatsApp-based order automation, transaction management, and automated promotional poster generation.',
-    thumbnail: '/images/mlrgamestore/home.png',
-    tags: [
-    'PHP Native',
-    'Tailwind CSS',
-    'JavaScript',
-    'MySQL',
-    'WhatsApp Integration',
-    'Admin Dashboard',
-    'Image Generation',
-    'Digital Products'
-    ],
-    liveUrl: 'https://mlrgamestore.com/',
-    githubUrl: '',
-    overview: 'Developed a complete gaming top-up platform that streamlines customer orders through dynamic forms, automated WhatsApp order generation, and integrated promotional poster creation for marketing purposes.',
-    challenge: 'The client required an efficient ordering system that could reduce manual administrative tasks while also simplifying the creation of promotional materials and maintaining a strong brand presence.',
-    process: 'Customized the platform according to the client’s branding, implemented dynamic order workflows, developed transaction and product management modules, integrated WhatsApp ordering, and built an automated poster generation system to accelerate marketing operations.',
-    results: 'Delivered a custom digital commerce platform that improved order management efficiency, reduced repetitive administrative work, and automated the creation of promotional assets for the business.',
-    gallery: [
-    '/images/mlrgamestore/home.png',
-    '/images/mlrgamestore/produk.png',
-    '/images/mlrgamestore/testimoni.png',
-    '/images/mlrgamestore/detail.png',
-    '/images/mlrgamestore/detail2.png',
-    '/images/mlrgamestore/kontak.png',
-    '/images/mlrgamestore/profile.png',
-    '/images/mlrgamestore/order.png',
-    '/images/mlrgamestore/login.png',
-    '/images/mlrgamestore/dashboard.png',
-    '/images/mlrgamestore/transaksi.png',
-    '/images/mlrgamestore/kelola.png',
-    '/images/mlrgamestore/kategori.png',
-    '/images/mlrgamestore/payment.png',
-    '/images/mlrgamestore/admin_testi.png',
-    '/images/mlrgamestore/poster.png',
-    ],
+    id: 3,
+    icon: 'BarChart3',
+    problem: 'Sulit Monitoring Transaksi',
+    description: 'Pemilik bisnis kesulitan memantau arus kas, status pesanan harian, dan performa tim secara real-time.',
+    solution: 'Aplikasi dashboard admin modern dengan notifikasi otomatis dan laporan komprehensif.',
   },
   {
-    slug: 'kamus-bahasa-gaul',
-    title: 'Kamus Bahasa Gaul',
-
-    shortDesc: 'Interactive slang dictionary web application built with vanilla JavaScript',
-
-    description: 'A web-based slang dictionary that helps users quickly discover and understand popular Indonesian slang terms through a simple, responsive, and user-friendly interface.',
-
-    thumbnail: '/images/kamus/kamus.png',
-
-    tags: [
-    'HTML',
-    'CSS',
-    'JavaScript',
-    'Responsive Design',
-    'Search System'
-    ],
-
-    liveUrl: 'https://frolicking-bavarois-ad126d.netlify.app/',
-
-    githubUrl: '',
-
-    overview: 'Developed an interactive slang dictionary application that allows users to search and explore Indonesian slang terms through a fast and intuitive user interface.',
-
-    challenge: 'The challenge was creating an efficient search experience while keeping the application lightweight, responsive, and easy to navigate across different devices.',
-
-    process: 'Designed the interface, structured the slang term database, implemented real-time search functionality using vanilla JavaScript, and optimized the user experience for both desktop and mobile users.',
-
-    results: 'Delivered a lightweight and accessible web application that makes discovering and understanding Indonesian slang terms faster and more engaging for users.',
-
-    gallery: [
-    '/images/kamus/kamus.png',
-    '/images/kamus/kamus2.png',
-    ],
-  },
-  {
-    slug: 'king-villa-bali',
-    title: 'King Villa Bali',
-
-    shortDesc: 'Luxury villa reservation and property management platform',
-
-    description: 'A comprehensive hospitality platform designed for villa bookings, reservation management, promotional campaigns, and customer inquiries through an integrated WhatsApp-based workflow.',
-
-    thumbnail: '/images/kingvillabali/home.png',
-
-    tags: [
-    'PHP Native',
-    'Tailwind CSS',
-    'JavaScript',
-    'MySQL',
-    'WhatsApp Integration',
-    'Booking System',
-    'Admin Dashboard',
-    'Hospitality'
-    ],
-
-    liveUrl: 'https://kingvillabali.com/',
-
-    githubUrl: '',
-
-    overview: 'Developed a complete villa reservation and property management platform featuring dynamic booking forms, pricing management, promo code systems, location-based recommendations, automated poster generation, and a comprehensive administration dashboard.',
-
-    challenge: 'The client required a centralized system to manage villa listings, reservation requests, promotional campaigns, and customer inquiries while delivering a seamless booking experience across desktop and mobile devices.',
-
-    process: 'Designed and developed a custom hospitality platform with villa management, dynamic reservation workflows, guest information handling, discount and promo code systems, nearby attraction recommendations, WhatsApp-based booking automation, automated poster generation, and a feature-rich admin dashboard.',
-
-    results: 'Successfully delivered a complete reservation management platform that streamlined booking operations, improved property presentation, simplified promotional management, and enhanced customer engagement.',
-
-    gallery: [
-    '/images/kingvillabali/home.png',
-    '/images/kingvillabali/villa.png',
-    '/images/kingvillabali/detail.png',
-    '/images/kingvillabali/detail2.png',
-    '/images/kingvillabali/detail3.png',
-    '/images/kingvillabali/detail4.png',
-    '/images/kingvillabali/detail5.png',
-    '/images/kingvillabali/kontak.png',
-    '/images/kingvillabali/testimoni.png',
-    '/images/kingvillabali/refund2.png',
-    '/images/kingvillabali/login.png',
-    '/images/kingvillabali/dashboard.png',
-    '/images/kingvillabali/booking.png',
-    '/images/kingvillabali/kelola.png',
-    '/images/kingvillabali/edit.png',
-    '/images/kingvillabali/edit2.png',
-    '/images/kingvillabali/edit3.png',
-    '/images/kingvillabali/edit4.png',
-    '/images/kingvillabali/edit5.png',
-    '/images/kingvillabali/edit6.png',
-    '/images/kingvillabali/edit7.png',
-    '/images/kingvillabali/banner.png',
-    '/images/kingvillabali/lokasi.png',
-    '/images/kingvillabali/kategori.png',
-    '/images/kingvillabali/date.png',
-    '/images/kingvillabali/admin_testi.png',
-    '/images/kingvillabali/promo.png',
-    '/images/kingvillabali/refund.png',
-    '/images/kingvillabali/poster.png',
-    ],
+    id: 4,
+    icon: 'Layers',
+    problem: 'Membutuhkan Sistem Custom',
+    description: 'Aplikasi pasaran (SaaS siap pakai) terlalu mahal, tidak fleksibel, atau tidak sesuai dengan alur kerja spesifik bisnis Anda.',
+    solution: 'Software kustom tailor-made yang dibangun khusus sesuai skala & kebutuhan proses bisnis Anda.',
   },
 ];
 
-export const testimonials: Testimonial[] = [
+export const pricingPackages: PricingPackage[] = [
   {
     id: 1,
-    name: 'Jumpscare Industries',
-    role: 'Client',
-    company: 'Jumpscare Industries',
-    content:
-      'Sangat puas dengan hasil website yang dibuat. Komunikasi berjalan lancar, pengerjaan sesuai timeline, dan hasil akhirnya sesuai dengan kebutuhan yang kami inginkan.',
-    avatar: '/images/avatars/jumpscare.jpg',
-    rating: 5,
+    name: 'Website Starter',
+    price: 'Rp 500.000',
+    description: 'Cocok untuk UMKM & bisnis yang membutuhkan kehadiran digital profesional dan meningkatkan kredibilitas.',
+    features: [
+      'Landing Page / Company Profile',
+      'Desain Responsive & Modern',
+      'Integrasi WhatsApp CTA',
+      'SEO Basic & Optimasi Kecepatan',
+      'Hosting & Domain Setup',
+      'Revisi & Dukungan Teknis',
+    ],
+    recommendedFor: 'UMKM, Profil Perusahaan, Landing Page Promo',
   },
-
   {
     id: 2,
-    name: 'Vision9 Store',
-    role: 'Client',
-    company: 'Vision9 Store',
-    content:
-      'Website yang dibuat terlihat modern dan profesional. Proses pengerjaannya jelas, revisi ditangani dengan cepat, dan hasil akhirnya sangat memuaskan.',
-    avatar: '/images/avatars/vision.png',
-    rating: 5,
+    name: 'Business System',
+    badge: 'Paling Populer',
+    isPopular: true,
+    price: 'Rp 1.500.000',
+    description: 'Sistem internal kustom untuk mengelola operasional, transaksi, inventaris, dan data bisnis terpusat.',
+    features: [
+      'Custom Dashboard Admin & User',
+      'Manajemen Data / WMS / CRM / POS',
+      'Notifikasi WhatsApp & Email',
+      'Fitur Export Laporan (PDF/Excel)',
+      'Hak Akses Multi-User / Role',
+      'Garansi Pemeliharaan 3 Bulan',
+    ],
+    recommendedFor: 'Perusahaan Kecil-Menengah, Yayasan, Retail',
   },
-
   {
     id: 3,
-    name: 'MLR Game Store',
-    role: 'Client',
-    company: 'MLR Game Store',
-    content:
-      'Pelayanan sangat baik dan responsif. Semua fitur yang kami butuhkan berhasil diimplementasikan dengan baik dan website berjalan dengan lancar.',
-    avatar: '/images/avatars/mlr.png',
-    rating: 5,
-  },
-
-  {
-    id: 4,
-    name: 'Gian',
-    role: 'Personal Client',
-    company: 'Proyek Pribadi',
-    content:
-      'Pengerjaan cepat, mudah diajak diskusi, dan hasilnya sesuai dengan yang saya harapkan. Setiap revisi juga dikerjakan dengan baik tanpa kendala.',
-    avatar: '/images/avatars/gian.jpeg',
-    rating: 5,
-  },
-
-  {
-    id: 5,
-    name: 'King Villa Bali',
-    role: 'Client',
-    company: 'King Villa Bali',
-    content:
-      'Website berhasil dibuat sesuai kebutuhan bisnis kami. Tampilan profesional, mudah digunakan, dan memberikan pengalaman yang baik bagi pengunjung.',
-    avatar: '/images/avatars/kingvilla.jpeg',
-    rating: 5,
+    name: 'Custom Application',
+    price: 'Rp 3.000.000',
+    description: 'Solusi perangkat lunak lengkap dan kompleks yang disesuaikan penuh dengan proses bisnis unik Anda.',
+    features: [
+      'Arsitektur Software Scalable',
+      'Integrasi Payment Gateway / API',
+      'Aplikasi Web & Mobile Dynamic',
+      'Keamanan Data & Backup Otomatis',
+      'Dokumentasi Lengkap & SOK',
+      'Dukungan Prioritas & Maintenance',
+    ],
+    recommendedFor: 'Startup, E-Commerce Kompleks, Platform SaaS',
   },
 ];
 
@@ -284,109 +87,245 @@ export const services: Service[] = [
     icon: 'Globe',
     title: 'Website Development',
     description:
-      'Professional websites designed to strengthen your online presence, generate leads, and support business growth.',
+      'Membangun website profesional untuk meningkatkan kredibilitas, membangun impresi pertama yang kuat, dan memperluas jangkauan bisnis Anda.',
     features: [
-      'Landing Page',
-      'Company Profile',
-      'SEO Optimization',
-      'Responsive Design',
-      'WhatsApp Integration',
+      'Landing Page & Company Profile',
+      'SEO & Performance Optimization',
+      'Desain Responsive Desktop & Mobile',
+      'Integrasi WhatsApp & Lead Capture',
+      'Kecepatan Load Tinggi (Lighthouse 90+)',
     ],
-    price: 'Start from Rp 250rb',
+    price: 'Mulai Rp 500.000',
   },
-
   {
     id: 2,
-    icon: 'ShoppingBag',
-    title: 'E-Commerce Solutions',
+    icon: 'LayoutDashboard',
+    title: 'Business System',
     description:
-      'Complete online store systems with product management, payment integration, and order processing.',
+      'Membuat sistem internal kustom untuk membantu bisnis mengelola data, otomatisasi operasional, inventaris, dan laporan transaksi secara real-time.',
     features: [
-      'Product Catalog',
-      'Shopping Cart',
-      'Payment Gateway',
-      'Order Management',
-      'Admin Dashboard',
+      'Dashboard Analitik & Admin',
+      'Sistem Manajemen Stok & WMS',
+      'CRM & Pengelolaan Pelanggan',
+      'Multi-user Role & Security',
+      'Laporan Keuangan & Laporan Operasional',
     ],
-    price: 'Start from Rp 900rb',
+    price: 'Mulai Rp 2.500.000',
   },
-
   {
     id: 3,
-    icon: 'LayoutDashboard',
-    title: 'Business Systems',
+    icon: 'ShoppingBag',
+    title: 'E-Commerce Platform',
     description:
-      'Custom management systems built to automate workflows and improve operational efficiency.',
+      'Membangun platform penjualan online mandiri yang disesuaikan dengan kebutuhan bisnis tanpa komisi pihak ketiga.',
     features: [
-      'CRM System',
-      'ERP System',
-      'Inventory Management',
-      'Employee Management',
-      'Custom Dashboard',
+      'Katalog Produk Interaktif',
+      'Integrasi Payment Gateway',
+      'Manajemen Pesanan & Resi',
+      'WhatsApp Order Automation',
+      'Sistem Diskon & Promo Code',
     ],
-    price: 'Start from Rp 2jt',
+    price: 'Mulai Rp 1.500.000',
   },
-
   {
     id: 4,
-    icon: 'Smartphone',
-    title: 'Mobile Application',
-    description:
-      'Cross-platform mobile applications for Android and iOS with modern user experiences.',
-    features: [
-      'Android & iOS',
-      'API Integration',
-      'Authentication',
-      'Push Notification',
-      'App Store Ready',
-    ],
-    price: 'Start from Rp 2.5jt',
-  },
-
-  {
-    id: 5,
     icon: 'MonitorSmartphone',
-    title: 'Custom Software',
+    title: 'Custom Software Solution',
     description:
-      'Tailor-made desktop and web software designed around your unique business requirements.',
+      'Pengembangan aplikasi web kustom yang dibangun sesuai dengan masalah dan alur kerja spesifik bisnis Anda.',
     features: [
-      'Desktop Application',
-      'Web Application',
-      'Database Integration',
-      'Automation Tools',
-      'Scalable Architecture',
+      'Aplikasi Web Skala Menengah/Besar',
+      'Integrasi API & Third-party',
+      'Automated Workflow & Poster Generator',
+      'Database Architecture yang Aman',
+      'Maintenance & Pemeliharaan Rutin',
     ],
-    price: 'Start from Rp 4jt',
+    price: 'Mulai Rp 5.000.000',
   },
 ];
 
-export const blogPosts: BlogPost[] = [
+export const projects: Project[] = [
   {
-    slug: 'why-fast-website-wins-customers',
-    title: 'Why a 1-Second Delay Costs You 7% of Conversions',
-    excerpt: 'Website speed is not just a technical metric — it\'s a direct revenue driver. Here\'s what the data says and how to fix it.',
-    date: '2026-05-20',
-    readTime: '5 min read',
-    category: 'Performance',
-    thumbnail: '/blog/speed.jpg',
+    slug: 'king-villa-bali',
+    title: 'King Villa Bali',
+    shortDesc: 'Platform reservasi villa mewah & sistem manajemen properti terintegrasi',
+    description: 'Sistem reservasi villa dan manajemen properti terpadu untuk King Villa Bali, menyederhanakan alur reservasi tamu serta otomatisasi promosi.',
+    thumbnail: '/images/kingvillabali/home.png',
+    tags: [
+      'Hospitality System',
+      'Booking Engine',
+      'WhatsApp Automation',
+      'Admin Dashboard',
+      'Property Management'
+    ],
+    liveUrl: 'https://kingvillabali.com/',
+    githubUrl: '',
+    overview: 'King Villa Bali membutuhkan platform terpusat untuk menampilkan inventaris villa mewah, menerima formulir booking dinamis dari pengunjung luar negeri/lokal, mengelola promo khusus, serta mempercepat konfirmasi via WhatsApp.',
+    challenge: 'Proses pemesanan sebelumnya masih serba manual dan kurang terstruktur, mengakibatkan waktu respon lambat dan potensi hilangnya calon tamu saat periode high-season.',
+    process: 'Stack.byAlif merancang platform reservasi berbasis web dengan sistem pencarian ketersediaan tanggal, kalkulasi promo otomatis, dashboard admin untuk update harga/fasilitas, dan otomasi pengiriman draf reservasi langsung ke WhatsApp customer service.',
+    results: 'Meningkatkan efisiensi pengelolaan unit villa hingga 60%, mempercepat proses konfirmasi reservasi tamu, dan meningkatkan citra profesional properti di mata wisatawan.',
+    gallery: [
+      '/images/kingvillabali/home.png',
+      '/images/kingvillabali/villa.png',
+      '/images/kingvillabali/detail.png',
+      '/images/kingvillabali/detail2.png',
+      '/images/kingvillabali/detail3.png',
+      '/images/kingvillabali/kontak.png',
+      '/images/kingvillabali/dashboard.png',
+      '/images/kingvillabali/booking.png',
+      '/images/kingvillabali/poster.png',
+    ],
   },
   {
-    slug: 'landing-page-mistakes-killing-conversions',
-    title: '7 Landing Page Mistakes That Kill Your Conversion Rate',
-    excerpt: 'After auditing 50+ landing pages, these are the most common (and costly) mistakes business owners make when building their website.',
-    date: '2026-05-08',
-    readTime: '8 min read',
-    category: 'Conversion',
-    thumbnail: '/blog/conversion.jpg',
+    slug: 'jumpscare-industriez',
+    title: 'Jumpscare Industriez',
+    shortDesc: 'Platform e-commerce fashion streetwear dengan payment gateway terintegrasi',
+    description: 'Platform toko online kustom untuk brand fashion Jumpscare Industriez yang memungkinkan pembelian langsung, integrasi pembayaran otomatis, dan manajemen inventaris.',
+    thumbnail: '/images/jumpscareindustriez/home.png',
+    tags: [
+      'E-Commerce',
+      'Payment Gateway',
+      'Inventory Control',
+      'Order Tracking',
+      'Fashion Retail'
+    ],
+    liveUrl: 'https://jumpscareindustriez.com/',
+    githubUrl: '',
+    overview: 'Mengembangkan platform e-commerce fashion streetwear secara mandiri agar brand dapat memegang kendali penuh atas data pembeli, katalog produk, dan margin transaksi tanpa bergantung pada marketplace.',
+    challenge: 'Brand membutuhkan toko online yang tidak hanya tampil stylish khas streetwear tetapi juga mampu menangani checkout secara lancar, verifikasi pembayaran otomatis, dan manajemen stok real-time.',
+    process: 'Stack.byAlif merancang antarmuka e-commerce berkinerja tinggi, mengimplementasikan sistem keranjang belanja interaktif, mengintegrasikan payment gateway otomatis, serta menyediakan admin panel intuitif untuk memantau stok dan status pesanan.',
+    results: 'Berhasil meluncurkan toko online independen yang meningkatkan conversion rate pembelian produk, memangkas waktu proses admin pesanan, dan meningkatkan trust pelanggan.',
+    gallery: [
+      '/images/jumpscareindustriez/home.png',
+      '/images/jumpscareindustriez/katalog.png',
+      '/images/jumpscareindustriez/checkout.png',
+      '/images/jumpscareindustriez/cart.png',
+      '/images/jumpscareindustriez/admin_home.png',
+      '/images/jumpscareindustriez/admin_produk.png',
+      '/images/jumpscareindustriez/admin_order.png',
+    ],
   },
   {
-    slug: 'nextjs-vs-wordpress-business',
-    title: 'Next.js vs WordPress: Which Is Right for Your Business in 2026?',
-    excerpt: 'Both platforms have their place, but choosing the wrong one for your business could cost you thousands in lost opportunities.',
-    date: '2026-04-15',
-    readTime: '6 min read',
-    category: 'Technology',
-    thumbnail: '/blog/nextjs.jpg',
+    slug: 'vision9-store',
+    title: 'Vision9 Store',
+    shortDesc: 'Sistem bisnis top-up produk digital & otomatisasi pembuat poster promosi',
+    description: 'Platform manajemen bisnis top-up game dengan formulir pemesanan otomatis, manajemen transaksi harian, dan generator poster promosi otomatis untuk pemasaran sosial media.',
+    thumbnail: '/images/vision9store/home.png',
+    tags: [
+      'Digital Commerce',
+      'WhatsApp Order Automation',
+      'Poster Generator',
+      'Admin Dashboard',
+      'Business Workflow'
+    ],
+    liveUrl: 'https://vision9store.com/',
+    githubUrl: '',
+    overview: 'Platform bisnis operasional untuk Vision9 Store yang menangani ribuan transaksi top-up voucher digital serta menyediakan fitur unik pembuat materi promosi visual otomatis.',
+    challenge: 'Pemilik bisnis menghabiskan waktu bertam-jam secara manual mengolah formulir pesanan pembeli dan membuat poster harga harian untuk Instagram/WhatsApp.',
+    process: 'Stack.byAlif membangun sistem order berbasis dinamis yang langsung menghasilkan pesan terstruktur ke WhatsApp, disertai modul admin untuk mencatat arus transaksi dan tool otomatis pembuatan poster promosi dengan sekali klik.',
+    results: 'Menghemat hingga 15+ jam kerja operasional admin per minggu, mempercepat pemrosesan transaksi pelanggan, dan mempercepat rilis materi promosi harian.',
+    gallery: [
+      '/images/vision9store/home.png',
+      '/images/vision9store/produk.png',
+      '/images/vision9store/testimoni.png',
+      '/images/vision9store/detail.png',
+      '/images/vision9store/dashboard.png',
+      '/images/vision9store/transaksi.png',
+      '/images/vision9store/poster.png',
+    ],
+  },
+  {
+    slug: 'mlr-game-store',
+    title: 'MLR Game Store',
+    shortDesc: 'Platform operasional merchant digital dengan otomasi pemesanan & laporan',
+    description: 'Sistem operasional kustom untuk bisnis voucher digital MLR Game Store dengan alur transaksi WhatsApp otomatis dan pengolahan katalog produk dinamis.',
+    thumbnail: '/images/mlrgamestore/home.png',
+    tags: [
+      'Digital Store',
+      'Process Automation',
+      'Transaction Dashboard',
+      'Marketing Automation'
+    ],
+    liveUrl: 'https://mlrgamestore.com/',
+    githubUrl: '',
+    overview: 'Mengembangkan sistem merchant digital terintegrasi yang menyederhanakan alur pemesanan produk gaming bagi pelanggan serta mempermudah rekap inventaris bagi pengelola bisnis.',
+    challenge: 'Tinggi variasi produk digital membutuhkan sistem yang fleksibel untuk memperbarui daftar harga dan varian tanpa mengganggu proses transaksi yang sedang berjalan.',
+    process: 'Merancang arsitektur web modern yang ringan dan cepat, melengkapi panel kelola kategori & produk dinamis, serta mengintegrasikan otomasi format pesan order WhatsApp.',
+    results: 'Meningkatkan efisiensi pemrosesan pesanan harian dan memberikan transparansi data transaksi bagi pengelola toko.',
+    gallery: [
+      '/images/mlrgamestore/home.png',
+      '/images/mlrgamestore/produk.png',
+      '/images/mlrgamestore/detail.png',
+      '/images/mlrgamestore/dashboard.png',
+      '/images/mlrgamestore/transaksi.png',
+      '/images/mlrgamestore/poster.png',
+    ],
+  },
+  {
+    slug: 'kamus-bahasa-gaul',
+    title: 'Kamus Bahasa Gaul',
+    shortDesc: 'Aplikasi pencarian & direktori digital interaktif dengan performa cepat',
+    description: 'Aplikasi web kamus bahasa gaul interaktif berbasis pencarian instan yang ringan, responsif, dan mudah diakses di seluruh perangkat.',
+    thumbnail: '/images/kamus/kamus.png',
+    tags: [
+      'Web Application',
+      'Real-time Search',
+      'Lightweight Architecture',
+      'Responsive UI'
+    ],
+    liveUrl: 'https://frolicking-bavarois-ad126d.netlify.app/',
+    githubUrl: '',
+    overview: 'Mengembangkan platform pengenalan istilah dan direktori digital yang dirancang untuk pencarian cepat data dalam hitungan milidetik.',
+    challenge: 'Menyediakan pengalaman pengguna yang sangat responsif tanpa reload halaman dan beban server yang minim.',
+    process: 'Membangun aplikasi ringan dengan sistem pencarian real-time client-side, struktur data teroptimasi, dan tata letak intuitif.',
+    results: 'Menghasilkan aplikasi direktori cepat dengan skor performa Lighthouse sempurna (100%) dan navigasi ramah pengguna.',
+    gallery: [
+      '/images/kamus/kamus.png',
+      '/images/kamus/kamus2.png',
+    ],
+  },
+];
+
+export const testimonials: Testimonial[] = [
+  {
+    id: 1,
+    name: 'Jumpscare Industries',
+    role: 'Brand Owner',
+    company: 'Jumpscare Industries',
+    content:
+      'Sangat puas dengan hasil website e-commerce yang dibangun oleh Stack.byAlif. Komunikasi sangat jelas, paham kebutuhan bisnis kami, pengerjaan tepat waktu, dan hasilnya mampu meningkatkan penjualan toko online kami.',
+    avatar: '/images/avatars/jumpscare.jpg',
+    rating: 5,
+  },
+  {
+    id: 2,
+    name: 'Vision9 Store',
+    role: 'Operations Lead',
+    company: 'Vision9 Store',
+    content:
+      'Sistem bisnis dan otomasi poster yang dibuat sangat membantu operasional harian kami. Dulu buat poster promo butuh waktu lama, sekarang sekali klik selesai. Sangat direkomendasikan untuk solusi bisnis!',
+    avatar: '/images/avatars/vision.png',
+    rating: 5,
+  },
+  {
+    id: 3,
+    name: 'MLR Game Store',
+    role: 'Business Owner',
+    company: 'MLR Game Store',
+    content:
+      'Pelayanan sangat responsif dan profesional. Semua kebutuhan fitur transaksi bisnis berhasil diimplementasikan dengan sangat rapi dan sistem berjalan tanpa hambatan.',
+    avatar: '/images/avatars/mlr.png',
+    rating: 5,
+  },
+  {
+    id: 4,
+    name: 'King Villa Bali',
+    role: 'Management',
+    company: 'King Villa Bali',
+    content:
+      'Website reservasi villa buatan Stack.byAlif membuat tampilan bisnis kami jauh lebih premium di mata wisatawan. Proses booking jadi sangat praktis dan cepat.',
+    avatar: '/images/avatars/kingvilla.jpeg',
+    rating: 5,
   },
 ];
 
@@ -406,34 +345,36 @@ export const techStack = [
 ];
 
 export const workProcess = [
+
   {
     step: '01',
-    title: 'Consultation',
+    title: 'Konsultasi Kebutuhan',
     description:
-      'Understanding your business, challenges, goals, and project requirements to identify the best digital solution.',
+      'Diskusi mendalam untuk memahami alur bisnis Anda, kendala operasional yang dihadapi, serta target yang ingin dicapai.',
   },
   {
     step: '02',
-    title: 'Planning',
+    title: 'Perencanaan Solusi',
     description:
-      'Defining features, system architecture, project scope, timeline, and technical requirements before development begins.',
+      'Merumuskan spesifikasi sistem, struktur fitur, estimasi waktu, dan anggaran transparan sebelum pengembangan dimulai.',
   },
   {
     step: '03',
-    title: 'Design & Prototype',
+    title: 'Desain UI/UX & Prototipe',
     description:
-      'Creating intuitive user interfaces and workflows that align with your brand and business objectives.',
+      'Merancang antarmuka bersih, modern, dan intuitif yang mengedepankan pengalaman pengguna serta citra profesional bisnis Anda.',
   },
   {
     step: '04',
-    title: 'Development',
+    title: 'Pengembangan Sistem',
     description:
-      'Building scalable, secure, and high-performance applications using modern technologies and best practices.',
+      'Membangun sistem dengan kode berkualitas tinggi, performa cepat, keamanan baik, dan skala yang dapat dikembangkan di masa depan.',
   },
   {
     step: '05',
-    title: 'Deployment & Support',
+    title: 'Peluncuran & Garansi',
     description:
-      'Launching the project, performing final testing, monitoring performance, and providing ongoing support when needed.',
+      'Pengujian akhir, penyiapan server, serah terima sistem, serta pendampingan dan garansi pemeliharaan pasca-launching.',
   },
 ];
+
