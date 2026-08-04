@@ -1,32 +1,25 @@
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/sections/Hero';
-import TrustSection from '@/components/sections/TrustSection';
-import BusinessProblems from '@/components/sections/BusinessProblems';
-import Services from '@/components/sections/Services';
 import Projects from '@/components/sections/Projects';
-import Pricing from '@/components/sections/Pricing';
-import About from '@/components/sections/About';
+import Services from '@/components/sections/Services';
 import WorkProcess from '@/components/sections/WorkProcess';
-import Testimonials from '@/components/sections/Testimonials';
 import Contact from '@/components/sections/Contact';
 import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
-    <main>
+    <main className="min-h-screen bg-slate-50 text-slate-900">
       <Navbar />
       <Hero />
-      <TrustSection />
-      <BusinessProblems />
-      {/* <Services /> */}
       <Projects />
-      <Pricing />
-      <About />
+      <Services />
       <WorkProcess />
-      <Testimonials />
       <Contact />
       <Footer />
     </main>
   );
 }
+
+
+
 

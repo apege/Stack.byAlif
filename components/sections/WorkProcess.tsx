@@ -1,72 +1,76 @@
 'use client';
 import { motion } from 'framer-motion';
-import { fadeUp, stagger } from '@/lib/motion';
-import { workProcess } from '@/data';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function WorkProcess() {
+  const { t } = useLanguage();
+
+  const steps = [
+    {
+      num: t('process.item1Num'),
+      title: t('process.item1Title'),
+      desc: t('process.item1Desc'),
+    },
+    {
+      num: t('process.item2Num'),
+      title: t('process.item2Title'),
+      desc: t('process.item2Desc'),
+    },
+    {
+      num: t('process.item3Num'),
+      title: t('process.item3Title'),
+      desc: t('process.item3Desc'),
+    },
+  ];
+
   return (
-    <section className="section-pad">
-      <div className="max-w-[1280px] mx-auto px-6">
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <motion.span
-            variants={fadeUp}
-            className="text-xs font-semibold tracking-[0.2em] text-[#38BDF8] uppercase block mb-3"
-          >
-            Process
-          </motion.span>
-          <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black tracking-tight">
-            How We Work{' '}
-            <span className="gradient-text">Together</span>
-          </motion.h2>
-          <motion.p variants={fadeUp} className="text-[#94A3B8] mt-4 max-w-xl mx-auto">
-            A clear, structured process that ensures every project is delivered on time, on
-            budget, and above expectations.
-          </motion.p>
-        </motion.div>
-
-        {/* Timeline — desktop horizontal, mobile vertical */}
-        <div className="relative">
-          {/* Connector line (desktop) */}
-          <div className="hidden lg:block absolute top-8 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-[#38BDF8]/30 to-transparent" />
-
+    <section id="process" className="py-24 md:py-36 bg-grid-pattern border-t border-slate-200/80">
+      <div className="max-w-[1360px] mx-auto px-6 md:px-12">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* Left Headline Column - 6 cols (Persis Screenshot 7) */}
           <motion.div
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="grid grid-cols-1 lg:grid-cols-5 gap-8"
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-6"
           >
-            {workProcess.map((step, i) => (
+            <span className="text-xs font-semibold tracking-widest text-slate-500 uppercase block mb-6">
+              {t('process.tag')}
+            </span>
+            <h2 className="text-4xl md:text-6xl font-extrabold text-slate-950 leading-[1.08] tracking-tight">
+              {t('process.title')}
+            </h2>
+          </motion.div>
+
+          {/* Right Process List Column - 6 cols */}
+          <div className="lg:col-span-6 divide-y divide-slate-200">
+            {steps.map((step, index) => (
               <motion.div
-                key={i}
-                variants={fadeUp}
-                className="relative flex flex-col items-center text-center lg:items-center"
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.15 }}
+                className="py-8 first:pt-0 last:pb-0 flex items-start gap-6"
               >
-                {/* Step dot */}
-                <div className="relative z-10 mb-5">
-                  <div className="w-16 h-16 rounded-2xl glass border border-[#38BDF8]/20 flex items-center justify-center group hover:border-[#38BDF8]/50 hover:bg-[#38BDF8]/5 transition-all duration-300">
-                    <span className="text-2xl font-black gradient-text">{step.step}</span>
-                  </div>
+                <span className="text-sm font-bold text-blue-600 font-mono pt-1 shrink-0">
+                  {step.num}
+                </span>
+                <div>
+                  <h3 className="text-xl md:text-2xl font-bold text-slate-950 mb-2">
+                    {step.title}
+                  </h3>
+                  <p className="text-slate-500 text-sm md:text-base leading-relaxed">
+                    {step.desc}
+                  </p>
                 </div>
-
-                <h3 className="font-bold text-white text-base mb-2">{step.title}</h3>
-                <p className="text-[#94A3B8] text-sm leading-relaxed">{step.description}</p>
-
-                {/* Mobile connector */}
-                {i < workProcess.length - 1 && (
-                  <div className="lg:hidden mt-6 w-px h-8 bg-gradient-to-b from-[#38BDF8]/30 to-transparent" />
-                )}
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
+
