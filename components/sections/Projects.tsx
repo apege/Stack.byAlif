@@ -1,36 +1,13 @@
 'use client';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import { projects } from '@/data';
 
 export default function Projects() {
   const { t } = useLanguage();
-
-  const works = [
-    {
-      category: t('projects.item1Category'),
-      title: t('projects.item1Title'),
-      desc: t('projects.item1Desc'),
-      bgColor: 'bg-slate-200/60',
-      wireframeColor: 'border-slate-400/30 bg-slate-100/50',
-    },
-    {
-      category: t('projects.item2Category'),
-      title: t('projects.item2Title'),
-      desc: t('projects.item2Desc'),
-      bgColor: 'bg-[#061021]',
-      textColor: 'text-white',
-      wireframeColor: 'border-slate-700/50 bg-slate-900/50',
-    },
-    {
-      category: t('projects.item3Category'),
-      title: t('projects.item3Title'),
-      desc: t('projects.item3Desc'),
-      bgColor: 'bg-sky-200/80',
-      wireframeColor: 'border-sky-400/30 bg-sky-100/50',
-    },
-  ];
 
   return (
     <section id="projects" className="py-24 md:py-36 bg-grid-pattern border-t border-slate-200/80">
@@ -62,69 +39,80 @@ export default function Projects() {
           </motion.div>
         </div>
 
-        {/* 3 Columns Selected Work Cards (Persis Screenshot 3 & 4) */}
-        <div className="grid md:grid-cols-3 gap-8">
-          {works.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
-              className="flex flex-col group cursor-pointer"
-            >
-              {/* Card Thumbnail Area with wireframe mockup */}
-              <div
-                className={`relative h-64 md:h-72 rounded-sm ${item.bgColor} p-6 flex flex-col justify-between overflow-hidden shadow-sm transition-transform duration-300 group-hover:-translate-y-1`}
+        {/* Selected Work Cards */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projects.map((project, index) => {
+            const num = String(index + 1).padStart(2, '0');
+            const cardBg = index % 3 === 0 ? 'bg-slate-200/60' : index % 3 === 1 ? 'bg-[#061021]' : 'bg-sky-200/80';
+            const isDark = index % 3 === 1;
+
+            return (
+              <motion.div
+                key={project.slug}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
               >
-                {/* Top Category Badge inside Card */}
-                <span
-                  className={`text-[11px] font-bold tracking-wider uppercase ${
-                    item.textColor || 'text-slate-600'
-                  }`}
-                >
-                  {item.category}
-                </span>
-
-                {/* Minimalist Studio Wireframe Preview */}
-                <div
-                  className={`w-full h-36 rounded border ${item.wireframeColor} p-3 flex flex-col gap-2 my-auto`}
-                >
-                  <div className="w-12 h-2.5 rounded bg-slate-400/40" />
-                  <div className="grid grid-cols-3 gap-2 flex-1 mt-1">
-                    <div className="rounded border border-slate-400/20 bg-white/10" />
-                    <div className="rounded border border-slate-400/20 bg-white/10" />
-                    <div className="rounded border border-slate-400/20 bg-white/10" />
-                  </div>
-                </div>
-
-                {/* Diagonal Arrow Circle Button */}
-                <div className="self-end mt-2">
+                <Link href={`/projects/${project.slug}`} className="flex flex-col group cursor-pointer h-full">
+                  {/* Card Outer Container */}
                   <div
-                    className={`w-10 h-10 rounded-full border ${
-                      item.textColor
-                        ? 'border-white/30 text-white group-hover:bg-white group-hover:text-slate-950'
-                        : 'border-slate-400/40 text-slate-950 group-hover:bg-slate-950 group-hover:text-white'
-                    } flex items-center justify-center transition-all duration-300`}
+                    className={`relative h-[225px] md:h-[245px] rounded-xl ${cardBg} pt-4 px-6 flex flex-col justify-between overflow-hidden shadow-sm transition-transform duration-300 group-hover:-translate-y-1`}
                   >
-                    <ArrowUpRight className="w-4 h-4" />
+                    {/* Header: 01 / CATEGORY - Centered vertically in top space */}
+                    <div className="flex items-center justify-between z-10 py-1">
+                      <span
+                        className={`text-[11px] font-bold tracking-wider uppercase ${
+                          isDark ? 'text-white' : 'text-slate-700'
+                        }`}
+                      >
+                        {num} / {project.tags[0] || 'SYSTEM'}
+                      </span>
+                    </div>
+
+                    {/* Image Area - Full Width with Dynamic Hover Effect */}
+                    <div className="absolute inset-x-0 bottom-0 top-14 overflow-hidden">
+                      <Image
+                        src={project.thumbnail}
+                        alt={project.title}
+                        fill
+                        className="object-cover object-top group-hover:scale-110 group-hover:-rotate-2 group-hover:translate-y-1.5 transition-all duration-700 ease-out"
+                      />
+                    </div>
+
+                    {/* Arrow Button Floating at Bottom Right */}
+                    <div className="absolute bottom-3 right-3 z-10">
+                      <div
+                        className={`w-9 h-9 rounded-full border shadow-md ${
+                          isDark
+                            ? 'border-white/40 bg-[#061021]/80 backdrop-blur-sm text-white group-hover:bg-white group-hover:text-slate-950'
+                            : 'border-slate-400/40 bg-white/80 backdrop-blur-sm text-slate-950 group-hover:bg-slate-950 group-hover:text-white'
+                        } flex items-center justify-center transition-all duration-300`}
+                      >
+                        <ArrowUpRight className="w-4 h-4" />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
 
-              {/* Card Below Details */}
-              <div className="pt-6 border-t border-b border-slate-300 pb-8 mt-6">
-                <h3 className="text-xl md:text-2xl font-bold text-slate-950 leading-snug mb-3 group-hover:text-blue-600 transition-colors">
-                  {item.title}
-                </h3>
-                <p className="text-slate-500 text-sm leading-relaxed">
-                  {item.desc}
-                </p>
-              </div>
-            </motion.div>
-          ))}
+                  {/* Details Below Card */}
+                  <div className="pt-5 border-t border-slate-300 pb-6 mt-5 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-xl md:text-2xl font-bold text-slate-950 leading-snug mb-2 group-hover:text-sky-600 transition-colors">
+                        {project.title}
+                      </h3>
+                      <p className="text-slate-600 text-sm leading-relaxed line-clamp-3">
+                        {project.description}
+                      </p>
+                    </div>
 
-
+                    <div className="mt-4 text-xs font-semibold text-sky-600 group-hover:text-sky-700 flex items-center gap-1">
+                      Lihat Detail Sistem →
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
