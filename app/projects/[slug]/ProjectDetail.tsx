@@ -54,36 +54,62 @@ export default function ProjectDetail({ project, nextProject }: Props) {
           </p>
         </motion.div>
 
-        {/* Top Hero Layout: Banner Left + Side Info Card Right */}
-        <div className="grid lg:grid-cols-12 gap-8 items-start mb-16">
-          {/* Main Hero Banner (Left 8 cols) */}
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="lg:col-span-8 relative w-full h-[320px] sm:h-[420px] md:h-[500px] rounded-2xl overflow-hidden bg-slate-200/70 border border-slate-300 shadow-sm group"
-          >
-            {project.thumbnail ? (
-              <Image
-                src={project.thumbnail}
-                alt={project.title}
-                fill
-                className="object-cover object-top transition-transform duration-700 group-hover:scale-102"
-                priority
-              />
-            ) : (
-              <div className="absolute inset-0 bg-slate-200 flex items-center justify-center text-slate-400">
-                <Sparkles className="w-12 h-12" />
-              </div>
-            )}
-          </motion.div>
+        {/* Main Content Layout: Left Content (Banner + Ringkasan) & Right Sticky Sidebar (2 Cards) */}
+        <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-start mb-16">
+          {/* Left Column (8 cols): Banner + Ringkasan Layanan (Sejajar) */}
+          <div className="lg:col-span-8 flex flex-col gap-10">
+            {/* Hero Banner */}
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="relative w-full h-[320px] sm:h-[420px] md:h-[500px] rounded-2xl overflow-hidden bg-slate-200/70 border border-slate-300 shadow-sm group"
+            >
+              {project.thumbnail ? (
+                <Image
+                  src={project.thumbnail}
+                  alt={project.title}
+                  fill
+                  className="object-cover object-top transition-transform duration-700 group-hover:scale-102"
+                  priority
+                />
+              ) : (
+                <div className="absolute inset-0 bg-slate-200 flex items-center justify-center text-slate-400">
+                  <Sparkles className="w-12 h-12" />
+                </div>
+              )}
+            </motion.div>
 
-          {/* Right Info Cards (Right 4 cols) - Light Theme Elegant */}
+            {/* Clean & Concise Professional Description Block (Tepat di bawah Banner) */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-white rounded-2xl p-8 md:p-10 border border-slate-200/90 shadow-sm"
+            >
+              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
+                <ShieldCheck className="w-6 h-6 text-sky-600" />
+                <h2 className="text-xl md:text-2xl font-bold text-slate-950 tracking-tight">
+                  Ringkasan Layanan Pendampingan System
+                </h2>
+              </div>
+              
+              <div className="prose prose-slate max-w-none text-slate-700 text-base md:text-lg leading-relaxed font-normal space-y-6">
+                {project.overview.split('\n\n').map((paragraph, idx) => (
+                  <p key={idx} className="leading-relaxed">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Right Sticky Sidebar (4 cols): 2 Metadata & Contact Cards */}
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-4 flex flex-col gap-6"
+            className="lg:col-span-4 flex flex-col gap-6 lg:sticky lg:top-28"
           >
             {/* Metadata Card */}
             <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-md flex flex-col justify-between gap-6">
@@ -161,29 +187,6 @@ export default function ProjectDetail({ project, nextProject }: Props) {
             </div>
           </motion.div>
         </div>
-
-        {/* Clean & Concise Professional Description Block */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-white rounded-2xl p-8 md:p-12 border border-slate-200/90 mb-16 shadow-sm"
-        >
-          <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
-            <ShieldCheck className="w-6 h-6 text-sky-600" />
-            <h2 className="text-2xl font-bold text-slate-950 tracking-tight">
-              Ringkasan Layanan Pendampingan System
-            </h2>
-          </div>
-          
-          <div className="prose prose-slate max-w-none text-slate-700 text-base md:text-lg leading-relaxed font-normal space-y-6">
-            {project.overview.split('\n\n').map((paragraph, idx) => (
-              <p key={idx} className="leading-relaxed">
-                {paragraph}
-              </p>
-            ))}
-          </div>
-        </motion.div>
 
         {/* Next Project Bottom Navigation */}
         <motion.div
