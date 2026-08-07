@@ -36,16 +36,13 @@ export default function ProjectDetail({ project, nextProject }: Props) {
           </Link>
         </motion.div>
 
-        {/* Title & Short Tag Header */}
+        {/* Title Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="mb-10 max-w-4xl"
         >
-          <span className="inline-block text-xs font-bold tracking-widest text-sky-600 bg-sky-100 px-3.5 py-1.5 rounded-full border border-sky-200 uppercase mb-4">
-            {project.tags[0] || 'SYSTEM SOLUTION'}
-          </span>
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-950 leading-[1.1] tracking-tight mb-4">
             {project.title}
           </h1>
