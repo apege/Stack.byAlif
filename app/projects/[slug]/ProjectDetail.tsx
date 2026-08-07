@@ -104,43 +104,42 @@ export default function ProjectDetail({ project, nextProject }: Props) {
             </motion.div>
           </div>
 
-          {/* Right Sticky Sidebar (4 cols) - Handcrafted Studio Aesthetics, No AI Blobs */}
+          {/* Right Sticky Sidebar (4 cols) - Single Unified Sleek Card */}
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-4 flex flex-col gap-5 lg:sticky lg:top-28"
+            className="lg:col-span-4 lg:sticky lg:top-28"
           >
-            {/* Project Overview Card */}
-            <div className="bg-white rounded-2xl p-7 border border-slate-200/80 shadow-sm space-y-6">
+            <div className="bg-white rounded-2xl p-6 md:p-7 border border-slate-200/90 shadow-sm flex flex-col gap-5">
+              {/* Header Info */}
               <div>
                 <span className="text-[10px] font-extrabold tracking-widest text-slate-400 uppercase block mb-1">
                   KATEGORI SISTEM
                 </span>
-                <h3 className="text-xl font-bold text-slate-950 leading-snug">
+                <h3 className="text-lg font-bold text-slate-950 leading-snug">
                   {project.title}
                 </h3>
               </div>
 
-              <div className="border-t border-slate-100 pt-5 space-y-4">
-                {/* Year Item - Clean typographic layout, no icon blob */}
-                <div className="flex items-center justify-between text-sm">
+              {/* Metadata Details */}
+              <div className="border-t border-slate-100 pt-4 space-y-3.5">
+                <div className="flex items-center justify-between text-xs">
                   <span className="text-slate-500 font-medium">Tahun Pengerjaan</span>
-                  <span className="font-bold text-slate-900 bg-slate-100 px-3 py-1 rounded-md text-xs">
+                  <span className="font-bold text-slate-900 bg-slate-100 px-2.5 py-0.5 rounded text-xs">
                     {project.year || '2026'}
                   </span>
                 </div>
 
-                {/* Service Tag list */}
                 <div>
-                  <span className="text-xs text-slate-500 font-medium block mb-2.5">
+                  <span className="text-xs text-slate-500 font-medium block mb-2">
                     Layanan & Spesifikasi
                   </span>
                   <div className="flex flex-wrap gap-1.5">
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-[11px] font-semibold text-slate-700 bg-slate-50 px-2.5 py-1 rounded border border-slate-200"
+                        className="text-[10px] font-semibold text-slate-700 bg-slate-50 px-2 py-0.5 rounded border border-slate-200"
                       >
                         {tag}
                       </span>
@@ -149,40 +148,42 @@ export default function ProjectDetail({ project, nextProject }: Props) {
                 </div>
               </div>
 
+              {/* Live Link Button */}
               {project.liveUrl && (
                 <a
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 text-white font-bold px-5 py-3 rounded-xl transition-all text-xs tracking-wide shadow-sm hover:shadow-md"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 text-white font-bold px-4 py-2.5 rounded-xl transition-all text-xs tracking-wide shadow-sm"
                 >
                   <span>Kunjungi Sistem Live</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               )}
-            </div>
 
-            {/* Premium Handcrafted Consultation CTA Card */}
-            <div className="rounded-2xl p-7 bg-slate-950 text-white border border-slate-800 shadow-md flex flex-col justify-between gap-4">
-              <div>
-                <span className="text-[10px] font-extrabold tracking-widest text-sky-400 uppercase block mb-2">
-                  KONSULTASI SISTEM
-                </span>
-                <h4 className="text-lg font-bold text-white leading-snug mb-2">
-                  Butuh Solusi Digital Serupa?
-                </h4>
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  Diskusikan kebutuhan sistem & otomatisasi operasional bisnis Anda langsung bersama tim Stack.byAlif.
-                </p>
+              {/* Seamless Inline Consultation Banner */}
+              <div className="pt-4 border-t border-slate-100 flex flex-col gap-3">
+                <div className="bg-slate-950 rounded-xl p-4 text-white space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[9px] font-extrabold tracking-widest text-sky-400 uppercase">
+                      KONSULTASI SISTEM
+                    </span>
+                  </div>
+                  <h4 className="text-xs font-bold text-white leading-snug">
+                    Butuh Solusi Digital Serupa?
+                  </h4>
+                  <p className="text-[11px] text-slate-400 leading-relaxed">
+                    Diskusikan kebutuhan sistem bisnis Anda bersama tim Stack.byAlif.
+                  </p>
+                  <Link
+                    href="/#contact"
+                    className="mt-2 w-full inline-flex items-center justify-center gap-1.5 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold py-2 px-3 rounded-lg transition-all text-[11px]"
+                  >
+                    <span>Hubungi Stack.byAlif</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </div>
               </div>
-
-              <Link
-                href="/#contact"
-                className="mt-1 w-full inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-100 text-slate-950 font-bold py-3 px-5 rounded-xl transition-all text-xs tracking-wide shadow-sm"
-              >
-                <span>Hubungi Stack.byAlif</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
             </div>
           </motion.div>
         </div>
