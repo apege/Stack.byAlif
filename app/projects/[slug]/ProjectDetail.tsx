@@ -104,51 +104,47 @@ export default function ProjectDetail({ project, nextProject }: Props) {
             </motion.div>
           </div>
 
-          {/* Right Sticky Sidebar (4 cols): 2 Metadata & Contact Cards */}
+          {/* Right Sticky Sidebar (4 cols) - Handcrafted Studio Aesthetics, No AI Blobs */}
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-4 flex flex-col gap-6 lg:sticky lg:top-28"
+            className="lg:col-span-4 flex flex-col gap-5 lg:sticky lg:top-28"
           >
-            {/* Metadata Card */}
-            <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-md flex flex-col justify-between gap-6">
-              <div className="space-y-5">
-                <div className="border-b border-slate-100 pb-4">
-                  <span className="text-[11px] font-bold tracking-widest text-slate-500 uppercase block mb-1">
-                    System Category
+            {/* Project Overview Card */}
+            <div className="bg-white rounded-2xl p-7 border border-slate-200/80 shadow-sm space-y-6">
+              <div>
+                <span className="text-[10px] font-extrabold tracking-widest text-slate-400 uppercase block mb-1">
+                  KATEGORI SISTEM
+                </span>
+                <h3 className="text-xl font-bold text-slate-950 leading-snug">
+                  {project.title}
+                </h3>
+              </div>
+
+              <div className="border-t border-slate-100 pt-5 space-y-4">
+                {/* Year Item - Clean typographic layout, no icon blob */}
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-slate-500 font-medium">Tahun Pengerjaan</span>
+                  <span className="font-bold text-slate-900 bg-slate-100 px-3 py-1 rounded-md text-xs">
+                    {project.year || '2026'}
                   </span>
-                  <h3 className="text-lg font-bold text-slate-950 leading-snug">
-                    {project.title}
-                  </h3>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 shrink-0">
-                    <Calendar className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block font-medium">Tahun Pengerjaan</span>
-                    <span className="text-sm font-bold text-slate-900">{project.year || '2026'}</span>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 shrink-0 mt-0.5">
-                    <Layers className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="text-xs text-slate-500 block font-medium mb-1.5">Layanan & Fitur</span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-[11px] font-semibold bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md border border-slate-200"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                {/* Service Tag list */}
+                <div>
+                  <span className="text-xs text-slate-500 font-medium block mb-2.5">
+                    Layanan & Spesifikasi
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-[11px] font-semibold text-slate-700 bg-slate-50 px-2.5 py-1 rounded border border-slate-200"
+                      >
+                        {tag}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -158,32 +154,35 @@ export default function ProjectDetail({ project, nextProject }: Props) {
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 w-full flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 text-white font-bold px-5 py-3 rounded-xl transition-all text-sm shadow-md hover:shadow-lg"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 text-white font-bold px-5 py-3 rounded-xl transition-all text-xs tracking-wide shadow-sm hover:shadow-md"
                 >
-                  <ExternalLink className="w-4 h-4" /> Kunjungi Sistem Live
+                  <span>Kunjungi Sistem Live</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               )}
             </div>
 
-            {/* Premium CTA Contact Card */}
-            <div className="relative overflow-hidden rounded-2xl p-6 md:p-8 bg-slate-950 text-white shadow-xl border border-slate-900">
-              <div className="relative z-10 space-y-3">
-                <span className="text-xs font-extrabold tracking-widest text-sky-400 uppercase block">
+            {/* Premium Handcrafted Consultation CTA Card */}
+            <div className="rounded-2xl p-7 bg-slate-950 text-white border border-slate-800 shadow-md flex flex-col justify-between gap-4">
+              <div>
+                <span className="text-[10px] font-extrabold tracking-widest text-sky-400 uppercase block mb-2">
                   KONSULTASI SISTEM
                 </span>
-                <h4 className="text-xl font-bold leading-tight text-white">
+                <h4 className="text-lg font-bold text-white leading-snug mb-2">
                   Butuh Solusi Digital Serupa?
                 </h4>
-                <p className="text-xs md:text-sm text-slate-300 leading-relaxed">
-                  Diskusikan kebutuhan sistem dan otomatisasi operasional bisnis Anda bersama tim pakar kami.
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Diskusikan kebutuhan sistem & otomatisasi operasional bisnis Anda langsung bersama tim Stack.byAlif.
                 </p>
-                <Link
-                  href="/#contact"
-                  className="mt-4 inline-flex items-center justify-center w-full gap-2 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold py-3 px-5 rounded-xl transition-all text-sm shadow-md"
-                >
-                  <MessageSquare className="w-4 h-4" /> Hubungi Stack.byAlif
-                </Link>
               </div>
+
+              <Link
+                href="/#contact"
+                className="mt-1 w-full inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-100 text-slate-950 font-bold py-3 px-5 rounded-xl transition-all text-xs tracking-wide shadow-sm"
+              >
+                <span>Hubungi Stack.byAlif</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
           </motion.div>
         </div>
