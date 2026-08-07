@@ -17,10 +17,10 @@ export default function ProjectDetail({ project, nextProject }: Props) {
   const { t } = useLanguage();
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-sky-500 selection:text-slate-950">
+    <main className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-sky-500 selection:text-white">
       <Navbar />
 
-      <div className="pt-28 pb-24 max-w-[1360px] mx-auto px-6 md:px-12">
+      <div className="pt-32 pb-24 max-w-[1360px] mx-auto px-6 md:px-12">
         {/* Back Navigation */}
         <motion.div
           initial={{ opacity: 0, x: -15 }}
@@ -30,26 +30,26 @@ export default function ProjectDetail({ project, nextProject }: Props) {
         >
           <Link
             href="/#projects"
-            className="inline-flex items-center gap-2 text-xs font-semibold tracking-wider text-slate-400 hover:text-sky-400 uppercase transition-colors"
+            className="inline-flex items-center gap-2 text-xs font-bold tracking-wider text-slate-500 hover:text-sky-600 uppercase transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Kembalikan Ke Daftar Karya
           </Link>
         </motion.div>
 
-        {/* Title & Short Tag */}
+        {/* Title & Short Tag Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="mb-10 max-w-4xl"
         >
-          <span className="inline-block text-xs font-bold tracking-widest text-sky-400 bg-sky-500/10 px-3.5 py-1.5 rounded-full border border-sky-500/20 uppercase mb-4">
+          <span className="inline-block text-xs font-bold tracking-widest text-sky-600 bg-sky-100 px-3.5 py-1.5 rounded-full border border-sky-200 uppercase mb-4">
             {project.tags[0] || 'SYSTEM SOLUTION'}
           </span>
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight mb-4">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-950 leading-[1.1] tracking-tight mb-4">
             {project.title}
           </h1>
-          <p className="text-slate-400 text-base md:text-xl font-normal leading-relaxed">
+          <p className="text-slate-600 text-base md:text-xl font-normal leading-relaxed">
             {project.shortDesc}
           </p>
         </motion.div>
@@ -61,7 +61,7 @@ export default function ProjectDetail({ project, nextProject }: Props) {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="lg:col-span-8 relative w-full h-[320px] sm:h-[420px] md:h-[500px] rounded-2xl overflow-hidden bg-slate-900 border border-slate-800/80 shadow-2xl group"
+            className="lg:col-span-8 relative w-full h-[320px] sm:h-[420px] md:h-[500px] rounded-2xl overflow-hidden bg-slate-200/70 border border-slate-300 shadow-sm group"
           >
             {project.thumbnail ? (
               <Image
@@ -72,14 +72,13 @@ export default function ProjectDetail({ project, nextProject }: Props) {
                 priority
               />
             ) : (
-              <div className="absolute inset-0 bg-slate-900 flex items-center justify-center text-slate-700">
+              <div className="absolute inset-0 bg-slate-200 flex items-center justify-center text-slate-400">
                 <Sparkles className="w-12 h-12" />
               </div>
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent pointer-events-none" />
           </motion.div>
 
-          {/* Right Info Cards (Right 4 cols) - Professional & Sleek */}
+          {/* Right Info Cards (Right 4 cols) - Light Theme Elegant */}
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
@@ -87,38 +86,38 @@ export default function ProjectDetail({ project, nextProject }: Props) {
             className="lg:col-span-4 flex flex-col gap-6"
           >
             {/* Metadata Card */}
-            <div className="bg-slate-900/90 rounded-2xl p-6 md:p-8 border border-slate-800 backdrop-blur-md shadow-xl flex flex-col justify-between gap-6">
+            <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-md flex flex-col justify-between gap-6">
               <div className="space-y-5">
-                <div className="border-b border-slate-800 pb-4">
-                  <span className="text-[11px] font-bold tracking-widest text-slate-400 uppercase block mb-1">
+                <div className="border-b border-slate-100 pb-4">
+                  <span className="text-[11px] font-bold tracking-widest text-slate-500 uppercase block mb-1">
                     System Category
                   </span>
-                  <h3 className="text-lg font-bold text-white leading-snug">
+                  <h3 className="text-lg font-bold text-slate-950 leading-snug">
                     {project.title}
                   </h3>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 shrink-0">
                     <Calendar className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-xs text-slate-400 block font-medium">Tahun Pengerjaan</span>
-                    <span className="text-sm font-bold text-white">{project.year || '2026'}</span>
+                    <span className="text-xs text-slate-500 block font-medium">Tahun Pengerjaan</span>
+                    <span className="text-sm font-bold text-slate-900">{project.year || '2026'}</span>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 shrink-0 mt-0.5">
+                  <div className="w-10 h-10 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 shrink-0 mt-0.5">
                     <Layers className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-xs text-slate-400 block font-medium mb-1.5">Layanan & Fitur</span>
+                    <span className="text-xs text-slate-500 block font-medium mb-1.5">Layanan & Fitur</span>
                     <div className="flex flex-wrap gap-1.5">
                       {project.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="text-[11px] font-semibold bg-slate-800 text-sky-300 px-2.5 py-1 rounded-md border border-slate-700"
+                          className="text-[11px] font-semibold bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md border border-slate-200"
                         >
                           {tag}
                         </span>
@@ -133,7 +132,7 @@ export default function ProjectDetail({ project, nextProject }: Props) {
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 w-full flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-5 py-3 rounded-xl transition-all text-sm shadow-lg hover:shadow-sky-500/25"
+                  className="mt-2 w-full flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 text-white font-bold px-5 py-3 rounded-xl transition-all text-sm shadow-md hover:shadow-lg"
                 >
                   <ExternalLink className="w-4 h-4" /> Kunjungi Sistem Live
                 </a>
@@ -141,25 +140,24 @@ export default function ProjectDetail({ project, nextProject }: Props) {
             </div>
 
             {/* Premium CTA Contact Card */}
-            <div className="relative overflow-hidden rounded-2xl p-6 md:p-8 bg-gradient-to-br from-sky-600 to-blue-700 text-white shadow-xl border border-sky-400/30">
+            <div className="relative overflow-hidden rounded-2xl p-6 md:p-8 bg-slate-950 text-white shadow-xl border border-slate-900">
               <div className="relative z-10 space-y-3">
-                <span className="text-xs font-extrabold tracking-widest text-sky-200 uppercase block">
+                <span className="text-xs font-extrabold tracking-widest text-sky-400 uppercase block">
                   KONSULTASI SISTEM
                 </span>
-                <h4 className="text-xl font-bold leading-tight">
+                <h4 className="text-xl font-bold leading-tight text-white">
                   Butuh Solusi Digital Serupa?
                 </h4>
-                <p className="text-xs md:text-sm text-sky-100/90 leading-relaxed">
+                <p className="text-xs md:text-sm text-slate-300 leading-relaxed">
                   Diskusikan kebutuhan sistem dan otomatisasi operasional bisnis Anda bersama tim pakar kami.
                 </p>
                 <Link
                   href="/#contact"
-                  className="mt-4 inline-flex items-center justify-center w-full gap-2 bg-slate-950 hover:bg-slate-900 text-white font-bold py-3 px-5 rounded-xl transition-all text-sm shadow-md"
+                  className="mt-4 inline-flex items-center justify-center w-full gap-2 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold py-3 px-5 rounded-xl transition-all text-sm shadow-md"
                 >
-                  <MessageSquare className="w-4 h-4 text-sky-400" /> Hubungi Stack.byAlif
+                  <MessageSquare className="w-4 h-4" /> Hubungi Stack.byAlif
                 </Link>
               </div>
-              <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
             </div>
           </motion.div>
         </div>
@@ -169,17 +167,21 @@ export default function ProjectDetail({ project, nextProject }: Props) {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="max-w-4xl bg-slate-900/50 rounded-2xl p-8 md:p-12 border border-slate-800/80 mb-16 shadow-lg"
+          className="bg-white rounded-2xl p-8 md:p-12 border border-slate-200/90 mb-16 shadow-sm"
         >
-          <div className="flex items-center gap-3 mb-6">
-            <ShieldCheck className="w-6 h-6 text-sky-400" />
-            <h2 className="text-2xl font-bold text-white tracking-tight">
+          <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
+            <ShieldCheck className="w-6 h-6 text-sky-600" />
+            <h2 className="text-2xl font-bold text-slate-950 tracking-tight">
               Ringkasan Layanan Pendampingan System
             </h2>
           </div>
           
-          <div className="prose prose-invert max-w-none text-slate-300 text-base leading-relaxed whitespace-pre-line font-normal space-y-4">
-            {project.overview}
+          <div className="prose prose-slate max-w-none text-slate-700 text-base md:text-lg leading-relaxed font-normal space-y-6">
+            {project.overview.split('\n\n').map((paragraph, idx) => (
+              <p key={idx} className="leading-relaxed">
+                {paragraph}
+              </p>
+            ))}
           </div>
         </motion.div>
 
@@ -188,22 +190,22 @@ export default function ProjectDetail({ project, nextProject }: Props) {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="pt-10 border-t border-slate-800"
+          className="pt-10 border-t border-slate-200"
         >
-          <span className="text-xs text-slate-400 font-bold tracking-widest uppercase block mb-3">
+          <span className="text-xs text-slate-500 font-bold tracking-widest uppercase block mb-3">
             KARYA SELANJUTNYA
           </span>
           <Link
             href={`/projects/${nextProject.slug}`}
-            className="group flex flex-col sm:flex-row items-start sm:items-center justify-between bg-slate-900/80 hover:bg-slate-900 rounded-2xl p-6 md:p-8 border border-slate-800 hover:border-sky-500/40 transition-all duration-300 gap-4"
+            className="group flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white hover:bg-slate-100 rounded-2xl p-6 md:p-8 border border-slate-200/90 transition-all duration-300 gap-4 shadow-sm"
           >
             <div>
-              <h3 className="font-bold text-white text-xl md:text-2xl group-hover:text-sky-400 transition-colors">
+              <h3 className="font-bold text-slate-950 text-xl md:text-2xl group-hover:text-sky-600 transition-colors">
                 {nextProject.title}
               </h3>
-              <p className="text-slate-400 text-sm mt-1">{nextProject.shortDesc}</p>
+              <p className="text-slate-500 text-sm mt-1">{nextProject.shortDesc}</p>
             </div>
-            <div className="w-10 h-10 rounded-full bg-slate-800 group-hover:bg-sky-500 text-slate-300 group-hover:text-slate-950 flex items-center justify-center transition-all shrink-0">
+            <div className="w-10 h-10 rounded-full bg-slate-100 group-hover:bg-slate-950 text-slate-700 group-hover:text-white flex items-center justify-center transition-all shrink-0">
               <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
             </div>
           </Link>
