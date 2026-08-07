@@ -151,6 +151,7 @@ export const projects: Project[] = [
     shortDesc: 'Platform reservasi villa terpadu dan sistem manajemen operasional properti',
     description: 'Sistem pendampingan dan pengembangan platform reservasi villa terpadu serta manajemen operasional properti untuk memastikan efisiensi pengelolaan unit dan optimalisasi layanan reservasi.',
     thumbnail: '/images/kingvillabali/kingvillabali.png',
+    year: '2026',
     tags: [
       'Hospitality System',
       'Booking Engine',
@@ -164,9 +165,7 @@ export const projects: Project[] = [
     challenge: 'Proses pemesanan sebelumnya masih dilakukan secara manual dan terpisah, mengakibatkan kelambatan waktu respon saat peak season dan potensi miskomunikasi data ketersediaan kamar.',
     process: 'Stack.byAlif merancang arsitektur sistem reservasi terpusat dengan fitur pencarian ketersediaan real-time, kalkulasi penawaran promo dinamis, dashboard pengelola properti, dan otomatisasi pengiriman draf pesanan langsung ke WhatsApp customer service.',
     results: 'Melalui pendampingan dan implementasi sistem ini, pengelolaan reservasi villa berjalan lebih efektif, terintegrasi, dan meningkatkan efisiensi operasional hingga 60% serta memberikan pengalaman pemesanan yang responsif bagi calon tamu.',
-    gallery: [
-      '/images/kingvillabali/kingvillabali.png',
-    ],
+    gallery: [],
   },
   {
     slug: 'jumpscare-industriez',
@@ -174,6 +173,7 @@ export const projects: Project[] = [
     shortDesc: 'Platform toko online mandiri dengan integrasi pembayaran otomatis dan kontrol stok',
     description: 'Sistem e-commerce dan manajemen operasional retail kustom untuk mengoptimalkan proses transaksi online, pengelolaan katalog produk, serta otomatisasi verifikasi pembayaran.',
     thumbnail: '/images/jumpscareindustriez/jumpscareindustriez.png',
+    year: '2025',
     tags: [
       'E-Commerce',
       'Payment Gateway',
@@ -187,9 +187,7 @@ export const projects: Project[] = [
     challenge: 'Ketergantungan pada marketplace menyebabkan terbatasnya fleksibilitas promosi, adanya potongan komisi tinggi, dan proses rekapitulasi pesanan harian yang memakan waktu.',
     process: 'Stack.byAlif membangun platform e-commerce dengan sistem keranjang belanja dinamis, integrasi payment gateway otomatis, serta panel administrasi terpusat untuk memantau status pembayaran dan riwayat pesanan.',
     results: 'Implementasi platform berhasil memotong waktu pemrosesan pesanan admin, meningkatkan angka konversi penjualan langsung, dan memberikan kendali penuh atas data serta margin bisnis secara berkelanjutan.',
-    gallery: [
-      '/images/jumpscareindustriez/jumpscareindustriez.png',
-    ],
+    gallery: [],
   },
   {
     slug: 'vision9-store',
@@ -197,6 +195,7 @@ export const projects: Project[] = [
     shortDesc: 'Platform manajemen transaksi voucher digital dengan generator poster promosi harian',
     description: 'Sistem otomatisasi operasional transaksi merchant digital serta modul pembuat materi promosi visual harian untuk efisiensi pemasaran dan pencatatan arus kas.',
     thumbnail: '/images/vision9store/vision9store.png',
+    year: '2025',
     tags: [
       'Digital Commerce',
       'WhatsApp Order Automation',
@@ -210,9 +209,7 @@ export const projects: Project[] = [
     challenge: 'Tinggi volume transaksi harian dan kebutuhan pembaruan harga promo media sosial secara terus-menerus menguras waktu operasional tim admin hingga belasan jam tiap minggu.',
     process: 'Stack.byAlif mengimplementasikan antarmuka pemesanan cepat berbasis web, dashboard rekapitulasi transaksi real-time, serta generator poster promosi otomatis yang menghasilkan gambar siap posting.',
     results: 'Menghemat lebih dari 15 jam kerja operasional per minggu, mempercepat pemrosesan transaksi pelanggan, serta menjaga konsistensi publikasi materi promosi bisnis secara efisien.',
-    gallery: [
-      '/images/vision9store/vision9store.png',
-    ],
+    gallery: [],
   },
   {
     slug: 'mlr-game-store',
@@ -220,6 +217,7 @@ export const projects: Project[] = [
     shortDesc: 'Platform operasional merchant digital dengan alur pesan terstruktur & rekapitulasi data',
     description: 'Sistem operasional kustom merchant digital untuk pemrosesan katalog produk dinamis, rekapitulasi pesanan harian, dan otomatisasi alur komunikasi transaksi pelanggan.',
     thumbnail: '/images/mlrgamestore/mlrgamestore.png',
+    year: '2025',
     tags: [
       'Digital Store',
       'Process Automation',
@@ -232,9 +230,7 @@ export const projects: Project[] = [
     challenge: 'Perubahan harga produk digital yang cepat dan banyaknya varian item membuat pembaruan data secara manual menjadi rentan kesalahan dan lambat.',
     process: 'Stack.byAlif menyusun arsitektur platform yang dapat memperbarui kategori produk secara fleksibel, mengintegrasikan sistem checkout cepat via WhatsApp, dan menyediakan rekapitulasi arus transaksi terpusat.',
     results: 'Meningkatkan kelancaran dan efisiensi operasional transaksi harian serta memberikan visibilitas penuh terhadap performa penjualan merchant secara real-time.',
-    gallery: [
-      '/images/mlrgamestore/mlrgamestore.png',
-    ],
+    gallery: [],
   },
   {
     slug: 'kamus-bahasa-gaul',
@@ -242,6 +238,7 @@ export const projects: Project[] = [
     shortDesc: 'Aplikasi pencarian & direktori istilah interaktif berbasis performa tinggi',
     description: 'Sistem direktori digital dan aplikasi pencarian informasi instan berbasis web yang dirancang untuk akses data cepat, responsif, dan terstruktur.',
     thumbnail: '/images/kamus/kamus.png',
+    year: '2024',
     tags: [
       'Web Application',
       'Real-time Search',
@@ -254,10 +251,7 @@ export const projects: Project[] = [
     challenge: 'Kebutuhan akan sistem pencarian yang instan dan ramah kuota tanpa kompromi pada kecepatan akses antarmuka.',
     process: 'Stack.byAlif merancang struktur pencarian client-side teroptimasi dengan tampilan UI minimalis, modern, dan cepat diakses dari berbagai jenis perangkat.',
     results: 'Menghasilkan sistem pencarian direktori yang sangat responsif dengan pencapaian skor performa Lighthouse 100% serta navigasi informasi yang seamless.',
-    gallery: [
-      '/images/kamus/kamus.png',
-      '/images/kamus/kamus2.png',
-    ],
+    gallery: [],
   },
 ];
 
