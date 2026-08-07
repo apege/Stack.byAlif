@@ -55,19 +55,19 @@ export default function ProjectDetail({ project, nextProject }: Props) {
         <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-start mb-16">
           {/* Left Column (8 cols): Banner + Ringkasan Layanan + Konsultasi Banner */}
           <div className="lg:col-span-8 flex flex-col gap-10">
-            {/* Hero Banner */}
+            {/* Hero Banner Container */}
             <motion.div
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="relative w-full h-[320px] sm:h-[420px] md:h-[500px] rounded-2xl overflow-hidden bg-slate-200/70 border border-slate-300 shadow-sm group"
+              className="relative w-full aspect-[16/9] sm:aspect-[16/9.5] md:aspect-[16/9] rounded-2xl overflow-hidden bg-slate-100 border border-slate-200/90 shadow-sm flex items-center justify-center p-2 group"
             >
               {project.thumbnail ? (
                 <Image
                   src={project.thumbnail}
                   alt={project.title}
                   fill
-                  className="object-cover object-top transition-transform duration-700 group-hover:scale-102"
+                  className="object-contain p-1 rounded-xl transition-transform duration-700 group-hover:scale-[1.01]"
                   priority
                 />
               ) : (
