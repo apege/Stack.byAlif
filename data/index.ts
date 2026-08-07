@@ -1,4 +1,4 @@
-import { Project, Testimonial, Service, BlogPost, BusinessProblem, PricingPackage } from '@/types';
+import { Project, Testimonial, Service, BlogPost, BusinessProblem, PricingPackage, FaqItem } from '@/types';
 
 export const businessProblems: BusinessProblem[] = [
   {
@@ -346,4 +346,50 @@ export const workProcess = [
       'Pengujian akhir, penyiapan server, serah terima sistem, serta pendampingan dan garansi pemeliharaan pasca-launching.',
   },
 ];
+
+export const faqData: FaqItem[] = [
+  {
+    id: 1,
+    question: 'Berapa biaya jasa pembuatan website & aplikasi custom di Stack.byAlif?',
+    answer:
+      'Biaya jasa pembuatan website mulai dari Rp 500.000 untuk Landing Page / Company Profile UMKM. Untuk Business System & E-Commerce mulai Rp 1.500.000 hingga Rp 3.000.000+, dan Custom Software Application disesuaikan dengan tingkat kompleksitas fitur. Kami mengedepankan transparansi tanpa biaya tersembunyi.',
+  },
+  {
+    id: 2,
+    question: 'Berapa lama proses pembuatan website hingga siap diakses (go-live)?',
+    answer:
+      'Waktu pengerjaan bergantung pada skala proyek. Landing page & website starter biasanya selesai dalam 3–7 hari kerja. Sistem bisnis & e-commerce membutuhkan waktu 1–3 minggu. Untuk software custom aplikasi web skala menengah/besar, waktu pengerjaan berkisar 3–6 minggu dengan laporan progres berkala.',
+  },
+  {
+    id: 3,
+    question: 'Apakah pembuatan website sudah termasuk domain, hosting, dan optimasi SEO?',
+    answer:
+      'Ya! Seluruh paket jasa website kami sudah mencakup setup domain (.com / .id / .my.id), hosting berkinerja tinggi, sertifikat keamanan SSL HTTPS gratis, serta optimasi SEO On-Page dasar (meta title, description, schema markup, dan sitemap Google).',
+  },
+  {
+    id: 4,
+    question: 'Apakah Stack.byAlif menerima pembuatan website untuk klien luar negeri (International Clients)?',
+    answer:
+      'Tentu saja! Kami berpengalaman melayani klien internasional (US, Singapore, Europe, Australia) yang membutuhkan jasa web developer profesional, offshore software development, serta pembuatan web app berbasis Next.js & React dengan harga sangat kompetitif.',
+  },
+  {
+    id: 5,
+    question: 'Apa keunggulan menggunakan custom code (Next.js / React) dibanding WordPress / Template?',
+    answer:
+      'Website custom dengan Next.js / React memiliki kecepatan loading jauh lebih tinggi (Lighthouse score 90+), tingkat keamanan jauh lebih aman dari hacker, fleksibilitas penuh tanpa batasan plugin, serta kemudahan integrasi dengan API, payment gateway, dan sistem internal bisnis.',
+  },
+  {
+    id: 6,
+    question: 'Apakah website bisa diatur sendiri dan diberi garansi pemeliharaan?',
+    answer:
+      'Bisa! Kami menyediakan dashboard admin khusus yang mudah digunakan untuk mengelola konten, produk, dan laporan. Selain itu, kami memberikan garansi pemeliharaan teknis & pembenahan bug gratis selama 3 hingga 6 bulan pasca peluncuran.',
+  },
+  {
+    id: 7,
+    question: 'Bagaimana alur pembayaran dan konsultasi proyek?',
+    answer:
+      'Konsultasi kebutuhan awal 100% GRATIS via WhatsApp atau Online Meeting. Pembayaran dilakukan secara bertahap (Down Payment 30-50% di awal, dan sisanya setelah website selesai dan dites secara menyeluruh sebelum go-live).',
+  },
+];
+
 

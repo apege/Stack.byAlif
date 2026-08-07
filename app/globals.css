@@ -60,3 +60,59 @@ body {
 }
 
 
+/* Apple-style Fluid Typography Utilities & Safeguards */
+.fluid-hero-title {
+  font-size: clamp(2.25rem, 5.5vw + 1rem, 5.5rem);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+}
+
+.fluid-section-title {
+  font-size: clamp(1.875rem, 4vw + 0.5rem, 3.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+.fluid-card-title {
+  font-size: clamp(1.25rem, 2vw + 0.5rem, 1.75rem);
+  line-height: 1.15;
+}
+
+/* Apple Touch & Horizontal Snap Scroll Helpers */
+.touch-scroll-x {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.touch-scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+.touch-snap-center {
+  scroll-snap-align: center;
+}
+
+.touch-snap-start {
+  scroll-snap-align: start;
+}
+
+/* Glassmorphism & Backdrop blur fallback */
+.apple-glass-light {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.apple-glass-dark {
+  background: rgba(6, 16, 33, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* Prevent unwanted horizontal tap blue highlights on mobile Safari/Chrome */
+a, button, input, textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+

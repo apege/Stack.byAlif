@@ -24,10 +24,10 @@ export default function WorkProcess() {
   ];
 
   return (
-    <section id="process" className="py-24 md:py-36 bg-grid-pattern border-t border-slate-200/80">
-      <div className="max-w-[1360px] mx-auto px-6 md:px-12">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Headline Column - 6 cols (Persis Screenshot 7) */}
+    <section id="process" className="py-16 sm:py-24 md:py-36 bg-grid-pattern border-t border-slate-200/80">
+      <div className="max-w-[1360px] mx-auto px-5 sm:px-8 md:px-12">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+          {/* Left Headline Column */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -35,10 +35,10 @@ export default function WorkProcess() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-6"
           >
-            <span className="text-xs font-semibold tracking-widest text-slate-500 uppercase block mb-6">
+            <span className="text-[10px] sm:text-xs font-semibold tracking-widest text-slate-500 uppercase block mb-4 sm:mb-6">
               {t('process.tag')}
             </span>
-            <h2 className="text-4xl md:text-6xl font-extrabold text-slate-950 leading-[1.08] tracking-tight">
+            <h2 className="fluid-section-title font-extrabold text-slate-950 tracking-tight">
               {t('process.title')}
             </h2>
           </motion.div>

@@ -23,9 +23,9 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-[#061021] text-white border-t border-slate-800/80 py-16">
-      <div className="max-w-[1360px] mx-auto px-6 md:px-12">
-        <div className="grid md:grid-cols-12 gap-10 pb-12 border-b border-slate-800/80">
+    <footer className="bg-[#061021] text-white border-t border-slate-800/80 py-12 sm:py-16">
+      <div className="max-w-[1360px] mx-auto px-5 sm:px-8 md:px-12">
+        <div className="grid md:grid-cols-12 gap-8 sm:gap-10 pb-10 sm:pb-12 border-b border-slate-800/80">
           {/* Brand - 5 cols */}
           <div className="md:col-span-5">
             <Link href="/" className="flex items-center gap-2.5 mb-4 group">

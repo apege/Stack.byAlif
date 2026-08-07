@@ -10,10 +10,10 @@ export default function Projects() {
   const { t } = useLanguage();
 
   return (
-    <section id="projects" className="py-24 md:py-36 bg-grid-pattern border-t border-slate-200/80">
-      <div className="max-w-[1360px] mx-auto px-6 md:px-12">
+    <section id="projects" className="py-16 sm:py-24 md:py-36 bg-grid-pattern border-t border-slate-200/80">
+      <div className="max-w-[1360px] mx-auto px-5 sm:px-8 md:px-12">
         {/* Section Header Grid */}
-        <div className="grid lg:grid-cols-12 gap-8 items-start mb-16 md:mb-20">
+        <div className="grid lg:grid-cols-12 gap-6 sm:gap-8 items-start mb-12 sm:mb-16 md:mb-20">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -21,7 +21,7 @@ export default function Projects() {
             transition={{ duration: 0.5 }}
             className="lg:col-span-5"
           >
-            <span className="text-xs font-semibold tracking-widest text-slate-500 uppercase">
+            <span className="text-[10px] sm:text-xs font-semibold tracking-widest text-slate-500 uppercase">
               {t('projects.tag')}
             </span>
           </motion.div>
@@ -33,7 +33,7 @@ export default function Projects() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="lg:col-span-7"
           >
-            <h2 className="text-4xl md:text-6xl font-extrabold text-slate-950 leading-[1.08] tracking-tight">
+            <h2 className="fluid-section-title font-extrabold text-slate-950 tracking-tight">
               {t('projects.title')}
             </h2>
           </motion.div>
