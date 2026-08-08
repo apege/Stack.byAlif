@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import ClientLayout from './ClientLayout';
+import { faqData } from '@/data';
 
 export const metadata: Metadata = {
   title: {
@@ -229,6 +230,18 @@ export default function RootLayout({
           'https://github.com/apege',
           'https://instagram.com/stack.byalif',
         ],
+      },
+      {
+        '@type': 'FAQPage',
+        '@id': 'https://stackbyalif.my.id/#faq',
+        mainEntity: faqData.map((item) => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: item.answer,
+          },
+        })),
       },
     ],
   };
