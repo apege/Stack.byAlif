@@ -146,6 +146,28 @@ export const services: Service[] = [
 
 export const projects: Project[] = [
   {
+    slug: 'bloxy-lucy',
+    title: 'Sistem Platform Merchant Digital & Otomatisasi Transaksi Top-Up',
+    shortDesc: 'Platform merchant digital (top-up & game voucher) end-to-end dengan verifikasi otomatis & analitik laba',
+    description: 'Sistem platform web merchant digital end-to-end untuk transaksi top-up dan game voucher dengan verifikasi ID pemain otomatis, payment flow QRIS, order dispatching, dan dashboard analitik laba.',
+    thumbnail: '/images/bloxylucy/bloxylucy.png',
+    year: '2026',
+    tags: [
+      'Digital Merchant',
+      'Game Voucher & Top-Up',
+      'QRIS Payment Flow',
+      'Order Dispatching',
+      'Admin Analytics'
+    ],
+    liveUrl: 'https://bloxylucy.com/',
+    githubUrl: '',
+    overview: 'Stack.byAlif merancang platform web merchant digital (top-up & game voucher) end-to-end yang memadukan pengalaman transaksi pelanggan yang mulus dengan sistem manajemen operasional terpadu.\n\nSolusi ini mencakup verifikasi ID pemain otomatis via API, payment flow berbasis QRIS dengan pengunggahan bukti bayar teroptimasi, manajemen lifecycle status pesanan (order dispatching), kebijakan retensi penyimpanan otomatis, serta dashboard laporan omset dan laba interaktif bagi pemilik bisnis.\n\nImplementasi sistem ini menghadirkan efisiensi alur kerja operasional toko, mencegah pesanan ganda atau ulasan palsu melalui order token verification, dan memberikan visibilitas penuh terhadap performa penjualan secara real-time.',
+    challenge: 'Pengelolaan transaksi top-up game konvensional rentan mengalami kendala verifikasi ID akun manual yang rawan salah, validasi pembayaran lambat, risiko pesanan ganda atau ulasan palsu, serta ketiadaan monitoring laba bersih secara real-time.',
+    process: 'Stack.byAlif membangun arsitektur platform merchant terpadu dengan integrasi verifikasi ID via API, payment flow berbasis QRIS yang teroptimasi, order token verification, manajemen dispatching pesanan, serta dashboard laporan omset dan laba interaktif.',
+    results: 'Meningkatkan efisiensi alur kerja operasional toko secara signifikan, mencegah transaksi ganda serta ulasan palsu, dan memberikan visibilitas penuh terhadap performa penjualan dan margin laba secara real-time.',
+    gallery: [],
+  },
+  {
     slug: 'king-villa-bali',
     title: 'Sistem Reservasi & Manajemen Properti Villa',
     shortDesc: 'Platform reservasi villa terpadu dan sistem manajemen operasional properti',
