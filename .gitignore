@@ -40,6 +40,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# cloudflare & open-next
+.open-next/
+.wrangler/
+.dev.vars*
+
 # scratch & temp
 scratch/
 
