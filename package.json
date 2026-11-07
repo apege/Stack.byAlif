@@ -1,35 +1,25 @@
 {
-  "name": "stack-byalif",
-  "version": "0.1.0",
+  "name": "stackbyalif-monorepo",
+  "version": "1.0.0",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "opennextjs-cloudflare build",
-    "build:next": "next build",
-    "build:worker": "opennextjs-cloudflare build",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "start": "next start",
-    "lint": "eslint"
-  },
-  "dependencies": {
-    "@supabase/supabase-js": "^2.112.0",
-    "framer-motion": "^12.42.0",
-    "lucide-react": "^1.21.0",
-    "next": "^16.4.5",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "dev": "npm --workspace=@stackbyalif/web run dev",
+    "dev:web": "npm --workspace=@stackbyalif/web run dev",
+    "dev:admin": "npm --workspace=@stackbyalif/admin run dev",
+    "dev:client": "npm --workspace=@stackbyalif/client run dev",
+    "create-admin": "node scripts/create-admin.mjs",
+    "build": "npm --workspace=@stackbyalif/web run build:next",
+    "build:web": "npm --workspace=@stackbyalif/web run build:next",
+    "build:admin": "npm --workspace=@stackbyalif/admin run build:next",
+    "build:client": "npm --workspace=@stackbyalif/client run build:next",
+    "backup": "node scripts/backup.mjs",
+    "lint": "npm run lint --workspaces"
   },
   "devDependencies": {
-    "@opennextjs/cloudflare": "^1.20.16",
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "^16.4.5",
-    "tailwindcss": "^4",
-    "typescript": "^5",
-    "wrangler": "^4.158.0"
+    "dotenv": "^16.4.7"
   }
 }

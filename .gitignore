@@ -14,8 +14,10 @@
 /coverage
 
 # next.js
-/.next/
-/out/
+.next/
+out/
+apps/*/.next/
+apps/*/out/
 
 # production
 /build
@@ -30,8 +32,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files (confidential credentials)
 .env*
+apps/*/.env*
 
 # vercel
 .vercel
@@ -39,12 +42,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+apps/*/next-env.d.ts
 
 # cloudflare & open-next
 .open-next/
 .wrangler/
 .dev.vars*
+apps/*/.open-next/
+apps/*/.wrangler/
 
-# scratch & temp
+# backups & scratch (confidential archives)
+backups/
 scratch/
-
