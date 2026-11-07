@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     if (dbError) {
       console.error('Supabase DB Error Details:', JSON.stringify(dbError, null, 2));
       return NextResponse.json(
-        { error: `Gagal menyimpan pesan ke database: ${dbError.message || dbError.details || 'Tabel inquiries belum dibuat atau RLS memblokir.'}` },
+        { error: 'Terjadi kesalahan sistem saat menyimpan pesan. Silakan coba kembali atau hubungi melalui WhatsApp.' },
         { status: 500 }
       );
     }

@@ -1,13 +1,24 @@
 'use client';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
-import { projects } from '@/data';
+import { projects as fallbackProjects } from '@/data';
+import { getAllProjects } from '@/lib/projects';
 
 export default function Projects() {
   const { t } = useLanguage();
+  const [projectList, setProjectList] = useState(fallbackProjects);
+
+  useEffect(() => {
+    getAllProjects().then((data) => {
+      if (data && data.length > 0) {
+        setProjectList(data);
+      }
+    });
+  }, []);
 
   return (
     <section id="projects" className="py-16 sm:py-24 md:py-36 bg-grid-pattern border-t border-slate-200/80">
@@ -41,7 +52,7 @@ export default function Projects() {
 
         {/* Selected Work Cards (Limit 3 items) */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.slice(0, 3).map((project, index) => {
+          {projectList.slice(0, 3).map((project, index) => {
             const num = String(index + 1).padStart(2, '0');
             const cardBg = index % 3 === 0 ? 'bg-slate-200/60' : index % 3 === 1 ? 'bg-[#061021]' : 'bg-sky-200/80';
             const isDark = index % 3 === 1;
@@ -127,7 +138,7 @@ export default function Projects() {
             href="/projects"
             className="inline-flex items-center gap-3 px-8 py-4 bg-slate-950 text-white rounded-full font-bold text-sm hover:bg-sky-600 transition-all duration-300 shadow-md hover:shadow-lg group"
           >
-            <span>Lihat Karya Lainnya ({projects.length})</span>
+            <span>Lihat Karya Lainnya ({projectList.length})</span>
             <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </Link>
         </motion.div>

@@ -1,4 +1,5 @@
 'use client';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -6,10 +7,20 @@ import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useLanguage } from '@/context/LanguageContext';
-import { projects } from '@/data';
+import { projects as fallbackProjects } from '@/data';
+import { getAllProjects } from '@/lib/projects';
 
 export default function AllProjectsPage() {
   const { t } = useLanguage();
+  const [projectList, setProjectList] = useState(fallbackProjects);
+
+  useEffect(() => {
+    getAllProjects().then((data) => {
+      if (data && data.length > 0) {
+        setProjectList(data);
+      }
+    });
+  }, []);
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
@@ -32,7 +43,7 @@ export default function AllProjectsPage() {
 
           {/* All Project Cards Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => {
+            {projectList.map((project, index) => {
               const num = String(index + 1).padStart(2, '0');
               const cardBg = index % 3 === 0 ? 'bg-slate-200/60' : index % 3 === 1 ? 'bg-[#061021]' : 'bg-sky-200/80';
               const isDark = index % 3 === 1;
