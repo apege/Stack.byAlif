@@ -1,0 +1,113 @@
+'use client';
+
+import Link from 'next/link';
+import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
+import {
+  LayoutDashboard,
+  FolderGit2,
+  Users,
+  FileCheck2,
+  Mail,
+  ShieldCheck,
+  LogOut,
+  ExternalLink,
+  UserCheck,
+  Settings,
+} from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
+
+const navItems = [
+  { name: 'Dashboard', href: '/', icon: LayoutDashboard },
+  { name: 'Kelola Project', href: '/projects', icon: FolderGit2 },
+  { name: 'Registrasi Klien', href: '/registrations', icon: UserCheck },
+  { name: 'Data Klien (Privat)', href: '/clients', icon: Users },
+  { name: 'Agreement & Kontrak', href: '/agreements', icon: FileCheck2 },
+  { name: 'Pesan Masuk', href: '/inquiries', icon: Mail },
+  { name: 'Pengaturan Profil', href: '/settings', icon: Settings },
+  { name: 'Backup & Security', href: '/backup', icon: ShieldCheck },
+];
+
+export default function Sidebar() {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push('/login');
+    router.refresh();
+  };
+
+  return (
+    <aside className="w-64 bg-slate-900 border-r border-slate-800 flex flex-col shrink-0 h-screen sticky top-0">
+      {/* Brand Header */}
+      <div className="p-6 border-b border-slate-800/80 shrink-0">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl overflow-hidden shrink-0 flex items-center justify-center bg-slate-950 border border-slate-800 shadow-md">
+            <Image
+              src="/images/logo.png"
+              alt="Stack.byAlif Logo"
+              width={40}
+              height={40}
+              className="w-full h-full object-contain p-0.5"
+            />
+          </div>
+          <div>
+            <span className="font-bold text-sm tracking-tight text-white block">
+              Stack.byAlif
+            </span>
+            <span className="text-[10px] text-sky-400 font-semibold tracking-wider uppercase block">
+              Admin Portal
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Navigation */}
+      <nav className="p-4 space-y-1.5 flex-1 overflow-y-auto">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive =
+            pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
+
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                isActive
+                  ? 'bg-sky-500/15 text-sky-400 border border-sky-500/30'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+              }`}
+            >
+              <Icon className="w-4 h-4 shrink-0" />
+              <span>{item.name}</span>
+            </Link>
+          );
+        })}
+      </nav>
+
+      {/* Bottom Actions */}
+      <div className="p-4 border-t border-slate-800/80 space-y-2 shrink-0 bg-slate-900">
+        <a
+          href="https://stackbyalif.my.id"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-between px-3.5 py-2 rounded-xl text-xs text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 transition"
+        >
+          <span>Lihat Website Publik</span>
+          <ExternalLink className="w-3.5 h-3.5" />
+        </a>
+
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm text-red-400 hover:bg-red-950/40 hover:text-red-300 transition cursor-pointer"
+        >
+          <LogOut className="w-4 h-4 shrink-0" />
+          <span>Keluar (Logout)</span>
+        </button>
+      </div>
+    </aside>
+  );
+}
