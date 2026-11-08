@@ -249,6 +249,7 @@ BEGIN
     a.signed_at,
     a.signer_name,
     a.signer_title,
+    a.signature_data,
     a.document_checksum,
     a.access_code,
     a.provider_signature_data,
@@ -263,7 +264,7 @@ BEGIN
     c.notes AS client_notes
   INTO v_rec
   FROM public.agreements a
-  JOIN public.clients c ON a.client_id = c.id
+  LEFT JOIN public.clients c ON a.client_id = c.id
   WHERE (a.access_token = p_token OR a.id::text = p_token);
 
   IF NOT FOUND THEN
@@ -303,6 +304,7 @@ BEGIN
       'signed_at', v_rec.signed_at,
       'signer_name', v_rec.signer_name,
       'signer_title', v_rec.signer_title,
+      'signature_data', v_rec.signature_data,
       'document_checksum', v_rec.document_checksum,
       'provider_signature_data', v_rec.provider_signature_data,
       'provider_signer_name', v_rec.provider_signer_name,
@@ -543,6 +545,21 @@ CREATE POLICY "Admins only manage contracts storage"
   TO authenticated
   USING (bucket_id = 'contracts' AND public.is_admin())
   WITH CHECK (bucket_id = 'contracts' AND public.is_admin());
+
+-- Client Portal Policy: Allow public to read agreement and client for client portal verification
+DROP POLICY IF EXISTS "Public read agreements for client portal" ON public.agreements;
+CREATE POLICY "Public read agreements for client portal"
+  ON public.agreements
+  FOR SELECT
+  TO anon, authenticated
+  USING (true);
+
+DROP POLICY IF EXISTS "Public read clients for client portal" ON public.clients;
+CREATE POLICY "Public read clients for client portal"
+  ON public.clients
+  FOR SELECT
+  TO anon, authenticated
+  USING (true);
 
 -- ------------------------------------------------------------------------------
 -- 10. POSTGRES ROLE PRIVILEGES (CRITICAL FOR SUPABASE POSTGREST ACCESS)

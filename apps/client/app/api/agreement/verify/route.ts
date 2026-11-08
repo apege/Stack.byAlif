@@ -36,25 +36,57 @@ export async function POST(req: NextRequest) {
     const cleanCode = (code || '').trim().toUpperCase();
     const supabase = getAdminClient();
 
-    // Direct Query via Supabase Admin (bypasses RPC inconsistencies and guarantees all fields including signature_data)
     const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(cleanToken);
 
-    let query = supabase
-      .from('agreements')
-      .select(`
-        *,
-        client:clients(id, name, company, email, phone, address, notes)
-      `);
+    let agreementData: any = null;
 
-    if (isUUID) {
-      query = query.or(`id.eq.${cleanToken},access_token.eq.${cleanToken}`);
-    } else {
-      query = query.eq('access_token', cleanToken);
+    // 1. Try RPC get_client_agreement first (Security Definer - bypasses RLS cleanly even for anon)
+    try {
+      const { data: rpcRes, error: rpcErr } = await supabase.rpc('get_client_agreement', {
+        p_token: cleanToken,
+        p_code: cleanCode || null,
+      });
+
+      if (!rpcErr && rpcRes && rpcRes.success && rpcRes.agreement) {
+        agreementData = {
+          ...rpcRes.agreement,
+          client: {
+            company: rpcRes.agreement.client_company,
+            name: rpcRes.agreement.client_contact_name,
+            email: rpcRes.agreement.client_email,
+            phone: rpcRes.agreement.client_phone,
+            address: rpcRes.agreement.client_address,
+            notes: rpcRes.agreement.client_notes,
+          },
+          access_code: cleanCode,
+        };
+      }
+    } catch (rpcCatch) {
+      console.warn('RPC get_client_agreement attempt failed, falling back to direct query:', rpcCatch);
     }
 
-    const { data: agreementData, error: directError } = await query.maybeSingle();
+    // 2. Direct Query fallback via Supabase Admin (or matching token)
+    if (!agreementData) {
+      let query = supabase
+        .from('agreements')
+        .select(`
+          *,
+          client:clients(id, name, company, email, phone, address, notes)
+        `);
 
-    if (directError || !agreementData) {
+      if (isUUID) {
+        query = query.or(`id.eq.${cleanToken},access_token.eq.${cleanToken}`);
+      } else {
+        query = query.eq('access_token', cleanToken);
+      }
+
+      const { data: directData } = await query.maybeSingle();
+      if (directData) {
+        agreementData = directData;
+      }
+    }
+
+    if (!agreementData) {
       return NextResponse.json(
         { error: 'Dokumen agreement tidak ditemukan. Pastikan Token atau ID Referensi benar.' },
         { status: 404 }
@@ -62,7 +94,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Validate access code if provided with anti-brute force counter
-    if (cleanCode && agreementData.access_code?.toUpperCase() !== cleanCode) {
+    if (cleanCode && agreementData.access_code && agreementData.access_code.toUpperCase() !== cleanCode) {
       const current = failedAttempts.get(clientIp) || { count: 0, lastAttempt: now };
       const newCount = current.count + 1;
       failedAttempts.set(clientIp, { count: newCount, lastAttempt: now });
