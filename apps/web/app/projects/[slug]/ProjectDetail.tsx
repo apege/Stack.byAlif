@@ -92,11 +92,14 @@ export default function ProjectDetail({ project, nextProject }: Props) {
               </div>
               
               <div className="prose prose-slate max-w-none text-slate-700 text-base md:text-lg leading-relaxed font-normal space-y-6">
-                {project.overview.split('\n\n').map((paragraph, idx) => (
-                  <p key={idx} className="leading-relaxed">
-                    {paragraph}
-                  </p>
-                ))}
+                {(project.overview || project.description || project.shortDesc || '')
+                  .split('\n\n')
+                  .filter(Boolean)
+                  .map((paragraph, idx) => (
+                    <p key={idx} className="leading-relaxed">
+                      {paragraph}
+                    </p>
+                  ))}
               </div>
             </motion.div>
 

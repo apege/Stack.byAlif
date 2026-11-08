@@ -35,17 +35,23 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
+  const initialDesc =
+    initialData?.overview ||
+    initialData?.description ||
+    initialData?.short_desc ||
+    '';
+
   const [formData, setFormData] = useState({
     slug: initialData?.slug || '',
     title: initialData?.title || '',
-    short_desc: initialData?.short_desc || '',
-    description: initialData?.description || '',
+    short_desc: initialDesc,
+    description: initialDesc,
     thumbnail: initialData?.thumbnail || '',
     year: initialData?.year || '2026',
     tagsInput: initialData?.tags?.join(', ') || '',
     live_url: initialData?.live_url || '',
     github_url: initialData?.github_url || '',
-    overview: initialData?.overview || '',
+    overview: initialDesc,
     challenge: initialData?.challenge || '',
     process: initialData?.process || '',
     results: initialData?.results || '',
@@ -80,28 +86,35 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
         .map((t) => t.trim())
         .filter(Boolean);
 
+      const singleDescription = (
+        formData.description ||
+        formData.short_desc ||
+        formData.overview ||
+        ''
+      ).trim();
+
       const payload = {
         slug: formData.slug.trim(),
         title: formData.title.trim(),
-        short_desc: formData.short_desc.trim(),
-        description: formData.description.trim(),
+        short_desc: singleDescription,
+        description: singleDescription,
         thumbnail: formData.thumbnail.trim(),
         year: formData.year.trim(),
         tags: tagsArray,
         live_url: formData.live_url.trim(),
         github_url: formData.github_url.trim(),
-        overview: formData.overview.trim(),
-        challenge: formData.challenge.trim(),
-        process: formData.process.trim(),
-        results: formData.results.trim(),
+        overview: singleDescription,
+        challenge: formData.challenge?.trim() || '',
+        process: formData.process?.trim() || '',
+        results: formData.results?.trim() || '',
         gallery: formData.gallery,
         is_published: formData.is_published,
         display_order: Number(formData.display_order) || 0,
         updated_at: new Date().toISOString(),
       };
 
-      if (!payload.title || !payload.slug || !payload.thumbnail) {
-        throw new Error('Judul, Slug, dan Thumbnail gambar wajib diisi.');
+      if (!payload.title || !payload.slug || !payload.thumbnail || !payload.description) {
+        throw new Error('Judul, Slug, Thumbnail gambar, dan Deskripsi wajib diisi.');
       }
 
       if (isEdit && initialData?.id) {
@@ -272,74 +285,35 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
         </div>
       </div>
 
-      {/* Text Content Sections */}
-      <div className="space-y-6 pt-4 border-t border-slate-800">
+      {/* Ringkasan & Deskripsi Sistem (Single Field for Portfolio & Detail Page) */}
+      <div className="space-y-4 pt-4 border-t border-slate-800">
         <div>
-          <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
-            Ringkasan Singkat (Short Description) *
-          </label>
-          <input
-            type="text"
-            required
-            value={formData.short_desc}
-            onChange={(e) => setFormData({ ...formData, short_desc: e.target.value })}
-            placeholder="Platform reservasi villa terpadu dan sistem manajemen operasional properti"
-            className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500"
-          />
-        </div>
-
-        <div>
-          <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
-            Deskripsi Lengkap *
-          </label>
+          <div className="flex items-center justify-between mb-2">
+            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
+              Ringkasan Layanan Pendampingan System *
+            </label>
+            <span className="text-[11px] text-sky-400">
+              Muncul di Card Portofolio &amp; Halaman Detail Web
+            </span>
+          </div>
+          <p className="text-xs text-slate-400 mb-2 leading-relaxed">
+            Tuliskan deskripsi ringkas mengenai sistem atau layanan pendampingan yang diberikan.
+          </p>
           <textarea
-            rows={3}
+            rows={5}
             required
             value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            placeholder="Jelaskan gambaran umum sistem dan fitur-fitur yang dibangun..."
-            className="w-full bg-slate-900 border border-slate-800 rounded-xl p-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500"
-          />
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
-              Tantangan Bisnis (Challenge)
-            </label>
-            <textarea
-              rows={4}
-              value={formData.challenge}
-              onChange={(e) => setFormData({ ...formData, challenge: e.target.value })}
-              placeholder="Masalah manual atau kendala teknis sebelum sistem dibuat..."
-              className="w-full bg-slate-900 border border-slate-800 rounded-xl p-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
-              Solusi & Proses Kerja (Process)
-            </label>
-            <textarea
-              rows={4}
-              value={formData.process}
-              onChange={(e) => setFormData({ ...formData, process: e.target.value })}
-              placeholder="Langkah rancang bangun dan arsitektur yang diimplementasikan..."
-              className="w-full bg-slate-900 border border-slate-800 rounded-xl p-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
-            Hasil & Dampak (Results)
-          </label>
-          <textarea
-            rows={3}
-            value={formData.results}
-            onChange={(e) => setFormData({ ...formData, results: e.target.value })}
-            placeholder="Efisiensi yang dicapai, penghematan waktu operasional, dsb."
-            className="w-full bg-slate-900 border border-slate-800 rounded-xl p-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500"
+            onChange={(e) => {
+              const val = e.target.value;
+              setFormData({
+                ...formData,
+                description: val,
+                short_desc: val,
+                overview: val,
+              });
+            }}
+            placeholder="Contoh: Stack.byAlif memberikan layanan pendampingan dan pengoptimalan sistem transaksi digital harian serta otomatisasi workflow operasional bisnis."
+            className="w-full bg-slate-900 border border-slate-800 rounded-xl p-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 leading-relaxed"
           />
         </div>
       </div>
