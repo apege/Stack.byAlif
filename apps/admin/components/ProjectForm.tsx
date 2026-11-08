@@ -35,23 +35,17 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const initialDesc =
-    initialData?.overview ||
-    initialData?.description ||
-    initialData?.short_desc ||
-    '';
-
   const [formData, setFormData] = useState({
     slug: initialData?.slug || '',
     title: initialData?.title || '',
-    short_desc: initialDesc,
-    description: initialDesc,
+    short_desc: initialData?.short_desc || '',
+    description: initialData?.description || initialData?.overview || '',
     thumbnail: initialData?.thumbnail || '',
     year: initialData?.year || '2026',
     tagsInput: initialData?.tags?.join(', ') || '',
     live_url: initialData?.live_url || '',
     github_url: initialData?.github_url || '',
-    overview: initialDesc,
+    overview: initialData?.overview || initialData?.description || '',
     challenge: initialData?.challenge || '',
     process: initialData?.process || '',
     results: initialData?.results || '',
@@ -86,24 +80,20 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
         .map((t) => t.trim())
         .filter(Boolean);
 
-      const singleDescription = (
-        formData.description ||
-        formData.short_desc ||
-        formData.overview ||
-        ''
-      ).trim();
+      const shortDesc = formData.short_desc.trim();
+      const detailedOverview = (formData.overview || formData.description || shortDesc).trim();
 
       const payload = {
         slug: formData.slug.trim(),
         title: formData.title.trim(),
-        short_desc: singleDescription,
-        description: singleDescription,
+        short_desc: shortDesc,
+        description: shortDesc,
         thumbnail: formData.thumbnail.trim(),
         year: formData.year.trim(),
         tags: tagsArray,
         live_url: formData.live_url.trim(),
         github_url: formData.github_url.trim(),
-        overview: singleDescription,
+        overview: detailedOverview,
         challenge: formData.challenge?.trim() || '',
         process: formData.process?.trim() || '',
         results: formData.results?.trim() || '',
@@ -113,8 +103,8 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
         updated_at: new Date().toISOString(),
       };
 
-      if (!payload.title || !payload.slug || !payload.thumbnail || !payload.description) {
-        throw new Error('Judul, Slug, Thumbnail gambar, dan Deskripsi wajib diisi.');
+      if (!payload.title || !payload.slug || !payload.thumbnail || !payload.short_desc) {
+        throw new Error('Judul, Slug, Thumbnail gambar, dan Deskripsi Singkat wajib diisi.');
       }
 
       if (isEdit && initialData?.id) {
@@ -285,34 +275,57 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
         </div>
       </div>
 
-      {/* Ringkasan & Deskripsi Sistem (Single Field for Portfolio & Detail Page) */}
-      <div className="space-y-4 pt-4 border-t border-slate-800">
+      {/* Text Content Sections */}
+      <div className="space-y-6 pt-4 border-t border-slate-800">
+        {/* Field 1: Short Description (Subtitle di bawah judul & di card homepage) */}
         <div>
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between mb-1.5">
             <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
-              Ringkasan Layanan Pendampingan System *
+              Deskripsi Singkat (Subtitle di Bawah Judul) *
             </label>
             <span className="text-[11px] text-sky-400">
-              Muncul di Card Portofolio &amp; Halaman Detail Web
+              1-2 Kalimat Ringkas
             </span>
           </div>
           <p className="text-xs text-slate-400 mb-2 leading-relaxed">
-            Tuliskan deskripsi ringkas mengenai sistem atau layanan pendampingan yang diberikan.
+            Ditampilkan tepat di bawah judul pada halaman proyek dan kartu daftar karya di beranda portofolio.
           </p>
           <textarea
-            rows={5}
+            rows={2}
             required
-            value={formData.description}
+            value={formData.short_desc}
+            onChange={(e) => setFormData({ ...formData, short_desc: e.target.value })}
+            placeholder="Contoh: Platform merchant digital (top-up & game voucher) end-to-end dengan verifikasi otomatis & analitik laba"
+            className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 leading-relaxed"
+          />
+        </div>
+
+        {/* Field 2: Ringkasan Layanan Pendampingan System (Card di halaman detail) */}
+        <div>
+          <div className="flex items-center justify-between mb-1.5">
+            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
+              Ringkasan Layanan Pendampingan System (Isi Card Detail) *
+            </label>
+            <span className="text-[11px] text-emerald-400">
+              Isi Card Detail Proyek
+            </span>
+          </div>
+          <p className="text-xs text-slate-400 mb-2 leading-relaxed">
+            Ditampilkan di dalam card khusus &quot;Ringkasan Layanan Pendampingan System&quot; pada halaman detail proyek.
+          </p>
+          <textarea
+            rows={6}
+            required
+            value={formData.overview}
             onChange={(e) => {
               const val = e.target.value;
               setFormData({
                 ...formData,
-                description: val,
-                short_desc: val,
                 overview: val,
+                description: val,
               });
             }}
-            placeholder="Contoh: Stack.byAlif memberikan layanan pendampingan dan pengoptimalan sistem transaksi digital harian serta otomatisasi workflow operasional bisnis."
+            placeholder="Contoh: Stack.byAlif memberikan layanan pendampingan dan pengoptimalan sistem transaksi digital harian serta otomatisasi workflow operasional bisnis..."
             className="w-full bg-slate-900 border border-slate-800 rounded-xl p-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 leading-relaxed"
           />
         </div>
