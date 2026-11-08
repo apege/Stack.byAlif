@@ -19,9 +19,10 @@ const DEFAULT_PROFILE = {
 
 export async function GET() {
   try {
-    const supabase = getAdminClient();
+    const supabaseUser = await createClient();
 
-    const { data, error } = await supabase
+    // 1. Try reading with authenticated user
+    let { data } = await supabaseUser
       .from('audit_logs')
       .select('metadata')
       .eq('action', 'PROVIDER_PROFILE_SETTING')
@@ -29,9 +30,23 @@ export async function GET() {
       .limit(1)
       .maybeSingle();
 
-    if (error) {
-      console.warn('Could not read settings from audit_logs:', error);
-      return NextResponse.json({ profile: DEFAULT_PROFILE });
+    // 2. If not found, try with admin client
+    if (!data?.metadata) {
+      try {
+        const adminSupabase = getAdminClient();
+        const adminRes = await adminSupabase
+          .from('audit_logs')
+          .select('metadata')
+          .eq('action', 'PROVIDER_PROFILE_SETTING')
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .maybeSingle();
+        if (adminRes.data?.metadata) {
+          data = adminRes.data;
+        }
+      } catch (adminErr) {
+        console.warn('Fallback admin client in GET failed:', adminErr);
+      }
     }
 
     const profile = data?.metadata ? { ...DEFAULT_PROFILE, ...data.metadata } : DEFAULT_PROFILE;
@@ -63,7 +78,6 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const supabase = getAdminClient();
 
     const updatedProfile = {
       name: (body.name || DEFAULT_PROFILE.name).trim(),
@@ -78,21 +92,51 @@ export async function POST(req: NextRequest) {
       updatedAt: new Date().toISOString(),
     };
 
-    // 1. Save to Supabase audit_logs as persistent setting
-    const { error: logError } = await supabase.from('audit_logs').insert([
+    // 2. Save using the authenticated admin client (passes RLS cleanly)
+    let saveSuccess = false;
+    let saveError: any = null;
+
+    const { error: userLogError } = await supabaseUser.from('audit_logs').insert([
       {
         action: 'PROVIDER_PROFILE_SETTING',
         entity_type: 'settings',
         entity_id: 'provider_profile',
+        performed_by: user.id,
         ip_address: req.headers.get('x-forwarded-for') || '127.0.0.1',
         metadata: updatedProfile,
       },
     ]);
 
-    if (logError) {
-      console.error('Failed to save settings to audit_logs:', logError);
+    if (!userLogError) {
+      saveSuccess = true;
+    } else {
+      saveError = userLogError;
+      // Fallback to getAdminClient if service role key exists
+      try {
+        const adminSupabase = getAdminClient();
+        const { error: adminLogError } = await adminSupabase.from('audit_logs').insert([
+          {
+            action: 'PROVIDER_PROFILE_SETTING',
+            entity_type: 'settings',
+            entity_id: 'provider_profile',
+            performed_by: user.id,
+            ip_address: req.headers.get('x-forwarded-for') || '127.0.0.1',
+            metadata: updatedProfile,
+          },
+        ]);
+        if (!adminLogError) {
+          saveSuccess = true;
+          saveError = null;
+        }
+      } catch (adminErr) {
+        console.warn('Fallback adminSupabase insert failed:', adminErr);
+      }
+    }
+
+    if (!saveSuccess && saveError) {
+      console.error('Failed to save settings to audit_logs:', saveError);
       return NextResponse.json(
-        { error: 'Gagal menyimpan pengaturan ke database.' },
+        { error: saveError.message || 'Gagal menyimpan pengaturan ke database.' },
         { status: 500 }
       );
     }

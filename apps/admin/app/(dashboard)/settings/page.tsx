@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { createClient } from '@/lib/supabase/client';
 import {
   User,
   Building2,
@@ -63,9 +64,20 @@ export default function SettingsPage() {
         setLoading(true);
         const res = await fetch('/api/settings');
         const data = await res.json();
-        if (data.profile) {
-          setForm(data.profile);
+        const loaded = data.profile || {};
+
+        // Merge with localStorage defaults if available
+        if (typeof window !== 'undefined') {
+          const localSig = localStorage.getItem('stackbyalif_default_signature');
+          const localName = localStorage.getItem('stackbyalif_signer_name');
+          const localTitle = localStorage.getItem('stackbyalif_signer_title');
+
+          if (!loaded.defaultSignature && localSig) loaded.defaultSignature = localSig;
+          if (!loaded.name && localName) loaded.name = localName;
+          if (!loaded.roleTitle && localTitle) loaded.roleTitle = localTitle;
         }
+
+        setForm(loaded);
       } catch (err: any) {
         console.error('Failed to load settings:', err);
         setErrorMsg('Gagal memuat pengaturan profil.');
@@ -186,6 +198,17 @@ export default function SettingsPage() {
       signatureToSave = canvasRef.current.toDataURL('image/png');
     }
 
+    // Always immediately persist to local browser storage
+    if (typeof window !== 'undefined') {
+      if (signatureToSave) localStorage.setItem('stackbyalif_default_signature', signatureToSave);
+      if (form.name) localStorage.setItem('stackbyalif_signer_name', form.name);
+      if (form.roleTitle) localStorage.setItem('stackbyalif_signer_title', form.roleTitle);
+    }
+
+    let isSuccess = false;
+    let errorMessage = '';
+
+    // 1. Try server API route
     try {
       const res = await fetch('/api/settings', {
         method: 'POST',
@@ -197,19 +220,60 @@ export default function SettingsPage() {
       });
 
       const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Gagal menyimpan pengaturan.');
+      if (res.ok && data.success) {
+        isSuccess = true;
+        setForm(data.profile);
+      } else {
+        errorMessage = data.error || 'Gagal menyimpan via server API.';
       }
+    } catch (apiErr: any) {
+      errorMessage = apiErr.message || 'Koneksi ke server API gagal.';
+    }
 
-      setForm(data.profile);
+    // 2. Direct Supabase browser client fallback
+    if (!isSuccess) {
+      try {
+        const supabase = createClient();
+        const { data: authData } = await supabase.auth.getUser();
+        const updatedProfile = {
+          ...form,
+          defaultSignature: signatureToSave,
+          updatedAt: new Date().toISOString(),
+        };
+
+        const { error: directErr } = await supabase.from('audit_logs').insert([
+          {
+            action: 'PROVIDER_PROFILE_SETTING',
+            entity_type: 'settings',
+            entity_id: 'provider_profile',
+            performed_by: authData?.user?.id || null,
+            ip_address: '127.0.0.1',
+            metadata: updatedProfile,
+          },
+        ]);
+
+        if (!directErr) {
+          isSuccess = true;
+          setForm(updatedProfile);
+        } else {
+          errorMessage = directErr.message || errorMessage;
+        }
+      } catch (directCatch: any) {
+        errorMessage = directCatch.message || errorMessage;
+      }
+    }
+
+    if (isSuccess) {
       setHasNewSignature(false);
       setSuccessMsg('Pengaturan profil dan identitas kontrak berhasil disimpan!');
+      alert('Pengaturan profil dan identitas kontrak berhasil disimpan!');
       setTimeout(() => setSuccessMsg(null), 5000);
-    } catch (err: any) {
-      setErrorMsg(err.message || 'Terjadi kesalahan sistem.');
-    } finally {
-      setSaving(false);
+    } else {
+      setErrorMsg(errorMessage || 'Gagal menyimpan pengaturan.');
+      alert(errorMessage || 'Gagal menyimpan pengaturan.');
     }
+
+    setSaving(false);
   };
 
   if (loading) {
@@ -514,8 +578,21 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            {/* Submit Button */}
-            <div className="pt-2">
+            {/* Submit Button & Bottom Notifications */}
+            <div className="pt-2 space-y-3">
+              {successMsg && (
+                <div className="p-3.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
+                  <span>{successMsg}</span>
+                </div>
+              )}
+              {errorMsg && (
+                <div className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+                  <span>{errorMsg}</span>
+                </div>
+              )}
+
               <button
                 type="submit"
                 disabled={saving}
