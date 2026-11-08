@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
+import { getEnv } from '@/lib/env';
 
 export async function POST(request: Request) {
   try {
@@ -36,8 +37,8 @@ export async function POST(request: Request) {
     }
 
     // 2. Send Telegram notification
-    const botToken = process.env.TELEGRAM_BOT_TOKEN;
-    const chatId = process.env.TELEGRAM_CHAT_ID;
+    const botToken = getEnv('TELEGRAM_BOT_TOKEN');
+    const chatId = getEnv('TELEGRAM_CHAT_ID');
 
     if (botToken && chatId) {
       const telegramMessage = `🔔 *New Project Inquiry*

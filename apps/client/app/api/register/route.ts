@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
+import { getEnv } from '@/lib/env';
 
 // Anti-spam registration rate limiter: max 5 submissions per hour per IP
 const registrationRateLimits = new Map<string, { count: number; firstAttempt: number }>();
@@ -77,10 +78,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Generate unique reference upfront so we don't depend on RETURNING/SELECT RLS
+    const randomHex = Math.random().toString(36).substring(2, 6).toUpperCase() + Math.random().toString(36).substring(2, 6).toUpperCase();
+    const registrationNumber = `REG-${randomHex}`;
+
     // Insert into Supabase
     const supabase = getAdminClient();
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('client_registrations')
       .insert([
         {
@@ -102,10 +107,9 @@ export async function POST(req: NextRequest) {
           client_ip: clientIp,
           user_agent: userAgent,
           status: 'pending_review',
+          registration_number: registrationNumber,
         },
-      ])
-      .select('id, registration_number, created_at')
-      .single();
+      ]);
 
     if (error) {
       console.error('Supabase registration error:', error);
@@ -120,13 +124,13 @@ export async function POST(req: NextRequest) {
     }
 
     // Optional Telegram notification to Alif
-    const botToken = process.env.TELEGRAM_BOT_TOKEN;
-    const chatId = process.env.TELEGRAM_CHAT_ID;
+    const botToken = getEnv('TELEGRAM_BOT_TOKEN');
+    const chatId = getEnv('TELEGRAM_CHAT_ID');
 
     if (botToken && chatId) {
       const telegramMessage = `📋 *REGISTRASI KLIEN BARU (STACK.BYALIF)*
 ━━━━━━━━━━━━━━━━━━━━
-🆔 *Ref:* \`${data.registration_number}\`
+🆔 *Ref:* \`${registrationNumber}\`
 👤 *Nama:* ${full_name}
 🏢 *Bisnis:* ${business_name} (${ownership_status})
 ${legal_entity ? `🏛 *Badan Usaha:* ${legal_entity}\n` : ''}📱 *WhatsApp:* ${whatsapp}
@@ -159,7 +163,7 @@ _Silakan verifikasi data klien di Dashboard Admin sebelum menerbitkan kontrak._`
 
     return NextResponse.json({
       success: true,
-      registration_number: data.registration_number,
+      registration_number: registrationNumber,
       message: 'Registrasi proyek berhasil disimpan dan diverifikasi.',
     });
   } catch (err: any) {

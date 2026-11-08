@@ -1,4 +1,5 @@
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+import { getEnv } from '@/lib/env';
 
 // Polyfill WebSocket for Node.js 20 environment to prevent @supabase/realtime-js crash
 if (typeof globalThis.WebSocket === 'undefined') {
@@ -6,8 +7,8 @@ if (typeof globalThis.WebSocket === 'undefined') {
 }
 
 export function getAdminClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+  const url = getEnv('NEXT_PUBLIC_SUPABASE_URL');
+  const serviceRoleKey = getEnv('SUPABASE_SERVICE_ROLE_KEY') || getEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY');
 
   return createSupabaseClient(url, serviceRoleKey, {
     auth: {

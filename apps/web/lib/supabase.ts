@@ -1,14 +1,14 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { getEnv } from '@/lib/env';
 
 let cachedClient: SupabaseClient | null = null;
 let lastUsedConfig: string | null = null;
 
 export function getSupabase(): SupabaseClient {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+  const supabaseUrl = getEnv('NEXT_PUBLIC_SUPABASE_URL');
   const supabaseKey =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-    '';
+    getEnv('SUPABASE_SERVICE_ROLE_KEY') ||
+    getEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY');
 
   const configSignature = `${supabaseUrl}::${supabaseKey}`;
 
