@@ -504,12 +504,19 @@ CREATE TABLE IF NOT EXISTS public.audit_logs (
 
 ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Admins view audit logs"
+CREATE POLICY "Admins manage audit logs"
   ON public.audit_logs
   FOR ALL
   TO authenticated
   USING (public.is_admin())
   WITH CHECK (public.is_admin());
+
+-- Allow public to read provider profile setting for client contract display
+CREATE POLICY "Public read provider profile setting"
+  ON public.audit_logs
+  FOR SELECT
+  TO anon, authenticated
+  USING (action = 'PROVIDER_PROFILE_SETTING');
 
 -- ------------------------------------------------------------------------------
 -- 9. SUPABASE STORAGE BUCKETS & POLICIES
