@@ -476,18 +476,20 @@ export default function ClientRegistrationPage() {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">
-                    Registrar pilihan (jika menggunakan domain sendiri)
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Contoh: DomaiNesia, Niagahoster, Cloudflare, atau lainnya."
-                    value={formData.domain_registrar}
-                    onChange={(e) => setFormData({ ...formData, domain_registrar: e.target.value })}
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition-colors"
-                  />
-                </div>
+                {formData.domain_identity_option === 'Saya sudah memiliki domain sendiri' && (
+                  <div className="pt-1">
+                    <label className="block text-xs font-medium text-zinc-300 mb-1.5">
+                      Registrar pilihan (jika menggunakan domain sendiri)
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Contoh: DomaiNesia, Niagahoster, Cloudflare, atau lainnya."
+                      value={formData.domain_registrar}
+                      onChange={(e) => setFormData({ ...formData, domain_registrar: e.target.value })}
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition-colors"
+                    />
+                  </div>
+                )}
               </div>
             </div>
 
