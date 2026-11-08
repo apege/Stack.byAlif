@@ -31,9 +31,9 @@ export default function ClientRegistrationPage() {
     legal_entity: '',
     business_address: '',
 
-    // 03. Domain Registration
+    // 03. Registrasi Domain
     domain_name: '',
-    domain_identity_option: 'Ya, menggunakan identitas saya',
+    domain_identity_option: 'Domain standar dari Stack.byAlif (Termasuk paket)',
     domain_registrar: '',
 
     // 04. Business Declaration
@@ -413,37 +413,33 @@ export default function ClientRegistrationPage() {
             {/* 03. Domain Registration */}
             <div className="space-y-4 pt-4 border-t border-zinc-900">
               <div className="flex items-center justify-between">
-                <h2 className="text-sm sm:text-base font-bold text-white">
-                  03. Domain Registration
-                </h2>
-                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-zinc-900 text-zinc-400 border border-zinc-800">
-                  Conditional
+                <div>
+                  <h2 className="text-sm sm:text-base font-bold text-white">
+                    03. Registrasi Domain
+                  </h2>
+                  <p className="text-xs text-zinc-400">
+                    Pilihan Pengadaan Domain
+                  </p>
+                </div>
+                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-emerald-950/80 text-emerald-400 border border-emerald-500/30">
+                  Termasuk dalam paket
                 </span>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-zinc-900/60 border border-zinc-800/80 text-xs text-zinc-400 leading-relaxed">
+                Domain standar akan disediakan oleh <span className="text-zinc-200 font-medium">Stack.byAlif</span> sesuai ketentuan paket yang dipilih. Permintaan domain khusus atau ekstensi tertentu dapat dikenakan biaya tambahan.
               </div>
 
               <div className="space-y-3.5 pt-1">
                 <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">
-                    Nama domain yang akan digunakan
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="contoh.com"
-                    value={formData.domain_name}
-                    onChange={(e) => setFormData({ ...formData, domain_name: e.target.value })}
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition-colors"
-                  />
-                </div>
-
-                <div>
                   <label className="block text-xs font-medium text-zinc-300 mb-2">
-                    Apakah domain akan didaftarkan menggunakan identitas Anda?
+                    Bagaimana Anda ingin menggunakan domain?
                   </label>
                   <div className="space-y-2">
                     {[
-                      'Ya, menggunakan identitas saya',
-                      'Tidak, ada pemilik domain lain',
-                      'Saya sudah memiliki domain',
+                      'Domain standar dari Stack.byAlif (Termasuk paket)',
+                      'Menggunakan domain custom (Biaya tambahan)',
+                      'Saya sudah memiliki domain sendiri',
                     ].map((opt) => (
                       <label
                         key={opt}
@@ -469,11 +465,24 @@ export default function ClientRegistrationPage() {
 
                 <div>
                   <label className="block text-xs font-medium text-zinc-300 mb-1.5">
-                    Registrar pilihan (jika sudah ada)
+                    Nama domain yang diinginkan
                   </label>
                   <input
                     type="text"
-                    placeholder="Contoh: DomaiNesia"
+                    placeholder="Contoh: namabisnis.com (Opsional, jika sudah memiliki preferensi)"
+                    value={formData.domain_name}
+                    onChange={(e) => setFormData({ ...formData, domain_name: e.target.value })}
+                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">
+                    Registrar pilihan (jika menggunakan domain sendiri)
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Contoh: DomaiNesia, Niagahoster, Cloudflare, atau lainnya."
                     value={formData.domain_registrar}
                     onChange={(e) => setFormData({ ...formData, domain_registrar: e.target.value })}
                     className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition-colors"
