@@ -36,24 +36,43 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const supabase = getAdminClient();
+    const updatePayload = {
+      provider_signature_data,
+      provider_signer_name: provider_signer_name || 'Muhammad Alif Muzakky',
+      provider_signer_title: provider_signer_title || 'Pemilik Usaha',
+      provider_signed_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
 
-    const { data, error } = await supabase
+    // 1. Try updating with the authenticated admin user client first
+    let result = await supabaseUser
       .from('agreements')
-      .update({
-        provider_signature_data,
-        provider_signer_name: provider_signer_name || 'Muhammad Alif Muzakky',
-        provider_signer_title: provider_signer_title || 'Pemilik Usaha',
-        provider_signed_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      })
+      .update(updatePayload)
       .eq('id', agreement_id)
-      .select()
-      .single();
+      .select();
 
-    if (error) {
-      // If column doesn't exist yet, return helpful error
-      if (error.message?.includes('provider_signature_data')) {
+    // 2. If no rows updated or error, try with getAdminClient (service role bypass)
+    if (result.error || !result.data || result.data.length === 0) {
+      try {
+        const adminSupabase = getAdminClient();
+        const adminResult = await adminSupabase
+          .from('agreements')
+          .update(updatePayload)
+          .eq('id', agreement_id)
+          .select();
+
+        if (adminResult.data && adminResult.data.length > 0) {
+          result = adminResult;
+        } else if (adminResult.error && !result.error) {
+          result = adminResult;
+        }
+      } catch (adminErr) {
+        console.warn('Fallback getAdminClient failed:', adminErr);
+      }
+    }
+
+    if (result.error) {
+      if (result.error.message?.includes('provider_signature_data')) {
         return NextResponse.json(
           {
             error:
@@ -63,13 +82,23 @@ export async function POST(req: NextRequest) {
           { status: 400 }
         );
       }
-      throw error;
+      throw result.error;
+    }
+
+    if (!result.data || result.data.length === 0) {
+      return NextResponse.json(
+        {
+          error:
+            'Gagal memperbarui agreement: Data tidak ditemukan atau izin akses ditolak oleh database.',
+        },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({
       success: true,
       message: 'Tanda tangan Pihak Pertama (Stack.byAlif) berhasil dibubuhkan!',
-      data,
+      data: result.data[0],
     });
   } catch (err: any) {
     return NextResponse.json(

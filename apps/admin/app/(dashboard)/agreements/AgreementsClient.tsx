@@ -302,21 +302,67 @@ export default function AgreementsClient({
 
     setIsSigningProvider(true);
     try {
-      const res = await fetch('/api/agreements/sign-provider', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          agreement_id: signProviderModal.id,
-          provider_signature_data: signatureData,
-          provider_signer_name: providerSignerName,
-          provider_signer_title: providerSignerTitle,
-        }),
-      });
-
-      const resData = await res.json();
-      if (!res.ok) throw new Error(resData.error || 'Gagal menyimpan tanda tangan.');
-
+      let isSuccess = false;
+      let errorMsg = '';
       const signedAt = new Date().toISOString();
+
+      // 1. Try server API route first
+      try {
+        const res = await fetch('/api/agreements/sign-provider', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            agreement_id: signProviderModal.id,
+            provider_signature_data: signatureData,
+            provider_signer_name: providerSignerName,
+            provider_signer_title: providerSignerTitle,
+          }),
+        });
+
+        const resData = await res.json();
+        if (res.ok && resData.success) {
+          isSuccess = true;
+        } else {
+          errorMsg = resData.error || '';
+        }
+      } catch (apiErr: any) {
+        errorMsg = apiErr.message || '';
+      }
+
+      // 2. If API route didn't succeed (e.g. cookie forwarding or edge worker context in Cloudflare),
+      // update directly via the authenticated browser Supabase client
+      if (!isSuccess) {
+        const supabase = createClient();
+        const { data, error } = await supabase
+          .from('agreements')
+          .update({
+            provider_signature_data: signatureData,
+            provider_signer_name: providerSignerName || 'Muhammad Alif Muzakky',
+            provider_signer_title: providerSignerTitle || 'Pemilik Usaha',
+            provider_signed_at: signedAt,
+            updated_at: signedAt,
+          })
+          .eq('id', signProviderModal.id)
+          .select();
+
+        if (error) {
+          if (error.message?.includes('provider_signature_data')) {
+            throw new Error(
+              'Kolom tanda tangan belum dibuat di database Supabase. Silakan jalankan kueri SQL ALTER TABLE di Supabase SQL Editor.'
+            );
+          }
+          throw new Error(error.message || errorMsg || 'Gagal menyimpan tanda tangan.');
+        }
+
+        if (data && data.length > 0) {
+          isSuccess = true;
+        } else {
+          throw new Error(
+            errorMsg || 'Gagal menyimpan tanda tangan: Akses ditolak atau data tidak ditemukan.'
+          );
+        }
+      }
+
       setAgreements((prev) =>
         prev.map((a) =>
           a.id === signProviderModal.id
