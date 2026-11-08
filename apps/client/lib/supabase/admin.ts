@@ -6,8 +6,17 @@ if (typeof globalThis.WebSocket === 'undefined') {
 }
 
 export function getAdminClient() {
-  const url = getEnv('NEXT_PUBLIC_SUPABASE_URL');
-  const serviceRoleKey = getEnv('SUPABASE_SERVICE_ROLE_KEY') || getEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY');
+  const url =
+    process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    getEnv('NEXT_PUBLIC_SUPABASE_URL') ||
+    '';
+
+  const serviceRoleKey =
+    getEnv('SUPABASE_SERVICE_ROLE_KEY') ||
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    getEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY') ||
+    '';
 
   return createSupabaseClient(url, serviceRoleKey, {
     auth: {

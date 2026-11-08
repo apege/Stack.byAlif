@@ -5,16 +5,23 @@ let cachedClient: SupabaseClient | null = null;
 let lastUsedConfig: string | null = null;
 
 export function getSupabase(): SupabaseClient {
-  const supabaseUrl = getEnv('NEXT_PUBLIC_SUPABASE_URL');
+  const supabaseUrl =
+    process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    getEnv('NEXT_PUBLIC_SUPABASE_URL') ||
+    '';
+
   const supabaseKey =
     getEnv('SUPABASE_SERVICE_ROLE_KEY') ||
-    getEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY');
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    getEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY') ||
+    '';
 
   const configSignature = `${supabaseUrl}::${supabaseKey}`;
 
   if (!cachedClient || lastUsedConfig !== configSignature) {
     if (!supabaseUrl || !supabaseKey) {
-      console.warn('⚠️ Supabase credentials are not fully set in process.env');
+      console.warn('⚠️ Supabase credentials are not fully set');
     }
     cachedClient = createClient(
       supabaseUrl || 'https://placeholder.supabase.co',
@@ -26,7 +33,7 @@ export function getSupabase(): SupabaseClient {
   return cachedClient;
 }
 
-// Proxy wrapper ensuring runtime evaluation of process.env upon request
+// Proxy wrapper ensuring runtime evaluation upon request
 export const supabase = new Proxy({} as SupabaseClient, {
   get(_target, prop) {
     const client = getSupabase();
