@@ -389,12 +389,9 @@ export default function ClientRegistrationPage() {
                 </div>
 
                 <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <label className="block text-xs font-medium text-zinc-300">
-                      Email aktif
-                    </label>
-                    <span className="text-[10px] text-zinc-500">Terverifikasi MX & Anti-Burner</span>
-                  </div>
+                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">
+                    Email aktif
+                  </label>
                   <div className="relative">
                     <input
                       type="email"
@@ -410,53 +407,37 @@ export default function ClientRegistrationPage() {
                         }
                       }}
                       className={`w-full bg-zinc-950 border ${
-                        emailValidation.status === 'valid'
-                          ? 'border-emerald-500/50 focus:border-emerald-500 text-emerald-200'
-                          : emailValidation.status === 'invalid'
+                        emailValidation.status === 'invalid'
                           ? 'border-rose-500/50 focus:border-rose-500 text-rose-200'
                           : 'border-zinc-800 focus:border-zinc-500 text-zinc-100'
-                      } rounded-xl px-4 py-3 text-sm placeholder-zinc-600 focus:outline-none transition-colors pr-10`}
+                      } rounded-xl px-4 py-3 text-sm placeholder-zinc-600 focus:outline-none transition-colors ${
+                        emailValidation.status === 'checking' || emailValidation.status === 'invalid' ? 'pr-10' : ''
+                      }`}
                     />
-                    <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
-                      {emailValidation.status === 'checking' && (
-                        <Loader2 className="w-4 h-4 text-sky-400 animate-spin" />
-                      )}
-                      {emailValidation.status === 'valid' && (
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                      )}
-                      {emailValidation.status === 'invalid' && (
-                        <AlertTriangle className="w-4 h-4 text-rose-400" />
-                      )}
-                    </div>
+                    {(emailValidation.status === 'checking' || emailValidation.status === 'invalid') && (
+                      <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
+                        {emailValidation.status === 'checking' && (
+                          <Loader2 className="w-4 h-4 text-zinc-500 animate-spin" />
+                        )}
+                        {emailValidation.status === 'invalid' && (
+                          <AlertTriangle className="w-4 h-4 text-rose-400" />
+                        )}
+                      </div>
+                    )}
                   </div>
 
-                  {emailValidation.status === 'valid' && (
-                    <div className="flex items-center gap-1.5 text-[11px] text-emerald-400 mt-1.5 animate-in fade-in">
-                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                      <span>{emailValidation.message}</span>
-                    </div>
-                  )}
                   {emailValidation.status === 'invalid' && (
                     <div className="flex items-center gap-1.5 text-[11px] text-rose-400 mt-1.5 animate-in fade-in">
                       <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
                       <span>{emailValidation.message}</span>
                     </div>
                   )}
-                  {emailValidation.status === 'checking' && (
-                    <div className="flex items-center gap-1.5 text-[11px] text-slate-400 mt-1.5 animate-in fade-in">
-                      <Loader2 className="w-3.5 h-3.5 shrink-0 animate-spin text-sky-400" />
-                      <span>{emailValidation.message}</span>
-                    </div>
-                  )}
                 </div>
 
                 <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <label className="block text-xs font-medium text-zinc-300">
-                      Nomor WhatsApp
-                    </label>
-                    <span className="text-[10px] text-zinc-500">Operator Seluler Indonesia</span>
-                  </div>
+                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">
+                    Nomor WhatsApp
+                  </label>
                   <div className="relative">
                     <input
                       type="tel"
@@ -472,41 +453,28 @@ export default function ClientRegistrationPage() {
                         }
                       }}
                       className={`w-full bg-zinc-950 border ${
-                        waValidation.status === 'valid'
-                          ? 'border-emerald-500/50 focus:border-emerald-500 text-emerald-200'
-                          : waValidation.status === 'invalid'
+                        waValidation.status === 'invalid'
                           ? 'border-rose-500/50 focus:border-rose-500 text-rose-200'
                           : 'border-zinc-800 focus:border-zinc-500 text-zinc-100'
-                      } rounded-xl px-4 py-3 text-sm placeholder-zinc-600 focus:outline-none transition-colors pr-10`}
+                      } rounded-xl px-4 py-3 text-sm placeholder-zinc-600 focus:outline-none transition-colors ${
+                        waValidation.status === 'checking' || waValidation.status === 'invalid' ? 'pr-10' : ''
+                      }`}
                     />
-                    <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
-                      {waValidation.status === 'checking' && (
-                        <Loader2 className="w-4 h-4 text-sky-400 animate-spin" />
-                      )}
-                      {waValidation.status === 'valid' && (
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                      )}
-                      {waValidation.status === 'invalid' && (
-                        <AlertTriangle className="w-4 h-4 text-rose-400" />
-                      )}
-                    </div>
+                    {(waValidation.status === 'checking' || waValidation.status === 'invalid') && (
+                      <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
+                        {waValidation.status === 'checking' && (
+                          <Loader2 className="w-4 h-4 text-zinc-500 animate-spin" />
+                        )}
+                        {waValidation.status === 'invalid' && (
+                          <AlertTriangle className="w-4 h-4 text-rose-400" />
+                        )}
+                      </div>
+                    )}
                   </div>
 
-                  {waValidation.status === 'valid' && (
-                    <div className="flex items-center gap-1.5 text-[11px] text-emerald-400 mt-1.5 animate-in fade-in">
-                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                      <span>{waValidation.message}</span>
-                    </div>
-                  )}
                   {waValidation.status === 'invalid' && (
                     <div className="flex items-center gap-1.5 text-[11px] text-rose-400 mt-1.5 animate-in fade-in">
                       <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
-                      <span>{waValidation.message}</span>
-                    </div>
-                  )}
-                  {waValidation.status === 'checking' && (
-                    <div className="flex items-center gap-1.5 text-[11px] text-slate-400 mt-1.5 animate-in fade-in">
-                      <Loader2 className="w-3.5 h-3.5 shrink-0 animate-spin text-sky-400" />
                       <span>{waValidation.message}</span>
                     </div>
                   )}
