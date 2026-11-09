@@ -18,13 +18,14 @@ import {
   Terminal,
   ChevronRight,
   AlertCircle,
-  Sparkles,
   X,
   ChevronDown,
+  UserCheck,
 } from 'lucide-react';
 import CustomDatePicker from '@/components/CustomDatePicker';
 import CustomPhaseSelect from '@/components/CustomPhaseSelect';
 import CustomStatusSelect from '@/components/CustomStatusSelect';
+import CustomRegistrationSelect from '@/components/CustomRegistrationSelect';
 
 export interface Milestone {
   id: string;
@@ -147,6 +148,7 @@ export default function TrackingClient({
   });
 
   const handleSelectRegistration = (r: ClientRegistrationOption) => {
+    setQuickSource(`reg:${r.registration_number}`);
     setNewRegNumber(r.registration_number);
     setNewClientName(r.full_name);
     setNewClientCompany(r.business_name);
@@ -158,6 +160,22 @@ export default function TrackingClient({
       );
     }
     setShowRegSuggestions(false);
+  };
+
+  const handleSelectAgreement = (a: AgreementOption) => {
+    setQuickSource(`ag:${a.id}`);
+    setNewProjectName(a.project_title);
+    const foundClient = clients.find((c) => c.id === a.client_id);
+    if (foundClient) {
+      setNewClientName(foundClient.name);
+      setNewClientCompany(foundClient.company || '');
+    }
+    setShowRegSuggestions(false);
+  };
+
+  const handleClearQuickSource = () => {
+    setQuickSource('');
+    setNewRegNumber('');
   };
 
   useEffect(() => {
@@ -536,59 +554,23 @@ export default function TrackingClient({
 
                 {/* 0. Quick Auto-fill Selector */}
                 {(registrations.length > 0 || agreements.length > 0) && (
-                  <div className="p-3 rounded-xl bg-blue-500/5 border border-blue-500/20 space-y-1.5">
+                  <div className="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800/80 space-y-2">
                     <div className="flex items-center justify-between">
-                      <label className="text-[11px] font-semibold text-blue-400 flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5" />
-                        <span>Pilih Registrasi / Klien (Isi Otomatis)</span>
+                      <label className="text-[11px] font-semibold text-slate-300 flex items-center gap-1.5">
+                        <UserCheck className="w-3.5 h-3.5 text-sky-400" />
+                        <span>Tautkan Data Registrasi Klien</span>
                       </label>
-                      <span className="text-[10px] text-slate-500">Auto-fill semua data form</span>
+                      <span className="text-[10px] text-slate-500">Auto-fill informasi form otomatis</span>
                     </div>
-                    <select
-                      value={quickSource}
-                      onChange={(e) => {
-                        const val = e.target.value;
-                        setQuickSource(val);
-                        if (!val) return;
-                        if (val.startsWith('reg:')) {
-                          const regNum = val.replace('reg:', '');
-                          const found = registrations.find((r) => r.registration_number === regNum);
-                          if (found) handleSelectRegistration(found);
-                        } else if (val.startsWith('ag:')) {
-                          const agId = val.replace('ag:', '');
-                          const foundAg = agreements.find((a) => a.id === agId);
-                          if (foundAg) {
-                            setNewProjectName(foundAg.project_title);
-                            const foundClient = clients.find((c) => c.id === foundAg.client_id);
-                            if (foundClient) {
-                              setNewClientName(foundClient.name);
-                              setNewClientCompany(foundClient.company || '');
-                            }
-                          }
-                        }
-                      }}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#0052ff] text-xs cursor-pointer"
-                    >
-                      <option value="">-- Pilih untuk Auto-Fill Formulir --</option>
-                      {registrations.length > 0 && (
-                        <optgroup label="Registrasi Klien Masuk">
-                          {registrations.map((r) => (
-                            <option key={r.id} value={`reg:${r.registration_number}`}>
-                              [{r.registration_number}] {r.full_name} — {r.business_name} {r.domain_name ? `(${r.domain_name})` : ''}
-                            </option>
-                          ))}
-                        </optgroup>
-                      )}
-                      {agreements.length > 0 && (
-                        <optgroup label="Kontrak Agreement PKS">
-                          {agreements.map((a) => (
-                            <option key={a.id} value={`ag:${a.id}`}>
-                              {a.project_title}
-                            </option>
-                          ))}
-                        </optgroup>
-                      )}
-                    </select>
+
+                    <CustomRegistrationSelect
+                      registrations={registrations}
+                      agreements={agreements}
+                      selectedSource={quickSource}
+                      onSelectRegistration={handleSelectRegistration}
+                      onSelectAgreement={handleSelectAgreement}
+                      onClear={handleClearQuickSource}
+                    />
                   </div>
                 )}
 
@@ -647,8 +629,15 @@ export default function TrackingClient({
                         value={newRegNumber}
                         onFocus={() => setShowRegSuggestions(true)}
                         onChange={(e) => {
-                          setNewRegNumber(e.target.value);
+                          const val = e.target.value;
+                          setNewRegNumber(val);
                           setShowRegSuggestions(true);
+                          if (!val) {
+                            setQuickSource('');
+                          } else {
+                            const found = registrations.find((r) => r.registration_number.toLowerCase() === val.toLowerCase());
+                            if (found) setQuickSource(`reg:${found.registration_number}`);
+                          }
                         }}
                         className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-[#0052ff] font-mono text-xs pr-8 transition"
                       />
@@ -657,6 +646,7 @@ export default function TrackingClient({
                           type="button"
                           onClick={() => {
                             setNewRegNumber('');
+                            setQuickSource('');
                             setShowRegSuggestions(false);
                           }}
                           className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 p-0.5 cursor-pointer"
