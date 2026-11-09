@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { getEnv } from '@/lib/env';
+import { validateEmail, validateWhatsAppNumber } from '@/lib/contact-validator';
 
 // Anti-spam registration rate limiter: max 5 submissions per hour per IP
 const registrationRateLimits = new Map<string, { count: number; firstAttempt: number }>();
@@ -59,6 +60,24 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // 1. Live DNS MX and disposable email verification to prevent fake emails
+    const emailCheck = await validateEmail(email);
+    if (!emailCheck.valid) {
+      return NextResponse.json(
+        { error: emailCheck.error || 'Email tidak valid atau tidak memiliki server email aktif.' },
+        { status: 400 }
+      );
+    }
+
+    // 2. Mobile operator carrier check for WhatsApp to prevent fake phone numbers
+    const waCheck = validateWhatsAppNumber(whatsapp);
+    if (!waCheck.valid) {
+      return NextResponse.json(
+        { error: waCheck.error || 'Nomor WhatsApp tidak valid.' },
+        { status: 400 }
+      );
+    }
+
     if (!business_name || !ownership_status || !business_address) {
       return NextResponse.json(
         { error: 'Mohon lengkapi seluruh Informasi Bisnis (02. Business Information).' },
@@ -91,7 +110,7 @@ export async function POST(req: NextRequest) {
         {
           full_name: full_name.trim(),
           email: email.trim().toLowerCase(),
-          whatsapp: whatsapp.trim(),
+          whatsapp: waCheck.formatted,
           domicile_address: domicile_address.trim(),
           business_name: business_name.trim(),
           ownership_status: ownership_status.trim(),
@@ -133,8 +152,8 @@ export async function POST(req: NextRequest) {
 🆔 *Ref:* \`${registrationNumber}\`
 👤 *Nama:* ${full_name}
 🏢 *Bisnis:* ${business_name} (${ownership_status})
-${legal_entity ? `🏛 *Badan Usaha:* ${legal_entity}\n` : ''}📱 *WhatsApp:* ${whatsapp}
-✉️ *Email:* ${email}
+${legal_entity ? `🏛 *Badan Usaha:* ${legal_entity}\n` : ''}📱 *WhatsApp:* ${waCheck.formatted} _(${waCheck.operator})_
+✉️ *Email:* ${email} _(${emailCheck.provider})_
 🌐 *Domain Diminta:* ${domain_name || '-'}
 🛡 *Opsi Domain:* ${domain_identity_option || '-'}
 🏢 *Registrar:* ${domain_registrar || '-'}

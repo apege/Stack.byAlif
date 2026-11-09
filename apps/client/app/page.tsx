@@ -7,6 +7,7 @@ import {
   ShieldCheck,
   CheckCircle2,
   AlertCircle,
+  AlertTriangle,
   FileCheck2,
   Lock,
   ArrowRight,
@@ -48,6 +49,89 @@ export default function ClientRegistrationPage() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [submittedRef, setSubmittedRef] = useState<string | null>(null);
 
+  // Real-time verification states for preventing fake identity
+  const [emailValidation, setEmailValidation] = useState<{
+    status: 'idle' | 'checking' | 'valid' | 'invalid';
+    message?: string;
+    provider?: string;
+  }>({ status: 'idle' });
+
+  const [waValidation, setWaValidation] = useState<{
+    status: 'idle' | 'checking' | 'valid' | 'invalid';
+    message?: string;
+    operator?: string;
+    formatted?: string;
+  }>({ status: 'idle' });
+
+  // Live email validation (checks DNS MX and burner domain blacklist)
+  const validateEmailLive = async (val: string) => {
+    const trimmed = val.trim();
+    if (!trimmed || !trimmed.includes('@')) {
+      setEmailValidation({ status: 'idle' });
+      return;
+    }
+
+    setEmailValidation({ status: 'checking', message: 'Memverifikasi keaslian server & domain email...' });
+
+    try {
+      const res = await fetch('/api/validate-contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'email', value: trimmed }),
+      });
+      const data = await res.json();
+      if (data.valid) {
+        setEmailValidation({
+          status: 'valid',
+          provider: data.provider,
+          message: `Server email aktif (${data.provider || 'MX Verified'}) • Siap menerima konfirmasi`,
+        });
+      } else {
+        setEmailValidation({
+          status: 'invalid',
+          message: data.error || 'Domain email tidak aktif atau tidak ditemukan.',
+        });
+      }
+    } catch {
+      setEmailValidation({ status: 'idle' });
+    }
+  };
+
+  // Live WhatsApp number validation (checks carrier prefixes and length)
+  const validateWhatsAppLive = async (val: string) => {
+    const trimmed = val.trim();
+    if (!trimmed || trimmed.length < 5) {
+      setWaValidation({ status: 'idle' });
+      return;
+    }
+
+    setWaValidation({ status: 'checking', message: 'Memeriksa operator seluler WhatsApp...' });
+
+    try {
+      const res = await fetch('/api/validate-contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'whatsapp', value: trimmed }),
+      });
+      const data = await res.json();
+      if (data.valid) {
+        setWaValidation({
+          status: 'valid',
+          operator: data.operator,
+          formatted: data.formatted,
+          message: `Nomor seluler valid: ${data.operator} (${data.formatted})`,
+        });
+      } else {
+        setWaValidation({
+          status: 'invalid',
+          message: data.error || 'Nomor WhatsApp tidak valid.',
+        });
+      }
+    } catch {
+      setWaValidation({ status: 'idle' });
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
@@ -55,6 +139,16 @@ export default function ClientRegistrationPage() {
     // Validation
     if (!formData.full_name.trim() || !formData.email.trim() || !formData.whatsapp.trim() || !formData.domicile_address.trim()) {
       setErrorMsg('Mohon isi semua data di bagian 01. Personal Information.');
+      return;
+    }
+
+    if (emailValidation.status === 'invalid') {
+      setErrorMsg(emailValidation.message || 'Email tidak valid atau tidak memiliki server aktif.');
+      return;
+    }
+
+    if (waValidation.status === 'invalid') {
+      setErrorMsg(waValidation.message || 'Nomor WhatsApp tidak valid.');
       return;
     }
 
@@ -295,31 +389,127 @@ export default function ClientRegistrationPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">
-                    Email aktif
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="email@example.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition-colors"
-                  />
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-xs font-medium text-zinc-300">
+                      Email aktif
+                    </label>
+                    <span className="text-[10px] text-zinc-500">Terverifikasi MX & Anti-Burner</span>
+                  </div>
+                  <div className="relative">
+                    <input
+                      type="email"
+                      required
+                      placeholder="email@example.com"
+                      value={formData.email}
+                      onBlur={(e) => validateEmailLive(e.target.value)}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setFormData({ ...formData, email: val });
+                        if (emailValidation.status !== 'idle') {
+                          setEmailValidation({ status: 'idle' });
+                        }
+                      }}
+                      className={`w-full bg-zinc-950 border ${
+                        emailValidation.status === 'valid'
+                          ? 'border-emerald-500/50 focus:border-emerald-500 text-emerald-200'
+                          : emailValidation.status === 'invalid'
+                          ? 'border-rose-500/50 focus:border-rose-500 text-rose-200'
+                          : 'border-zinc-800 focus:border-zinc-500 text-zinc-100'
+                      } rounded-xl px-4 py-3 text-sm placeholder-zinc-600 focus:outline-none transition-colors pr-10`}
+                    />
+                    <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
+                      {emailValidation.status === 'checking' && (
+                        <Loader2 className="w-4 h-4 text-sky-400 animate-spin" />
+                      )}
+                      {emailValidation.status === 'valid' && (
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                      )}
+                      {emailValidation.status === 'invalid' && (
+                        <AlertTriangle className="w-4 h-4 text-rose-400" />
+                      )}
+                    </div>
+                  </div>
+
+                  {emailValidation.status === 'valid' && (
+                    <div className="flex items-center gap-1.5 text-[11px] text-emerald-400 mt-1.5 animate-in fade-in">
+                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                      <span>{emailValidation.message}</span>
+                    </div>
+                  )}
+                  {emailValidation.status === 'invalid' && (
+                    <div className="flex items-center gap-1.5 text-[11px] text-rose-400 mt-1.5 animate-in fade-in">
+                      <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+                      <span>{emailValidation.message}</span>
+                    </div>
+                  )}
+                  {emailValidation.status === 'checking' && (
+                    <div className="flex items-center gap-1.5 text-[11px] text-slate-400 mt-1.5 animate-in fade-in">
+                      <Loader2 className="w-3.5 h-3.5 shrink-0 animate-spin text-sky-400" />
+                      <span>{emailValidation.message}</span>
+                    </div>
+                  )}
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">
-                    Nomor WhatsApp
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    placeholder="+62xxxxxxxxxxx"
-                    value={formData.whatsapp}
-                    onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 transition-colors"
-                  />
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-xs font-medium text-zinc-300">
+                      Nomor WhatsApp
+                    </label>
+                    <span className="text-[10px] text-zinc-500">Operator Seluler Indonesia</span>
+                  </div>
+                  <div className="relative">
+                    <input
+                      type="tel"
+                      required
+                      placeholder="Contoh: 08123456789 atau +628123456789"
+                      value={formData.whatsapp}
+                      onBlur={(e) => validateWhatsAppLive(e.target.value)}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setFormData({ ...formData, whatsapp: val });
+                        if (waValidation.status !== 'idle') {
+                          setWaValidation({ status: 'idle' });
+                        }
+                      }}
+                      className={`w-full bg-zinc-950 border ${
+                        waValidation.status === 'valid'
+                          ? 'border-emerald-500/50 focus:border-emerald-500 text-emerald-200'
+                          : waValidation.status === 'invalid'
+                          ? 'border-rose-500/50 focus:border-rose-500 text-rose-200'
+                          : 'border-zinc-800 focus:border-zinc-500 text-zinc-100'
+                      } rounded-xl px-4 py-3 text-sm placeholder-zinc-600 focus:outline-none transition-colors pr-10`}
+                    />
+                    <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
+                      {waValidation.status === 'checking' && (
+                        <Loader2 className="w-4 h-4 text-sky-400 animate-spin" />
+                      )}
+                      {waValidation.status === 'valid' && (
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                      )}
+                      {waValidation.status === 'invalid' && (
+                        <AlertTriangle className="w-4 h-4 text-rose-400" />
+                      )}
+                    </div>
+                  </div>
+
+                  {waValidation.status === 'valid' && (
+                    <div className="flex items-center gap-1.5 text-[11px] text-emerald-400 mt-1.5 animate-in fade-in">
+                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                      <span>{waValidation.message}</span>
+                    </div>
+                  )}
+                  {waValidation.status === 'invalid' && (
+                    <div className="flex items-center gap-1.5 text-[11px] text-rose-400 mt-1.5 animate-in fade-in">
+                      <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+                      <span>{waValidation.message}</span>
+                    </div>
+                  )}
+                  {waValidation.status === 'checking' && (
+                    <div className="flex items-center gap-1.5 text-[11px] text-slate-400 mt-1.5 animate-in fade-in">
+                      <Loader2 className="w-3.5 h-3.5 shrink-0 animate-spin text-sky-400" />
+                      <span>{waValidation.message}</span>
+                    </div>
+                  )}
                 </div>
 
                 <div>
