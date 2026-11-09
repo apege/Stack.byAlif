@@ -431,18 +431,18 @@ export default function InvoicesClient({
       </div>
 
       {/* 3. Invoices Table */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl shadow-sm">
-        <div className="overflow-x-auto overflow-y-visible min-h-[280px]">
-          <table className="min-w-[880px] w-full text-left text-sm">
-            <thead className="bg-slate-950/80 border-b border-slate-800 text-xs font-semibold text-slate-400 uppercase tracking-wider">
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl shadow-sm overflow-hidden">
+        <div className="overflow-x-auto min-h-[280px]">
+          <table className="w-full text-left text-xs sm:text-sm">
+            <thead className="bg-slate-950/80 border-b border-slate-800 text-[11px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider">
               <tr>
-                <th className="py-4 px-6 whitespace-nowrap">No. Invoice & Tanggal</th>
-                <th className="py-4 px-6 whitespace-nowrap">Klien & Proyek</th>
-                <th className="py-4 px-6 whitespace-nowrap">Tipe Tagihan</th>
-                <th className="py-4 px-6 whitespace-nowrap">Total Nominal</th>
-                <th className="py-4 px-6 whitespace-nowrap">Jatuh Tempo</th>
-                <th className="py-4 px-6 whitespace-nowrap">Status</th>
-                <th className="py-4 px-6 text-right whitespace-nowrap w-16">Aksi</th>
+                <th className="py-4 px-3 sm:px-4 whitespace-nowrap w-[18%]">No. Invoice & Tanggal</th>
+                <th className="py-4 px-3 sm:px-4 w-[24%]">Klien & Proyek</th>
+                <th className="py-4 px-3 sm:px-4 whitespace-nowrap w-[13%]">Tipe Tagihan</th>
+                <th className="py-4 px-3 sm:px-4 whitespace-nowrap w-[15%]">Total Nominal</th>
+                <th className="py-4 px-3 sm:px-4 whitespace-nowrap w-[12%]">Jatuh Tempo</th>
+                <th className="py-4 px-3 sm:px-4 whitespace-nowrap w-[12%]">Status</th>
+                <th className="py-4 px-3 sm:px-4 text-right whitespace-nowrap w-[6%]">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800 text-slate-300">
@@ -456,7 +456,7 @@ export default function InvoicesClient({
               ) : (
                 filteredInvoices.map((inv) => (
                   <tr key={inv.id} className="hover:bg-slate-800/40 transition-colors">
-                    <td className="py-4 px-6 whitespace-nowrap">
+                    <td className="py-4 px-3 sm:px-4 whitespace-nowrap">
                       <div className="font-mono font-bold text-white flex items-center gap-2">
                         {inv.invoice_number}
                       </div>
@@ -465,14 +465,16 @@ export default function InvoicesClient({
                       </span>
                     </td>
 
-                    <td className="py-4 px-6 whitespace-nowrap">
-                      <div className="font-semibold text-white">{inv.client_name}</div>
+                    <td className="py-4 px-3 sm:px-4">
+                      <div className="font-semibold text-white truncate max-w-[200px]" title={inv.client_name}>
+                        {inv.client_name}
+                      </div>
                       <div className="text-xs text-slate-400 flex items-center gap-1.5 mt-0.5">
-                        <span className="truncate max-w-[220px]">{inv.project_title}</span>
+                        <span className="truncate max-w-[200px]" title={inv.project_title}>{inv.project_title}</span>
                       </div>
                     </td>
 
-                    <td className="py-4 px-6 whitespace-nowrap">
+                    <td className="py-4 px-3 sm:px-4 whitespace-nowrap">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold whitespace-nowrap ${
                         inv.invoice_type === 'down_payment'
                           ? 'bg-amber-950/80 text-amber-400 border border-amber-800/60'
@@ -490,13 +492,13 @@ export default function InvoicesClient({
                       </span>
                     </td>
 
-                    <td className="py-4 px-6 whitespace-nowrap">
-                      <span className="font-bold text-white text-base font-mono">
+                    <td className="py-4 px-3 sm:px-4 whitespace-nowrap">
+                      <span className="font-bold text-white text-sm sm:text-base font-mono">
                         {formatRupiah(inv.total_amount)}
                       </span>
                     </td>
 
-                    <td className="py-4 px-6 whitespace-nowrap">
+                    <td className="py-4 px-3 sm:px-4 whitespace-nowrap">
                       <span className="text-xs text-slate-300 font-mono block">
                         {inv.due_date}
                       </span>
@@ -507,10 +509,10 @@ export default function InvoicesClient({
                       )}
                     </td>
 
-                    <td className="py-4 px-6 whitespace-nowrap">
+                    <td className="py-4 px-3 sm:px-4 whitespace-nowrap">
                       <button
                         onClick={() => handleToggleStatus(inv)}
-                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
+                        className={`inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
                           inv.status === 'paid'
                             ? 'bg-emerald-950 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-900/60'
                             : inv.status === 'unpaid'
@@ -535,7 +537,7 @@ export default function InvoicesClient({
                       </button>
                     </td>
 
-                    <td className="py-4 px-6 text-right whitespace-nowrap">
+                    <td className="py-4 px-3 sm:px-4 text-right whitespace-nowrap">
                       <div className="relative inline-block text-left">
                         <button
                           type="button"

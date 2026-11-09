@@ -186,17 +186,17 @@ export default function RegistrationsClient({
       </div>
 
       {/* Registrations Table */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl shadow-xl">
-        <div className="overflow-x-auto overflow-y-visible min-h-[280px]">
-          <table className="min-w-[920px] w-full text-left text-xs">
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl shadow-xl overflow-hidden">
+        <div className="overflow-x-auto min-h-[280px]">
+          <table className="w-full text-left text-xs">
             <thead className="bg-slate-950/60 text-slate-400 border-b border-slate-800 uppercase tracking-wider text-[11px]">
               <tr>
-                <th className="py-3.5 px-4 font-semibold whitespace-nowrap">Ref ID</th>
-                <th className="py-3.5 px-4 font-semibold whitespace-nowrap">Klien & Bisnis</th>
-                <th className="py-3.5 px-4 font-semibold whitespace-nowrap">Kontak</th>
-                <th className="py-3.5 px-4 font-semibold whitespace-nowrap">Permintaan Domain</th>
-                <th className="py-3.5 px-4 font-semibold whitespace-nowrap">Status</th>
-                <th className="py-3.5 px-4 font-semibold text-right whitespace-nowrap w-16">Aksi</th>
+                <th className="py-3.5 px-3 sm:px-4 font-semibold whitespace-nowrap w-[14%]">Ref ID</th>
+                <th className="py-3.5 px-3 sm:px-4 font-semibold w-[25%]">Klien & Bisnis</th>
+                <th className="py-3.5 px-3 sm:px-4 font-semibold w-[20%]">Kontak</th>
+                <th className="py-3.5 px-3 sm:px-4 font-semibold w-[22%]">Permintaan Domain</th>
+                <th className="py-3.5 px-3 sm:px-4 font-semibold whitespace-nowrap w-[13%]">Status</th>
+                <th className="py-3.5 px-3 sm:px-4 font-semibold text-right whitespace-nowrap w-[6%]">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800 text-slate-300">
@@ -209,40 +209,42 @@ export default function RegistrationsClient({
               ) : (
                 filtered.map((reg) => (
                   <tr key={reg.id} className="hover:bg-slate-800/40 transition-colors">
-                    <td className="py-3.5 px-4 whitespace-nowrap">
-                      <span className="font-mono font-bold text-emerald-400 block">
+                    <td className="py-3.5 px-3 sm:px-4 whitespace-nowrap">
+                      <span className="font-mono font-bold text-emerald-400 block tracking-tight">
                         {reg.registration_number}
                       </span>
                       <span className="block text-[10px] text-slate-500 font-sans mt-0.5">
                         {new Date(reg.created_at).toLocaleDateString('id-ID')}
                       </span>
                     </td>
-                    <td className="py-3.5 px-4 whitespace-nowrap">
-                      <div className="font-semibold text-white">{reg.business_name}</div>
-                      <div className="text-slate-400 text-[11px]">
+                    <td className="py-3.5 px-3 sm:px-4">
+                      <div className="font-semibold text-white truncate max-w-[200px]" title={reg.business_name}>
+                        {reg.business_name}
+                      </div>
+                      <div className="text-slate-400 text-[11px] truncate max-w-[200px]" title={`${reg.full_name} (${reg.ownership_status})`}>
                         {reg.full_name} ({reg.ownership_status})
                       </div>
                       {reg.legal_entity && (
-                        <span className="text-[10px] text-slate-500 block">
+                        <span className="text-[10px] text-slate-500 block truncate max-w-[200px]">
                           {reg.legal_entity}
                         </span>
                       )}
                     </td>
-                    <td className="py-3.5 px-4 whitespace-nowrap">
-                      <div className="text-white font-mono text-[11px]">{reg.whatsapp}</div>
-                      <div className="text-slate-400 text-[11px]">
+                    <td className="py-3.5 px-3 sm:px-4">
+                      <div className="text-white font-mono text-[11px] whitespace-nowrap">{reg.whatsapp}</div>
+                      <div className="text-slate-400 text-[11px] truncate max-w-[180px]" title={reg.email}>
                         {reg.email}
                       </div>
                     </td>
-                    <td className="py-3.5 px-4 whitespace-nowrap">
-                      <span className="font-semibold text-slate-200 block">
+                    <td className="py-3.5 px-3 sm:px-4">
+                      <span className="font-semibold text-slate-200 block truncate max-w-[200px]" title={reg.domain_name || 'Tidak ada'}>
                         {reg.domain_name || 'Tidak ada'}
                       </span>
-                      <span className="block text-[10px] text-slate-400">
+                      <span className="block text-[10px] text-slate-400 truncate max-w-[200px]" title={reg.domain_identity_option || '-'}>
                         {reg.domain_identity_option || '-'}
                       </span>
                     </td>
-                    <td className="py-3.5 px-4 whitespace-nowrap">
+                    <td className="py-3.5 px-3 sm:px-4 whitespace-nowrap">
                       {reg.status === 'converted' ? (
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 whitespace-nowrap">
                           <CheckCircle2 className="w-3 h-3" />
@@ -265,7 +267,7 @@ export default function RegistrationsClient({
                         </span>
                       )}
                     </td>
-                    <td className="py-3.5 px-4 text-right whitespace-nowrap">
+                    <td className="py-3.5 px-3 sm:px-4 text-right whitespace-nowrap">
                       <div className="relative inline-block text-left">
                         <button
                           type="button"
