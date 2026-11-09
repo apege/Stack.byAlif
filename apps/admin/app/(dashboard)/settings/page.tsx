@@ -288,12 +288,12 @@ export default function SettingsPage() {
   return (
     <div className="space-y-8 max-w-5xl mx-auto pb-12">
       {/* Page Header */}
-      <div className="pb-6 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="pb-6 border-b border-slate-800/80 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <span className="text-xs font-bold tracking-widest text-sky-400 uppercase">
+          <span className="text-[11px] font-semibold tracking-widest text-slate-400 uppercase">
             Identitas Resmi & Kontrak
           </span>
-          <h1 className="text-3xl font-extrabold text-white tracking-tight mt-1">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mt-1">
             Pengaturan Profil Usaha
           </h1>
           <p className="text-slate-400 text-sm mt-1">
@@ -596,7 +596,7 @@ export default function SettingsPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="w-full py-3 px-6 rounded-xl bg-sky-600 hover:bg-sky-500 disabled:opacity-50 text-white font-semibold text-sm flex items-center justify-center gap-2 transition shadow-lg shadow-sky-600/20 cursor-pointer"
+                className="w-full py-3 px-6 rounded-xl bg-[#0052ff] hover:bg-[#0045d8] disabled:opacity-50 text-white font-medium text-sm flex items-center justify-center gap-2 transition shadow-xs cursor-pointer"
               >
                 {saving ? (
                   <>

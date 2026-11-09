@@ -292,7 +292,7 @@ export default function ClientAgreementPortal({ initialRef }: { initialRef: stri
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full mt-2 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-medium py-3 rounded-xl flex items-center justify-center gap-2 transition duration-200 disabled:opacity-50 shadow-lg shadow-sky-500/25 cursor-pointer"
+                className="w-full mt-2 bg-[#0052ff] hover:bg-[#0045d8] text-white font-medium py-3 rounded-xl flex items-center justify-center gap-2 transition duration-200 disabled:opacity-50 shadow-xs cursor-pointer"
               >
                 {loading ? (
                   <>

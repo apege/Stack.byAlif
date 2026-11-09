@@ -144,7 +144,7 @@ export default function InquiriesClient({ initialInquiries }: { initialInquiries
                     <button
                       onClick={() => handleUpdateStatus(inquiry.id, 'contacted')}
                       disabled={loadingId === inquiry.id}
-                      className="px-3 py-1.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
+                      className="px-3 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-300 text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
                     >
                       <Check className="w-3.5 h-3.5" />
                       <span>Tandai Dihubungi</span>

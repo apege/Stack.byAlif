@@ -82,10 +82,10 @@ export default function LoginPage() {
 
       <div className="w-full max-w-md bg-slate-900/90 border border-slate-800 rounded-2xl p-8 backdrop-blur-xl shadow-2xl relative z-10">
         <div className="flex flex-col items-center text-center mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-sky-500 to-blue-600 flex items-center justify-center text-white mb-4 shadow-lg shadow-sky-500/20">
-            <Lock className="w-7 h-7" />
+          <div className="w-12 h-12 rounded-2xl bg-[#0052ff] flex items-center justify-center text-white mb-4 shadow-xs">
+            <Lock className="w-6 h-6" />
           </div>
-          <span className="text-xs font-bold tracking-widest text-sky-400 uppercase">
+          <span className="text-[11px] font-semibold tracking-widest text-slate-400 uppercase">
             Stack.byAlif Internal Portal
           </span>
           <h1 className="text-2xl font-bold text-white mt-1">Admin Access</h1>
@@ -139,7 +139,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-2 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-medium py-3 rounded-xl flex items-center justify-center gap-2 transition duration-200 disabled:opacity-50 shadow-lg shadow-sky-500/25 cursor-pointer"
+            className="w-full mt-2 bg-[#0052ff] hover:bg-[#0045d8] text-white font-medium py-3 rounded-xl flex items-center justify-center gap-2 transition duration-200 disabled:opacity-50 shadow-xs cursor-pointer"
           >
             {loading ? (
               <>

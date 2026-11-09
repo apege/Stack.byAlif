@@ -515,7 +515,7 @@ _Tautan ini dilindungi tanda tangan digital dan enkripsi berstandar UU ITE._`;
 
         <button
           onClick={() => setShowModal(true)}
-          className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-medium px-4 py-2.5 rounded-xl text-sm transition shadow-lg shadow-sky-500/20 cursor-pointer"
+          className="inline-flex items-center gap-2 bg-[#0052ff] hover:bg-[#0045d8] text-white font-medium px-4 py-2.5 rounded-xl text-sm transition shadow-xs cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>Buat Agreement Baru</span>
@@ -663,7 +663,7 @@ _Tautan ini dilindungi tanda tangan digital dan enkripsi berstandar UU ITE._`;
                       className={`px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer ${
                         agreement.provider_signature_data
                           ? 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700'
-                          : 'bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white shadow-md shadow-sky-500/20'
+                          : 'bg-[#0052ff] hover:bg-[#0045d8] text-white shadow-xs'
                       }`}
                       title={agreement.provider_signature_data ? 'Ubah Tanda Tangan Anda' : 'Bubuhkan Tanda Tangan Anda sebagai Pihak Pertama'}
                     >
@@ -682,7 +682,7 @@ _Tautan ini dilindungi tanda tangan digital dan enkripsi berstandar UU ITE._`;
                     {(isSigned || agreement.provider_signature_data) && (
                       <button
                         onClick={() => setViewSigned(agreement)}
-                        className="px-3.5 py-2 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
+                        className="px-3.5 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-300 text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
                       >
                         <ShieldCheck className="w-3.5 h-3.5" />
                         <span>Lihat Bukti TTD</span>
@@ -1027,7 +1027,7 @@ _Tautan ini dilindungi tanda tangan digital dan enkripsi berstandar UU ITE._`;
                 type="button"
                 disabled={isSigningProvider}
                 onClick={handleSaveProviderSignature}
-                className="py-2.5 px-5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-bold text-xs flex items-center gap-2 transition disabled:opacity-50 cursor-pointer shadow-lg shadow-sky-500/20"
+                className="py-2.5 px-5 rounded-xl bg-[#0052ff] hover:bg-[#0045d8] text-white font-medium text-xs flex items-center gap-2 transition disabled:opacity-50 cursor-pointer shadow-xs"
               >
                 {isSigningProvider ? (
                   <>

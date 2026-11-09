@@ -273,7 +273,7 @@ export default function TrackingClient({
                 onClick={() => setStatusFilter(st)}
                 className={`px-3 py-1.5 rounded-lg capitalize font-medium transition-all ${
                   statusFilter === st
-                    ? 'bg-sky-600 text-white shadow'
+                    ? 'bg-[#0052ff] text-white shadow-xs'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -284,7 +284,7 @@ export default function TrackingClient({
 
           <button
             onClick={() => setIsCreateOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-sm font-semibold shadow-md transition-all shrink-0"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0052ff] hover:bg-[#0045d8] text-white text-sm font-medium shadow-xs transition-all shrink-0 cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             Mulai Tracker Proyek
@@ -357,9 +357,9 @@ export default function TrackingClient({
                     <span className="text-slate-400">Total Progres</span>
                     <span className="text-sky-400 font-mono">{item.progress_percent}% Selesai</span>
                   </div>
-                  <div className="w-full bg-slate-950 h-3 rounded-full overflow-hidden border border-slate-800">
+                  <div className="w-full bg-slate-950 h-2.5 rounded-full overflow-hidden border border-slate-800">
                     <div
-                      className="bg-gradient-to-r from-sky-500 to-emerald-400 h-full rounded-full transition-all duration-500 shadow-sm"
+                      className="bg-[#0052ff] h-full rounded-full transition-all duration-500 shadow-xs"
                       style={{ width: `${item.progress_percent}%` }}
                     />
                   </div>
@@ -590,7 +590,7 @@ export default function TrackingClient({
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold shadow-md transition-all disabled:opacity-50"
+                  className="px-5 py-2.5 rounded-xl bg-[#0052ff] hover:bg-[#0045d8] text-white font-medium shadow-xs transition-all disabled:opacity-50 cursor-pointer text-sm"
                 >
                   {loading ? 'Menyimpan...' : 'Mulai Tracking Proyek'}
                 </button>
@@ -716,7 +716,7 @@ export default function TrackingClient({
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold shadow-md transition-all disabled:opacity-50"
+                  className="px-5 py-2.5 rounded-xl bg-[#0052ff] hover:bg-[#0045d8] text-white font-medium shadow-xs transition-all disabled:opacity-50 cursor-pointer text-sm"
                 >
                   {loading ? 'Menyimpan...' : 'Perbarui Status'}
                 </button>

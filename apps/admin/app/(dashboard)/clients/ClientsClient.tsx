@@ -146,7 +146,7 @@ export default function ClientsClient({ initialClients }: { initialClients: Clie
 
         <button
           onClick={handleOpenAdd}
-          className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-medium px-4 py-2.5 rounded-xl text-sm transition shadow-lg shadow-sky-500/20 cursor-pointer self-start sm:self-auto"
+          className="inline-flex items-center gap-2 bg-[#0052ff] hover:bg-[#0045d8] text-white font-medium px-4 py-2.5 rounded-xl text-sm transition shadow-xs cursor-pointer self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
           <span>Tambah Klien Baru</span>
@@ -343,7 +343,7 @@ export default function ClientsClient({ initialClients }: { initialClients: Clie
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white text-sm font-medium transition cursor-pointer disabled:opacity-50"
+                  className="px-5 py-2.5 rounded-xl bg-[#0052ff] hover:bg-[#0045d8] text-white text-sm font-medium transition cursor-pointer disabled:opacity-50 shadow-xs"
                 >
                   {loading ? 'Menyimpan...' : 'Simpan Klien'}
                 </button>

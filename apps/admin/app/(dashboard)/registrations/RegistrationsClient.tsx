@@ -224,22 +224,22 @@ export default function RegistrationsClient({
                     </td>
                     <td className="py-3.5 px-4">
                       {reg.status === 'converted' ? (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-blue-950/80 text-blue-400 border border-blue-500/30">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
                           <CheckCircle2 className="w-3 h-3" />
                           Klien Resmi
                         </span>
                       ) : reg.status === 'verified' ? (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-emerald-950/80 text-emerald-400 border border-emerald-500/30">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                           <ShieldCheck className="w-3 h-3" />
                           Terverifikasi
                         </span>
                       ) : reg.status === 'rejected' ? (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-red-950/80 text-red-400 border border-red-500/30">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20">
                           <XCircle className="w-3 h-3" />
                           Ditolak
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-amber-950/80 text-amber-400 border border-amber-500/30">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
                           <Clock className="w-3 h-3" />
                           Perlu Review
                         </span>

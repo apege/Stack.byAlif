@@ -392,7 +392,7 @@ export default function InvoicesClient({
                 onClick={() => setStatusFilter(st)}
                 className={`px-3 py-1.5 rounded-lg capitalize font-medium transition-all ${
                   statusFilter === st
-                    ? 'bg-sky-600 text-white shadow'
+                    ? 'bg-[#0052ff] text-white shadow-xs'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -403,7 +403,7 @@ export default function InvoicesClient({
 
           <button
             onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-sm font-semibold shadow-md transition-all shrink-0"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0052ff] hover:bg-[#0045d8] text-white text-sm font-medium shadow-xs transition-all shrink-0 cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             Terbitkan Invoice
@@ -807,7 +807,7 @@ export default function InvoicesClient({
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold shadow-md transition-all disabled:opacity-50"
+                  className="px-5 py-2.5 rounded-xl bg-[#0052ff] hover:bg-[#0045d8] text-white font-medium shadow-xs transition-all disabled:opacity-50 cursor-pointer text-sm"
                 >
                   {loading ? 'Menerbitkan...' : 'Terbitkan & Simpan Invoice'}
                 </button>

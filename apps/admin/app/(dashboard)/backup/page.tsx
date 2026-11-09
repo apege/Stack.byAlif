@@ -48,11 +48,11 @@ export default function BackupPage() {
 
   return (
     <div className="space-y-8 max-w-5xl mx-auto">
-      <div className="pb-6 border-b border-slate-800">
-        <span className="text-xs font-bold tracking-widest text-sky-400 uppercase">
-          Data Protection & Disaster Recovery
+      <div className="pb-6 border-b border-slate-800/80">
+        <span className="text-[11px] font-semibold tracking-widest text-slate-400 uppercase">
+          Sistem & Disaster Recovery
         </span>
-        <h1 className="text-3xl font-extrabold text-white tracking-tight mt-1">
+        <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mt-1">
           Backup Database & Dokumen Kontrak
         </h1>
         <p className="text-slate-400 text-sm mt-1">
@@ -61,10 +61,10 @@ export default function BackupPage() {
       </div>
 
       {/* Main Download Card */}
-      <div className="p-8 bg-slate-900 border border-slate-800 rounded-2xl shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="p-8 bg-[#0d1322] border border-slate-800/80 rounded-2xl shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400">
+            <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-[#0052ff]">
               <Database className="w-5 h-5" />
             </div>
             <div>
@@ -79,7 +79,7 @@ export default function BackupPage() {
         <button
           onClick={handleDownloadBackup}
           disabled={downloading}
-          className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-medium px-5 py-3 rounded-xl text-sm transition shadow-lg shadow-sky-500/20 disabled:opacity-50 cursor-pointer shrink-0"
+          className="inline-flex items-center gap-2 bg-[#0052ff] hover:bg-[#0045d8] text-white font-medium px-5 py-3 rounded-xl text-sm transition shadow-xs disabled:opacity-50 cursor-pointer shrink-0"
         >
           {downloading ? (
             <>

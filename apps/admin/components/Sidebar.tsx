@@ -44,24 +44,24 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-64 bg-slate-900 border-r border-slate-800 flex flex-col shrink-0 h-screen sticky top-0">
+    <aside className="w-64 bg-[#0b0f19] border-r border-slate-800/80 flex flex-col shrink-0 h-screen sticky top-0">
       {/* Brand Header */}
       <div className="p-6 border-b border-slate-800/80 shrink-0">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl overflow-hidden shrink-0 flex items-center justify-center bg-slate-950 border border-slate-800 shadow-md">
+          <div className="w-9 h-9 rounded-xl overflow-hidden shrink-0 flex items-center justify-center bg-slate-950 border border-slate-800 shadow-xs">
             <Image
               src="/images/logo.png"
               alt="Stack.byAlif Logo"
-              width={40}
-              height={40}
+              width={36}
+              height={36}
               className="w-full h-full object-contain p-0.5"
             />
           </div>
           <div>
             <span className="font-bold text-sm tracking-tight text-white block">
-              Stack.byAlif
+              Stack<span className="text-[#0052ff]">.</span>byAlif
             </span>
-            <span className="text-[10px] text-sky-400 font-semibold tracking-wider uppercase block">
+            <span className="text-[10px] text-slate-400 font-medium tracking-wider uppercase block">
               Admin Portal
             </span>
           </div>
@@ -81,11 +81,11 @@ export default function Sidebar() {
               href={item.href}
               className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all ${
                 isActive
-                  ? 'bg-sky-500/15 text-sky-400 border border-sky-500/30'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                  ? 'bg-slate-800/90 text-white border border-slate-700/80 shadow-xs'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'
               }`}
             >
-              <Icon className="w-4 h-4 shrink-0" />
+              <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#0052ff]' : 'text-slate-400'}`} />
               <span>{item.name}</span>
             </Link>
           );
@@ -93,7 +93,7 @@ export default function Sidebar() {
       </nav>
 
       {/* Bottom Actions */}
-      <div className="p-4 border-t border-slate-800/80 space-y-2 shrink-0 bg-slate-900">
+      <div className="p-4 border-t border-slate-800/80 space-y-2 shrink-0 bg-[#0b0f19]">
         <a
           href="https://stackbyalif.my.id"
           target="_blank"
@@ -106,7 +106,7 @@ export default function Sidebar() {
 
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm text-red-400 hover:bg-red-950/40 hover:text-red-300 transition cursor-pointer"
+          className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm text-rose-400/90 hover:bg-rose-950/30 hover:text-rose-300 transition cursor-pointer"
         >
           <LogOut className="w-4 h-4 shrink-0" />
           <span>Keluar (Logout)</span>
