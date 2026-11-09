@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Receipt,
@@ -20,6 +20,7 @@ import {
   User,
   Building,
   UserCheck,
+  MoreVertical,
 } from 'lucide-react';
 import CustomDatePicker from '@/components/CustomDatePicker';
 import CustomClientSelect from '@/components/CustomClientSelect';
@@ -94,9 +95,23 @@ export default function InvoicesClient({
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'unpaid' | 'paid' | 'cancelled'>('all');
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [openActionMenuId, setOpenActionMenuId] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  // Close 3-dots action menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside() {
+      setOpenActionMenuId(null);
+    }
+    if (openActionMenuId) {
+      document.addEventListener('click', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [openActionMenuId]);
 
   // Form state
   const [selectedClientId, setSelectedClientId] = useState('');
@@ -416,24 +431,24 @@ export default function InvoicesClient({
       </div>
 
       {/* 3. Invoices Table */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-sm">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl shadow-sm">
+        <div className="overflow-x-auto overflow-y-visible min-h-[280px]">
+          <table className="min-w-[880px] w-full text-left text-sm">
             <thead className="bg-slate-950/80 border-b border-slate-800 text-xs font-semibold text-slate-400 uppercase tracking-wider">
               <tr>
-                <th className="py-4 px-6">No. Invoice & Tanggal</th>
-                <th className="py-4 px-6">Klien & Proyek</th>
-                <th className="py-4 px-6">Tipe Tagihan</th>
-                <th className="py-4 px-6">Total Nominal</th>
-                <th className="py-4 px-6">Jatuh Tempo</th>
-                <th className="py-4 px-6">Status</th>
-                <th className="py-4 px-6 text-right">Aksi</th>
+                <th className="py-4 px-6 whitespace-nowrap">No. Invoice & Tanggal</th>
+                <th className="py-4 px-6 whitespace-nowrap">Klien & Proyek</th>
+                <th className="py-4 px-6 whitespace-nowrap">Tipe Tagihan</th>
+                <th className="py-4 px-6 whitespace-nowrap">Total Nominal</th>
+                <th className="py-4 px-6 whitespace-nowrap">Jatuh Tempo</th>
+                <th className="py-4 px-6 whitespace-nowrap">Status</th>
+                <th className="py-4 px-6 text-right whitespace-nowrap w-16">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800 text-slate-300">
               {filteredInvoices.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="py-12 text-center text-slate-500">
+                  <td colSpan={7} className="py-16 text-center text-slate-500">
                     <Receipt className="w-10 h-10 mx-auto text-slate-600 mb-3 opacity-60" />
                     Belum ada invoice yang sesuai kriteria pencarian.
                   </td>
@@ -441,7 +456,7 @@ export default function InvoicesClient({
               ) : (
                 filteredInvoices.map((inv) => (
                   <tr key={inv.id} className="hover:bg-slate-800/40 transition-colors">
-                    <td className="py-4 px-6">
+                    <td className="py-4 px-6 whitespace-nowrap">
                       <div className="font-mono font-bold text-white flex items-center gap-2">
                         {inv.invoice_number}
                       </div>
@@ -450,15 +465,15 @@ export default function InvoicesClient({
                       </span>
                     </td>
 
-                    <td className="py-4 px-6">
+                    <td className="py-4 px-6 whitespace-nowrap">
                       <div className="font-semibold text-white">{inv.client_name}</div>
                       <div className="text-xs text-slate-400 flex items-center gap-1.5 mt-0.5">
-                        <span className="truncate max-w-[200px]">{inv.project_title}</span>
+                        <span className="truncate max-w-[220px]">{inv.project_title}</span>
                       </div>
                     </td>
 
-                    <td className="py-4 px-6">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold ${
+                    <td className="py-4 px-6 whitespace-nowrap">
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold whitespace-nowrap ${
                         inv.invoice_type === 'down_payment'
                           ? 'bg-amber-950/80 text-amber-400 border border-amber-800/60'
                           : inv.invoice_type === 'final_payment'
@@ -475,27 +490,27 @@ export default function InvoicesClient({
                       </span>
                     </td>
 
-                    <td className="py-4 px-6">
-                      <span className="font-bold text-white text-base">
+                    <td className="py-4 px-6 whitespace-nowrap">
+                      <span className="font-bold text-white text-base font-mono">
                         {formatRupiah(inv.total_amount)}
                       </span>
                     </td>
 
-                    <td className="py-4 px-6">
+                    <td className="py-4 px-6 whitespace-nowrap">
                       <span className="text-xs text-slate-300 font-mono block">
                         {inv.due_date}
                       </span>
                       {inv.status === 'unpaid' && (
-                        <span className="text-[10px] text-amber-400/90 font-medium">
+                        <span className="text-[10px] text-amber-400/90 font-medium whitespace-nowrap">
                           Batas Pembayaran
                         </span>
                       )}
                     </td>
 
-                    <td className="py-4 px-6">
+                    <td className="py-4 px-6 whitespace-nowrap">
                       <button
                         onClick={() => handleToggleStatus(inv)}
-                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
                           inv.status === 'paid'
                             ? 'bg-emerald-950 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-900/60'
                             : inv.status === 'unpaid'
@@ -520,37 +535,98 @@ export default function InvoicesClient({
                       </button>
                     </td>
 
-                    <td className="py-4 px-6 text-right">
-                      <div className="flex items-center justify-end gap-2">
+                    <td className="py-4 px-6 text-right whitespace-nowrap">
+                      <div className="relative inline-block text-left">
                         <button
-                          onClick={() => handleCopyLink(inv)}
-                          className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
-                          title="Salin Link Invoice Klien"
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setOpenActionMenuId(openActionMenuId === inv.id ? null : inv.id);
+                          }}
+                          className={`p-2 rounded-xl transition cursor-pointer select-none ${
+                            openActionMenuId === inv.id
+                              ? 'bg-[#0052ff] text-white shadow-xs'
+                              : 'bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white'
+                          }`}
+                          title="Menu Aksi"
                         >
-                          {copiedId === inv.id ? (
-                            <Check className="w-4 h-4 text-emerald-400" />
-                          ) : (
-                            <Copy className="w-4 h-4" />
-                          )}
+                          <MoreVertical className="w-4 h-4" />
                         </button>
 
-                        <a
-                          href={`https://client.stackbyalif.my.id/invoice/${inv.id}`}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-400 transition-colors"
-                          title="Buka Lembar Invoice Resmi (PDF Preview)"
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                        </a>
+                        {openActionMenuId === inv.id && (
+                          <div
+                            onClick={(e) => e.stopPropagation()}
+                            className="absolute right-0 top-full mt-1.5 z-50 bg-[#0d1322] border border-slate-800 rounded-2xl shadow-2xl p-1.5 min-w-[210px] animate-in fade-in zoom-in-95 duration-100 divide-y divide-slate-800/80"
+                          >
+                            <div className="space-y-0.5 pb-1">
+                              <a
+                                href={`https://client.stackbyalif.my.id/invoice/${inv.id}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                onClick={() => setOpenActionMenuId(null)}
+                                className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-sky-400 hover:bg-sky-500/10 rounded-xl transition text-left cursor-pointer"
+                              >
+                                <ExternalLink className="w-3.5 h-3.5" />
+                                <span>Buka Invoice (Preview)</span>
+                              </a>
 
-                        <button
-                          onClick={() => handleDelete(inv.id)}
-                          className="p-2 rounded-lg bg-slate-800 hover:bg-red-950 text-slate-400 hover:text-red-400 transition-colors"
-                          title="Hapus Invoice"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  handleCopyLink(inv);
+                                }}
+                                className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-slate-200 hover:text-white hover:bg-slate-800/60 rounded-xl transition text-left cursor-pointer"
+                              >
+                                {copiedId === inv.id ? (
+                                  <>
+                                    <Check className="w-3.5 h-3.5 text-emerald-400" />
+                                    <span className="text-emerald-400 font-semibold">Link Tersalin!</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3.5 h-3.5 text-slate-400" />
+                                    <span>Salin Link Invoice</span>
+                                  </>
+                                )}
+                              </button>
+
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  handleToggleStatus(inv);
+                                  setOpenActionMenuId(null);
+                                }}
+                                className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-slate-200 hover:text-white hover:bg-slate-800/60 rounded-xl transition text-left cursor-pointer"
+                              >
+                                {inv.status === 'paid' ? (
+                                  <>
+                                    <Clock className="w-3.5 h-3.5 text-amber-400" />
+                                    <span>Ubah ke Belum Lunas</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                                    <span>Tandai Lunas</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
+
+                            <div className="pt-1">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setOpenActionMenuId(null);
+                                  handleDelete(inv.id);
+                                }}
+                                className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-rose-400 hover:bg-rose-500/10 rounded-xl transition text-left cursor-pointer"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                                <span>Hapus Invoice</span>
+                              </button>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </td>
                   </tr>
