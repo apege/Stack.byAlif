@@ -15,6 +15,7 @@ interface CustomDatePickerProps {
   className?: string;
   minDate?: string;
   required?: boolean;
+  align?: 'left' | 'right' | 'auto';
 }
 
 const MONTH_NAMES_ID = [
@@ -62,6 +63,7 @@ export default function CustomDatePicker({
   placeholder = 'Pilih tanggal...',
   className = '',
   required = false,
+  align = 'auto',
 }: CustomDatePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -75,6 +77,32 @@ export default function CustomDatePicker({
   const [viewMonth, setViewMonth] = useState<number>(
     parsedValue ? parsedValue.month : today.getMonth()
   );
+
+  // Alignment detection
+  const [computedAlign, setComputedAlign] = useState<'left' | 'right'>(
+    align === 'right' ? 'right' : 'left'
+  );
+
+  useEffect(() => {
+    if (align === 'right') {
+      setComputedAlign('right');
+      return;
+    }
+    if (align === 'left') {
+      setComputedAlign('left');
+      return;
+    }
+    // Auto-detect if container is on the right half of window or parent
+    if (isOpen && containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const spaceOnRight = window.innerWidth - rect.left;
+      if (spaceOnRight < 340 || rect.left > window.innerWidth / 2) {
+        setComputedAlign('right');
+      } else {
+        setComputedAlign('left');
+      }
+    }
+  }, [isOpen, align]);
 
   // Sync view month/year if value changes externally
   useEffect(() => {
@@ -102,7 +130,7 @@ export default function CustomDatePicker({
     };
   }, [isOpen]);
 
-  // Calendar math
+  // Calendar calculations
   const firstDayOfMonth = new Date(viewYear, viewMonth, 1).getDay();
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
   const daysInPrevMonth = new Date(viewYear, viewMonth, 0).getDate();
@@ -186,7 +214,7 @@ export default function CustomDatePicker({
                 e.stopPropagation();
                 onChange('');
               }}
-              className="text-slate-500 hover:text-slate-300 p-0.5 rounded transition"
+              className="text-slate-500 hover:text-slate-300 p-0.5 rounded transition cursor-pointer"
               title="Hapus tanggal"
             >
               <X className="w-3.5 h-3.5" />
@@ -197,45 +225,49 @@ export default function CustomDatePicker({
 
       {/* Popover Calendar */}
       {isOpen && (
-        <div className="absolute left-0 top-full mt-2 z-50 w-72 sm:w-80 bg-[#0d1322] border border-slate-800 rounded-2xl shadow-2xl p-4 text-xs animate-in fade-in zoom-in-95 duration-150">
+        <div
+          className={`absolute ${
+            computedAlign === 'right' ? 'right-0' : 'left-0'
+          } top-full mt-2 z-50 w-72 sm:w-[285px] max-w-[calc(100vw-2rem)] bg-[#0d1322] border border-slate-800 rounded-2xl shadow-2xl p-3.5 text-xs animate-in fade-in zoom-in-95 duration-150`}
+        >
           {/* Quick Shortcuts */}
-          <div className="flex items-center gap-1.5 pb-3 border-b border-slate-800/80 overflow-x-auto">
+          <div className="flex items-center gap-1 pb-2.5 border-b border-slate-800/80 overflow-x-auto">
             <button
               type="button"
               onClick={() => handleQuickAddDays(0)}
-              className="px-2 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-[11px] text-slate-300 border border-slate-800 transition shrink-0 cursor-pointer"
+              className="px-2 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-[10.5px] text-slate-300 border border-slate-800 transition shrink-0 cursor-pointer"
             >
               Hari Ini
             </button>
             <button
               type="button"
               onClick={() => handleQuickAddDays(7)}
-              className="px-2 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-[11px] text-slate-300 border border-slate-800 transition shrink-0 cursor-pointer"
+              className="px-2 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-[10.5px] text-slate-300 border border-slate-800 transition shrink-0 cursor-pointer"
             >
               +7 Hari
             </button>
             <button
               type="button"
               onClick={() => handleQuickAddDays(14)}
-              className="px-2 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-[11px] text-slate-300 border border-slate-800 transition shrink-0 cursor-pointer"
+              className="px-2 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-[10.5px] text-slate-300 border border-slate-800 transition shrink-0 cursor-pointer"
             >
               +14 Hari
             </button>
             <button
               type="button"
               onClick={() => handleQuickAddDays(30)}
-              className="px-2 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-[11px] text-slate-300 border border-slate-800 transition shrink-0 cursor-pointer"
+              className="px-2 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-[10.5px] text-slate-300 border border-slate-800 transition shrink-0 cursor-pointer"
             >
               +1 Bulan
             </button>
           </div>
 
           {/* Month & Year Navigation */}
-          <div className="flex items-center justify-between py-3">
+          <div className="flex items-center justify-between py-2.5">
             <button
               type="button"
               onClick={handlePrevMonth}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
+              className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
               title="Bulan Sebelumnya"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -248,7 +280,7 @@ export default function CustomDatePicker({
             <button
               type="button"
               onClick={handleNextMonth}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
+              className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
               title="Bulan Berikutnya"
             >
               <ChevronRight className="w-4 h-4" />
@@ -256,9 +288,9 @@ export default function CustomDatePicker({
           </div>
 
           {/* Days of Week Header */}
-          <div className="grid grid-cols-7 gap-1 text-center font-semibold text-[11px] text-slate-500 mb-1.5">
+          <div className="grid grid-cols-7 gap-1 text-center font-semibold text-[11px] text-slate-500 mb-1">
             {DAYS_SHORT_ID.map((d, i) => (
-              <div key={i} className="py-1">
+              <div key={i} className="py-0.5">
                 {d}
               </div>
             ))}
@@ -276,7 +308,7 @@ export default function CustomDatePicker({
                   type="button"
                   key={`prev-${i}`}
                   onClick={() => handleSelectDate(prevYear, prevMonth, dayNum)}
-                  className="py-1.5 rounded-lg text-slate-600 hover:text-slate-400 hover:bg-slate-800/40 text-[11px] transition cursor-pointer"
+                  className="w-8 h-8 mx-auto flex items-center justify-center rounded-lg text-slate-600 hover:text-slate-400 hover:bg-slate-800/40 text-[11px] transition cursor-pointer"
                 >
                   {dayNum}
                 </button>
@@ -294,7 +326,7 @@ export default function CustomDatePicker({
                   type="button"
                   key={`cur-${dayNum}`}
                   onClick={() => handleSelectDate(viewYear, viewMonth, dayNum)}
-                  className={`py-1.5 rounded-lg text-[11px] font-medium transition cursor-pointer relative ${
+                  className={`w-8 h-8 mx-auto flex items-center justify-center rounded-lg text-[11px] font-medium transition cursor-pointer ${
                     selected
                       ? 'bg-[#0052ff] text-white font-bold shadow-xs'
                       : currentToday
@@ -319,7 +351,7 @@ export default function CustomDatePicker({
                   type="button"
                   key={`next-${i}`}
                   onClick={() => handleSelectDate(nextYear, nextMonth, dayNum)}
-                  className="py-1.5 rounded-lg text-slate-600 hover:text-slate-400 hover:bg-slate-800/40 text-[11px] transition cursor-pointer"
+                  className="w-8 h-8 mx-auto flex items-center justify-center rounded-lg text-slate-600 hover:text-slate-400 hover:bg-slate-800/40 text-[11px] transition cursor-pointer"
                 >
                   {dayNum}
                 </button>

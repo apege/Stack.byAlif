@@ -586,7 +586,7 @@ export default function InvoicesClient({
 
             {/* Modal Form with Scrollable Body & Sticky Footer */}
             <form onSubmit={handleCreateInvoice} className="flex flex-col flex-1 overflow-hidden">
-              <div className="p-5 sm:p-6 overflow-y-auto space-y-4 text-xs flex-1">
+              <div className="p-5 sm:p-6 overflow-y-auto overflow-x-hidden space-y-4 text-xs flex-1">
                 {errorMsg && (
                   <div className="p-3.5 rounded-xl bg-red-950/60 border border-red-500/40 text-red-300 text-xs flex items-center gap-2">
                     <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
@@ -685,6 +685,7 @@ export default function InvoicesClient({
                     onChange={setIssueDate}
                     placeholder="Pilih tanggal terbit..."
                     required
+                    align="left"
                   />
                 </div>
                 <div>
@@ -696,6 +697,7 @@ export default function InvoicesClient({
                     onChange={setDueDate}
                     placeholder="Pilih jatuh tempo..."
                     required
+                    align="right"
                   />
                 </div>
               </div>
