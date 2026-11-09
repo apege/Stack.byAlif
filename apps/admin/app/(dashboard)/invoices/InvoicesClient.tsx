@@ -20,6 +20,7 @@ import {
   User,
   Building,
 } from 'lucide-react';
+import CustomDatePicker from '@/components/CustomDatePicker';
 
 export interface InvoiceItem {
   description: string;
@@ -679,24 +680,22 @@ export default function InvoicesClient({
                   <label className="block font-medium text-slate-300 mb-1">
                     Tanggal Terbit
                   </label>
-                  <input
-                    type="date"
-                    required
+                  <CustomDatePicker
                     value={issueDate}
-                    onChange={(e) => setIssueDate(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-sky-500"
+                    onChange={setIssueDate}
+                    placeholder="Pilih tanggal terbit..."
+                    required
                   />
                 </div>
                 <div>
                   <label className="block font-medium text-slate-300 mb-1">
                     Tanggal Jatuh Tempo (Due Date)
                   </label>
-                  <input
-                    type="date"
-                    required
+                  <CustomDatePicker
                     value={dueDate}
-                    onChange={(e) => setDueDate(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-sky-500"
+                    onChange={setDueDate}
+                    placeholder="Pilih jatuh tempo..."
+                    required
                   />
                 </div>
               </div>

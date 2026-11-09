@@ -20,6 +20,7 @@ import {
   AlertCircle,
   Sparkles,
 } from 'lucide-react';
+import CustomDatePicker from '@/components/CustomDatePicker';
 
 export interface Milestone {
   id: string;
@@ -525,11 +526,10 @@ export default function TrackingClient({
                   </div>
                   <div>
                     <label className="block font-medium text-slate-300 mb-1">Estimasi Tanggal Selesai</label>
-                    <input
-                      type="date"
+                    <CustomDatePicker
                       value={newEstCompletion}
-                      onChange={(e) => setNewEstCompletion(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500"
+                      onChange={setNewEstCompletion}
+                      placeholder="Pilih estimasi selesai..."
                     />
                   </div>
                 </div>
@@ -688,11 +688,10 @@ export default function TrackingClient({
                   </div>
                   <div>
                     <label className="block font-medium text-slate-300 mb-1">Estimasi Selesai</label>
-                    <input
-                      type="date"
+                    <CustomDatePicker
                       value={editEstCompletion}
-                      onChange={(e) => setEditEstCompletion(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500"
+                      onChange={setEditEstCompletion}
+                      placeholder="Pilih estimasi selesai..."
                     />
                   </div>
                 </div>
