@@ -19,8 +19,11 @@ import {
   FileText,
   User,
   Building,
+  UserCheck,
 } from 'lucide-react';
 import CustomDatePicker from '@/components/CustomDatePicker';
+import CustomClientSelect from '@/components/CustomClientSelect';
+import CustomInvoiceTypeSelect, { type InvoiceType } from '@/components/CustomInvoiceTypeSelect';
 
 export interface InvoiceItem {
   description: string;
@@ -595,22 +598,21 @@ export default function InvoicesClient({
                 )}
               {/* Quick Select from existing clients */}
               {clients.length > 0 && (
-                <div>
-                  <label className="block font-medium text-slate-300 mb-1">
-                    Pilih Klien Tersimpan (Opsional)
-                  </label>
-                  <select
-                    value={selectedClientId}
-                    onChange={(e) => handleClientSelect(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-sky-500"
-                  >
-                    <option value="">-- Isi Manual atau Pilih Klien --</option>
-                    {clients.map((c) => (
-                      <option key={c.id} value={c.id}>
-                        {c.name} {c.company ? `(${c.company})` : ''}
-                      </option>
-                    ))}
-                  </select>
+                <div className="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800/80 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[11px] font-semibold text-slate-300 flex items-center gap-1.5">
+                      <UserCheck className="w-3.5 h-3.5 text-sky-400" />
+                      <span>Pilih Klien Tersimpan (Opsional)</span>
+                    </label>
+                    <span className="text-[10px] text-slate-500">Auto-fill identitas & tagihan</span>
+                  </div>
+
+                  <CustomClientSelect
+                    clients={clients}
+                    selectedClientId={selectedClientId}
+                    onSelectClient={handleClientSelect}
+                    onClear={() => handleClientSelect('')}
+                  />
                 </div>
               )}
 
@@ -661,16 +663,10 @@ export default function InvoicesClient({
                   <label className="block font-medium text-slate-300 mb-1">
                     Tipe Tagihan
                   </label>
-                  <select
+                  <CustomInvoiceTypeSelect
                     value={invoiceType}
-                    onChange={(e) => handleTypeChange(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-sky-500"
-                  >
-                    <option value="down_payment">Uang Muka (DP 50%)</option>
-                    <option value="final_payment">Pelunasan (Sisa 50%)</option>
-                    <option value="full_payment">Pembayaran Penuh (100%)</option>
-                    <option value="custom">Tagihan Kustom / Add-on</option>
-                  </select>
+                    onChange={(val) => handleTypeChange(val)}
+                  />
                 </div>
               </div>
 

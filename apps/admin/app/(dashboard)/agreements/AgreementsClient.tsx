@@ -20,6 +20,7 @@ import {
   Check,
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import CustomClientSelect from '@/components/CustomClientSelect';
 
 interface Agreement {
   id: string;
@@ -1091,20 +1092,14 @@ _Tautan ini dilindungi tanda tangan digital dan enkripsi berstandar UU ITE._`;
 
                   <div>
                     <label className="block text-xs font-medium text-zinc-300 mb-1.5">
-                      Klien
+                      Klien *
                     </label>
-                    <select
-                      required
-                      value={formData.client_id}
-                      onChange={(e) => setFormData({ ...formData, client_id: e.target.value })}
-                      className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-100 focus:outline-none focus:border-zinc-500"
-                    >
-                      {clients.map((c) => (
-                        <option key={c.id} value={c.id}>
-                          {c.company} — {c.name} ({c.email})
-                        </option>
-                      ))}
-                    </select>
+                    <CustomClientSelect
+                      clients={clients}
+                      selectedClientId={formData.client_id}
+                      onSelectClient={(id) => setFormData({ ...formData, client_id: id })}
+                      placeholder="Pilih klien terdaftar..."
+                    />
                   </div>
 
                   <div>
