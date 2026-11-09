@@ -15,9 +15,10 @@ import {
   Key,
   Hash,
   PenTool,
-  Sparkles,
   RotateCcw,
   Check,
+  MoreVertical,
+  Building2,
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import CustomClientSelect from '@/components/CustomClientSelect';
@@ -159,8 +160,22 @@ export default function AgreementsClient({
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [openActionMenuId, setOpenActionMenuId] = useState<string | null>(null);
   const [viewSigned, setViewSigned] = useState<Agreement | null>(null);
   const [clientBaseUrl, setClientBaseUrl] = useState('');
+
+  // Close 3-dots action menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside() {
+      setOpenActionMenuId(null);
+    }
+    if (openActionMenuId) {
+      document.addEventListener('click', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [openActionMenuId]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -604,42 +619,29 @@ _Tautan ini dilindungi tanda tangan digital dan enkripsi berstandar UU ITE._`;
                     </div>
                   </div>
 
-                  {isSigned && (
-                    <div className="pt-2 flex flex-wrap items-center gap-4 text-xs text-emerald-400/90 font-mono">
-                      <div className="flex items-center gap-1">
-                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                        <span>Penandatangan: {agreement.signer_name} ({agreement.signer_title || 'PIC'})</span>
-                      </div>
-                      <div>•</div>
-                      <div className="truncate max-w-xs" title={agreement.document_checksum}>
-                        SHA-256: {agreement.document_checksum?.slice(0, 16)}...
-                      </div>
-                    </div>
-                  )}
-
                   {/* Status Tanda Tangan Para Pihak */}
-                  <div className="pt-3 flex flex-wrap items-center gap-2.5">
+                  <div className="pt-2 flex flex-wrap items-center gap-2">
                     {/* Status TTD Pihak 1 (Stack.byAlif) */}
                     {agreement.provider_signature_data ? (
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 whitespace-nowrap">
                         <Check className="w-3.5 h-3.5" />
                         <span>TTD Pihak 1 (Stack.byAlif): Sah</span>
                       </div>
                     ) : (
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-amber-500/15 text-amber-400 border border-amber-500/30">
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/25 whitespace-nowrap">
                         <Clock className="w-3.5 h-3.5" />
-                        <span>TTD Pihak 1: Belum Dibubuhkan</span>
+                        <span>TTD Pihak 1: Belum Ditandatangani</span>
                       </div>
                     )}
 
                     {/* Status TTD Pihak 2 (Klien) */}
                     {isSigned ? (
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 whitespace-nowrap">
                         <Check className="w-3.5 h-3.5" />
                         <span>TTD Pihak 2 ({agreement.signer_name || 'Klien'}): Sah</span>
                       </div>
                     ) : (
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-zinc-800 text-zinc-400 border border-zinc-700">
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium bg-slate-800 text-slate-400 border border-slate-700/60 whitespace-nowrap">
                         <Clock className="w-3.5 h-3.5" />
                         <span>TTD Pihak 2: Menunggu Klien</span>
                       </div>
@@ -648,57 +650,122 @@ _Tautan ini dilindungi tanda tangan digital dan enkripsi berstandar UU ITE._`;
                 </div>
 
                 {/* Right side actions */}
-                <div className="flex flex-wrap lg:flex-col items-start lg:items-end gap-3 shrink-0">
-                  <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs flex items-center gap-2">
-                    <Key className="w-3.5 h-3.5 text-sky-400" />
-                    <span className="text-slate-400">Kode Akses:</span>
-                    <span className="font-mono font-bold text-white tracking-widest">
+                <div className="flex flex-col sm:flex-row lg:flex-col items-start sm:items-center lg:items-end justify-between gap-3 shrink-0 pt-4 lg:pt-0 border-t lg:border-t-0 border-slate-800/80">
+                  <div className="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-xs flex items-center gap-2 font-mono">
+                    <Key className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+                    <span className="text-slate-400 font-sans text-[11px]">Kode Akses:</span>
+                    <span className="font-bold text-white tracking-widest text-xs">
                       {agreement.access_code}
                     </span>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-2">
-                    {/* Tombol Tandatangani PKS oleh Pihak Pertama (Stack.byAlif) */}
-                    <button
-                      onClick={() => handleOpenProviderSign(agreement)}
-                      className={`px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer ${
-                        agreement.provider_signature_data
-                          ? 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700'
-                          : 'bg-[#0052ff] hover:bg-[#0045d8] text-white shadow-xs'
-                      }`}
-                      title={agreement.provider_signature_data ? 'Ubah Tanda Tangan Anda' : 'Bubuhkan Tanda Tangan Anda sebagai Pihak Pertama'}
-                    >
-                      <PenTool className="w-3.5 h-3.5" />
-                      <span>{agreement.provider_signature_data ? 'Ubah TTD Anda' : 'Tandatangani PKS'}</span>
-                    </button>
-
-                    <button
-                      onClick={() => handleCopyLink(agreement.access_code, agreement.id, agreement.access_token)}
-                      className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium flex items-center gap-2 transition cursor-pointer"
-                    >
-                      <Copy className="w-3.5 h-3.5 text-slate-400" />
-                      <span>{copiedId === agreement.id ? 'Tersalin!' : 'Salin Link'}</span>
-                    </button>
-
-                    {(isSigned || agreement.provider_signature_data) && (
+                  <div className="flex items-center gap-2">
+                    {/* Primary Button */}
+                    {!agreement.provider_signature_data ? (
+                      <button
+                        onClick={() => handleOpenProviderSign(agreement)}
+                        className="px-3.5 py-2 rounded-xl bg-[#0052ff] hover:bg-[#0045d8] text-white text-xs font-semibold flex items-center gap-1.5 transition shadow-xs cursor-pointer whitespace-nowrap"
+                        title="Bubuhkan Tanda Tangan Anda sebagai Pihak Pertama"
+                      >
+                        <PenTool className="w-3.5 h-3.5" />
+                        <span>Tandatangani PKS</span>
+                      </button>
+                    ) : (
                       <button
                         onClick={() => setViewSigned(agreement)}
-                        className="px-3.5 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-300 text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
+                        className="px-3.5 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 text-emerald-400 text-xs font-medium flex items-center gap-1.5 transition cursor-pointer whitespace-nowrap"
+                        title="Lihat Bukti Keabsahan Tanda Tangan"
                       >
                         <ShieldCheck className="w-3.5 h-3.5" />
                         <span>Lihat Bukti TTD</span>
                       </button>
                     )}
 
-                    <a
-                      href={getClientAgreementUrl(agreement)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition"
-                      title="Buka Portal Penandatanganan Klien"
+                    {/* Copy Link */}
+                    <button
+                      onClick={() => handleCopyLink(agreement.access_code, agreement.id, agreement.access_token)}
+                      className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium flex items-center gap-1.5 transition cursor-pointer whitespace-nowrap"
+                      title="Salin Link Perjanjian Klien"
                     >
-                      <ExternalLink className="w-4 h-4" />
-                    </a>
+                      {copiedId === agreement.id ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-emerald-400" />
+                          <span className="text-emerald-400">Tersalin!</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5 text-slate-400" />
+                          <span>Salin Link</span>
+                        </>
+                      )}
+                    </button>
+
+                    {/* 3-dots Menu for secondary actions */}
+                    <div className="relative inline-block text-left">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpenActionMenuId(openActionMenuId === agreement.id ? null : agreement.id);
+                        }}
+                        className={`p-2 rounded-xl transition cursor-pointer select-none ${
+                          openActionMenuId === agreement.id
+                            ? 'bg-[#0052ff] text-white shadow-xs'
+                            : 'bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white'
+                        }`}
+                        title="Menu Opsi"
+                      >
+                        <MoreVertical className="w-4 h-4" />
+                      </button>
+
+                      {openActionMenuId === agreement.id && (
+                        <div
+                          onClick={(e) => e.stopPropagation()}
+                          className="absolute right-0 top-full mt-1.5 z-50 bg-[#0d1322] border border-slate-800 rounded-2xl shadow-2xl p-1.5 min-w-[210px] animate-in fade-in zoom-in-95 duration-100 divide-y divide-slate-800/80"
+                        >
+                          <div className="space-y-0.5 pb-1">
+                            <a
+                              href={getClientAgreementUrl(agreement)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={() => setOpenActionMenuId(null)}
+                              className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-sky-400 hover:bg-sky-500/10 rounded-xl transition text-left cursor-pointer"
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                              <span>Buka Portal Klien</span>
+                            </a>
+
+                            {agreement.provider_signature_data && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setOpenActionMenuId(null);
+                                  handleOpenProviderSign(agreement);
+                                }}
+                                className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-slate-200 hover:text-white hover:bg-slate-800/60 rounded-xl transition text-left cursor-pointer"
+                              >
+                                <PenTool className="w-3.5 h-3.5 text-slate-400" />
+                                <span>Ubah TTD Anda</span>
+                              </button>
+                            )}
+
+                            {(isSigned || agreement.provider_signature_data) && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setOpenActionMenuId(null);
+                                  setViewSigned(agreement);
+                                }}
+                                className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-slate-200 hover:text-white hover:bg-slate-800/60 rounded-xl transition text-left cursor-pointer"
+                              >
+                                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                                <span>Bukti Keabsahan TTD</span>
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -960,7 +1027,7 @@ _Tautan ini dilindungi tanda tangan digital dan enkripsi berstandar UU ITE._`;
                       className="inline-flex items-center gap-1 text-[11px] text-sky-400 hover:text-sky-300 font-medium cursor-pointer"
                       title="Gunakan tanda tangan yang pernah Anda simpan sebelumnya"
                     >
-                      <Sparkles className="w-3 h-3" />
+                      <CheckCircle2 className="w-3 h-3" />
                       <span>Pakai TTD Tersimpan</span>
                     </button>
                     <span className="text-zinc-600">|</span>
