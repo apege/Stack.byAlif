@@ -23,6 +23,8 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import CustomDatePicker from '@/components/CustomDatePicker';
+import CustomPhaseSelect from '@/components/CustomPhaseSelect';
+import CustomStatusSelect from '@/components/CustomStatusSelect';
 
 export interface Milestone {
   id: string;
@@ -723,17 +725,17 @@ export default function TrackingClient({
 
                 <div>
                   <label className="block font-medium text-slate-300 mb-1">Fase Awal Proyek</label>
-                  <select
+                  <CustomPhaseSelect
                     value={newPhase}
-                    onChange={(e) => setNewPhase(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500"
-                  >
-                    {PHASES.map((p) => (
-                      <option key={p} value={p}>
-                        {p}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(val) => {
+                      setNewPhase(val);
+                      const idx = PHASES.indexOf(val);
+                      if (idx >= 0) {
+                        const suggested = Math.min(100, Math.round(((idx + 1) / PHASES.length) * 100));
+                        setNewProgress(suggested);
+                      }
+                    }}
+                  />
                 </div>
 
                 <div>
@@ -829,17 +831,20 @@ export default function TrackingClient({
 
                 <div>
                   <label className="block font-medium text-slate-300 mb-1">Tahapan / Fase Saat Ini</label>
-                  <select
+                  <CustomPhaseSelect
                     value={editPhase}
-                    onChange={(e) => setEditPhase(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500"
-                  >
-                    {PHASES.map((p) => (
-                      <option key={p} value={p}>
-                        {p}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(val) => {
+                      setEditPhase(val);
+                      const idx = PHASES.indexOf(val);
+                      if (idx >= 0) {
+                        const suggested = Math.min(100, Math.round(((idx + 1) / PHASES.length) * 100));
+                        setEditProgress(suggested);
+                        if (val === 'Selesai (Completed)') {
+                          setEditStatus('completed');
+                        }
+                      }
+                    }}
+                  />
                 </div>
 
                 <div>
@@ -861,17 +866,10 @@ export default function TrackingClient({
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block font-medium text-slate-300 mb-1">Status Proyek</label>
-                    <select
+                    <CustomStatusSelect
                       value={editStatus}
-                      onChange={(e) => setEditStatus(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500"
-                    >
-                      <option value="in_progress">Sedang Dikerjakan (In Progress)</option>
-                      <option value="review">Tahap Review Klien</option>
-                      <option value="completed">Selesai (Completed / Handover)</option>
-                      <option value="on_hold">Ditunda (On Hold)</option>
-                      <option value="planning">Perencanaan (Planning)</option>
-                    </select>
+                      onChange={setEditStatus}
+                    />
                   </div>
                   <div>
                     <label className="block font-medium text-slate-300 mb-1">Estimasi Selesai</label>
