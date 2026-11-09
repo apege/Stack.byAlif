@@ -4,20 +4,29 @@ import TrackingClient from './TrackingClient';
 export default async function TrackingPage() {
   const supabase = await createClient();
 
-  const { data: trackings } = await supabase
-    .from('project_trackings')
-    .select('*')
-    .order('updated_at', { ascending: false });
-
-  const { data: clients } = await supabase
-    .from('clients')
-    .select('id, name, company, email')
-    .order('name', { ascending: true });
-
-  const { data: agreements } = await supabase
-    .from('agreements')
-    .select('id, project_title, client_id')
-    .order('created_at', { ascending: false });
+  const [
+    { data: trackings },
+    { data: clients },
+    { data: agreements },
+    { data: registrations },
+  ] = await Promise.all([
+    supabase
+      .from('project_trackings')
+      .select('*')
+      .order('updated_at', { ascending: false }),
+    supabase
+      .from('clients')
+      .select('id, name, company, email')
+      .order('name', { ascending: true }),
+    supabase
+      .from('agreements')
+      .select('id, project_title, client_id')
+      .order('created_at', { ascending: false }),
+    supabase
+      .from('client_registrations')
+      .select('id, registration_number, full_name, business_name, email, domain_name')
+      .order('created_at', { ascending: false }),
+  ]);
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
@@ -39,6 +48,7 @@ export default async function TrackingPage() {
         initialTrackings={trackings || []}
         clients={clients || []}
         agreements={agreements || []}
+        registrations={registrations || []}
       />
     </div>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Activity,
@@ -19,6 +19,8 @@ import {
   ChevronRight,
   AlertCircle,
   Sparkles,
+  X,
+  ChevronDown,
 } from 'lucide-react';
 import CustomDatePicker from '@/components/CustomDatePicker';
 
@@ -70,6 +72,15 @@ interface AgreementOption {
   client_id: string;
 }
 
+export interface ClientRegistrationOption {
+  id: string;
+  registration_number: string;
+  full_name: string;
+  business_name: string;
+  email?: string;
+  domain_name?: string;
+}
+
 export const PHASES = [
   '01. Onboarding & Verifikasi Data',
   '02. Wireframing & UI/UX Design',
@@ -85,10 +96,12 @@ export default function TrackingClient({
   initialTrackings,
   clients,
   agreements,
+  registrations = [],
 }: {
   initialTrackings: ProjectTracking[];
   clients: ClientOption[];
   agreements: AgreementOption[];
+  registrations?: ClientRegistrationOption[];
 }) {
   const router = useRouter();
   const [trackings, setTrackings] = useState<ProjectTracking[]>(initialTrackings);
@@ -114,6 +127,50 @@ export default function TrackingClient({
     new Date(Date.now() + 14 * 86400000).toISOString().split('T')[0]
   );
   const [initialNote, setInitialNote] = useState('Proyek resmi dimulai, sedang penyiapan arsitektur.');
+
+  // Autocomplete state for Registration Numbers
+  const [showRegSuggestions, setShowRegSuggestions] = useState(false);
+  const regContainerRef = useRef<HTMLDivElement>(null);
+  const [quickSource, setQuickSource] = useState('');
+
+  const filteredRegistrations = registrations.filter((r) => {
+    if (!newRegNumber.trim()) return true;
+    const q = newRegNumber.toLowerCase();
+    return (
+      r.registration_number.toLowerCase().includes(q) ||
+      r.full_name.toLowerCase().includes(q) ||
+      r.business_name.toLowerCase().includes(q) ||
+      (r.domain_name && r.domain_name.toLowerCase().includes(q))
+    );
+  });
+
+  const handleSelectRegistration = (r: ClientRegistrationOption) => {
+    setNewRegNumber(r.registration_number);
+    setNewClientName(r.full_name);
+    setNewClientCompany(r.business_name);
+    if (!newProjectName || newProjectName.startsWith('Pengembangan Website') || newProjectName.startsWith('Website')) {
+      setNewProjectName(
+        r.domain_name
+          ? `Website ${r.domain_name} — ${r.business_name}`
+          : `Pengembangan Website — ${r.business_name}`
+      );
+    }
+    setShowRegSuggestions(false);
+  };
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (regContainerRef.current && !regContainerRef.current.contains(e.target as Node)) {
+        setShowRegSuggestions(false);
+      }
+    }
+    if (showRegSuggestions) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showRegSuggestions]);
 
   // Update Form State
   const [editPhase, setEditPhase] = useState('');
@@ -475,6 +532,64 @@ export default function TrackingClient({
                   </div>
                 )}
 
+                {/* 0. Quick Auto-fill Selector */}
+                {(registrations.length > 0 || agreements.length > 0) && (
+                  <div className="p-3 rounded-xl bg-blue-500/5 border border-blue-500/20 space-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <label className="text-[11px] font-semibold text-blue-400 flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5" />
+                        <span>Pilih Registrasi / Klien (Isi Otomatis)</span>
+                      </label>
+                      <span className="text-[10px] text-slate-500">Auto-fill semua data form</span>
+                    </div>
+                    <select
+                      value={quickSource}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setQuickSource(val);
+                        if (!val) return;
+                        if (val.startsWith('reg:')) {
+                          const regNum = val.replace('reg:', '');
+                          const found = registrations.find((r) => r.registration_number === regNum);
+                          if (found) handleSelectRegistration(found);
+                        } else if (val.startsWith('ag:')) {
+                          const agId = val.replace('ag:', '');
+                          const foundAg = agreements.find((a) => a.id === agId);
+                          if (foundAg) {
+                            setNewProjectName(foundAg.project_title);
+                            const foundClient = clients.find((c) => c.id === foundAg.client_id);
+                            if (foundClient) {
+                              setNewClientName(foundClient.name);
+                              setNewClientCompany(foundClient.company || '');
+                            }
+                          }
+                        }
+                      }}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#0052ff] text-xs cursor-pointer"
+                    >
+                      <option value="">-- Pilih untuk Auto-Fill Formulir --</option>
+                      {registrations.length > 0 && (
+                        <optgroup label="Registrasi Klien Masuk">
+                          {registrations.map((r) => (
+                            <option key={r.id} value={`reg:${r.registration_number}`}>
+                              [{r.registration_number}] {r.full_name} — {r.business_name} {r.domain_name ? `(${r.domain_name})` : ''}
+                            </option>
+                          ))}
+                        </optgroup>
+                      )}
+                      {agreements.length > 0 && (
+                        <optgroup label="Kontrak Agreement PKS">
+                          {agreements.map((a) => (
+                            <option key={a.id} value={`ag:${a.id}`}>
+                              {a.project_title}
+                            </option>
+                          ))}
+                        </optgroup>
+                      )}
+                    </select>
+                  </div>
+                )}
+
                 <div>
                   <label className="block font-medium text-slate-300 mb-1">Nama Proyek *</label>
                   <input
@@ -512,17 +627,88 @@ export default function TrackingClient({
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block font-medium text-slate-300 mb-1">
-                      Nomor Referensi Registrasi (Opsional)
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Contoh: REG-XXXXXXXX"
-                      value={newRegNumber}
-                      onChange={(e) => setNewRegNumber(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500 font-mono"
-                    />
+                  <div className="relative" ref={regContainerRef}>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="font-medium text-slate-300">
+                        Nomor Referensi Registrasi (Opsional)
+                      </label>
+                      {registrations.length > 0 && (
+                        <span className="text-[10px] text-blue-400 font-medium">
+                          {registrations.length} terdaftar
+                        </span>
+                      )}
+                    </div>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        placeholder="Ketik / pilih REG-XXXXXXXX"
+                        value={newRegNumber}
+                        onFocus={() => setShowRegSuggestions(true)}
+                        onChange={(e) => {
+                          setNewRegNumber(e.target.value);
+                          setShowRegSuggestions(true);
+                        }}
+                        className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-[#0052ff] font-mono text-xs pr-8 transition"
+                      />
+                      {newRegNumber ? (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setNewRegNumber('');
+                            setShowRegSuggestions(false);
+                          }}
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 p-0.5 cursor-pointer"
+                          title="Hapus"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => setShowRegSuggestions(!showRegSuggestions)}
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 p-0.5 cursor-pointer"
+                          title="Tampilkan daftar registrasi"
+                        >
+                          <ChevronDown className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Autocomplete Dropdown List */}
+                    {showRegSuggestions && filteredRegistrations.length > 0 && (
+                      <div className="absolute left-0 right-0 top-full mt-1.5 z-50 bg-[#0d1322] border border-slate-800 rounded-xl shadow-2xl max-h-56 overflow-y-auto divide-y divide-slate-800/80 animate-in fade-in zoom-in-95 duration-100">
+                        <div className="px-3 py-1.5 text-[10px] font-semibold text-slate-400 bg-slate-950/90 sticky top-0 flex items-center justify-between border-b border-slate-800/80">
+                          <span>Saran Registrasi Klien ({filteredRegistrations.length})</span>
+                          <span className="text-[9px] text-[#0052ff] font-medium">Klik untuk auto-fill</span>
+                        </div>
+                        {filteredRegistrations.map((r) => (
+                          <button
+                            key={r.id}
+                            type="button"
+                            onClick={() => handleSelectRegistration(r)}
+                            className="w-full text-left px-3.5 py-2 hover:bg-slate-800/80 transition-colors flex flex-col gap-0.5 cursor-pointer group"
+                          >
+                            <div className="flex items-center justify-between">
+                              <span className="font-mono font-bold text-sky-400 group-hover:text-white text-xs">
+                                {r.registration_number}
+                              </span>
+                              <span className="text-[11px] text-slate-300 font-semibold truncate max-w-[150px]">
+                                {r.business_name}
+                              </span>
+                            </div>
+                            <div className="text-[11px] text-slate-400 flex items-center gap-1.5">
+                              <span className="text-slate-400">Klien: {r.full_name}</span>
+                              {r.domain_name && (
+                                <>
+                                  <span>•</span>
+                                  <span className="text-slate-400 truncate max-w-[120px]">{r.domain_name}</span>
+                                </>
+                              )}
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    )}
                   </div>
                   <div>
                     <label className="block font-medium text-slate-300 mb-1">Estimasi Tanggal Selesai</label>
