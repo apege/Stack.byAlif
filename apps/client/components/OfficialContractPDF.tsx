@@ -300,10 +300,25 @@ export default function OfficialContractPDF({ agreement }: Props) {
           </ol>
         </div>
 
-        {/* PASAL 4 */}
+        {/* PASAL 4 - KEBIJAKAN REFUND & PEMBATALAN */}
         <div className="space-y-0.5">
           <div className="text-center font-bold">
             <div>Pasal 4</div>
+            <div className="font-semibold italic text-[9pt]">Pembatalan dan Kebijakan Pengembalian Dana (Refund Policy)</div>
+          </div>
+          <ol className="list-decimal pl-5 space-y-0.5">
+            <li><strong>Uang Muka Non-Refundable:</strong> Uang Muka (DP) yang telah dibayarkan bersifat <em>non-refundable</em> (tidak dapat dikembalikan) apabila pembatalan proyek dilakukan atas inisiatif, perubahan rencana, atau kelalaian sepihak dari PIHAK KEDUA setelah penandatanganan Perjanjian, pengerjaan teknis, atau pengadaan aset (domain/server/lisensi) telah dimulai oleh PIHAK PERTAMA.</li>
+            <li><strong>Kompensasi Progres Berjalan:</strong> Apabila pembatalan sepihak dilakukan oleh PIHAK KEDUA ketika progres pekerjaan telah melampaui 50% dari total estimasi pengerjaan, maka PIHAK KEDUA tetap berkewajiban menyelesaikan pembayaran secara proporsional sesuai volume dan bobot pekerjaan yang telah diselesaikan oleh PIHAK PERTAMA.</li>
+            <li><strong>Pengembalian Dana Sah:</strong> Pengembalian dana (refund) secara proporsional hanya wajib dilakukan apabila PIHAK PERTAMA terbukti secara sah dan sepihak menghentikan pengerjaan proyek tanpa alasan yang dibenarkan menurut hukum dan bukan akibat kelalaian atau wanprestasi dari PIHAK KEDUA.</li>
+            <li><strong>Biaya Pihak Ketiga Hangus:</strong> Segala biaya pihak ketiga yang telah dibayarkan (registrasi nama domain tahunan, server hosting, API berbayar, dan lisensi) bersifat mutlak tidak dapat di-refund karena tunduk pada kebijakan vendor pihak ketiga terkait.</li>
+            <li><strong>Pencairan Refund:</strong> Pengembalian dana yang telah disepakati secara tertulis akan diproses selambat-lambatnya 14 (empat belas) hari kerja melalui transfer ke rekening bank resmi PIHAK KEDUA.</li>
+          </ol>
+        </div>
+
+        {/* PASAL 5 */}
+        <div className="space-y-0.5">
+          <div className="text-center font-bold">
+            <div>Pasal 5</div>
             <div className="font-semibold italic text-[9pt]">Revisi dan Materi Konten</div>
           </div>
           <ol className="list-decimal pl-5 space-y-0.5">
@@ -312,10 +327,10 @@ export default function OfficialContractPDF({ agreement }: Props) {
           </ol>
         </div>
 
-        {/* PASAL 5 */}
+        {/* PASAL 6 */}
         <div className="space-y-0.5">
           <div className="text-center font-bold">
-            <div>Pasal 5</div>
+            <div>Pasal 6</div>
             <div className="font-semibold italic text-[9pt]">Domain, Hosting, dan Rekening Pihak Ketiga</div>
           </div>
           <ol className="list-decimal pl-5 space-y-0.5">
@@ -325,10 +340,10 @@ export default function OfficialContractPDF({ agreement }: Props) {
           </ol>
         </div>
 
-        {/* PASAL 6 */}
+        {/* PASAL 7 */}
         <div className="space-y-0.5">
           <div className="text-center font-bold">
-            <div>Pasal 6</div>
+            <div>Pasal 7</div>
             <div className="font-semibold italic text-[9pt]">Garansi dan Pemeliharaan</div>
           </div>
           <p>
@@ -336,10 +351,10 @@ export default function OfficialContractPDF({ agreement }: Props) {
           </p>
         </div>
 
-        {/* PASAL 7 - KLAUSUL KRUSIAL ANTI-PENIPUAN / PELEPASAN TANGGUNG JAWAB */}
+        {/* PASAL 8 - KLAUSUL KRUSIAL ANTI-PENIPUAN / PELEPASAN TANGGUNG JAWAB */}
         <div className="space-y-0.5">
           <div className="text-center font-bold">
-            <div>Pasal 7</div>
+            <div>Pasal 8</div>
             <div className="font-semibold italic text-[9pt]">Legalitas Usaha dan Larangan Penyalahgunaan (Anti-Penipuan)</div>
           </div>
           <ol className="list-decimal pl-5 space-y-0.5">
@@ -350,10 +365,10 @@ export default function OfficialContractPDF({ agreement }: Props) {
           </ol>
         </div>
 
-        {/* PASAL 8 */}
+        {/* PASAL 9 */}
         <div className="space-y-0.5">
           <div className="text-center font-bold">
-            <div>Pasal 8</div>
+            <div>Pasal 9</div>
             <div className="font-semibold italic text-[9pt]">Penangguhan Sistem (Kill Switch)</div>
           </div>
           <p>
@@ -361,10 +376,10 @@ export default function OfficialContractPDF({ agreement }: Props) {
           </p>
         </div>
 
-        {/* PASAL 9 */}
+        {/* PASAL 10 */}
         <div className="space-y-0.5">
           <div className="text-center font-bold">
-            <div>Pasal 9</div>
+            <div>Pasal 10</div>
             <div className="font-semibold italic text-[9pt]">Penyelesaian Perselisihan</div>
           </div>
           <p>
