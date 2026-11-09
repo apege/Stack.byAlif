@@ -15,6 +15,7 @@ import {
   Building,
   User,
   ExternalLink,
+  Activity,
 } from 'lucide-react';
 
 export default function ClientRegistrationPage() {
@@ -118,7 +119,14 @@ export default function ClientRegistrationPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Link
+              href="/status"
+              className="text-xs font-medium text-zinc-400 hover:text-sky-400 flex items-center gap-1.5 transition-colors px-3 py-1.5 rounded-lg border border-zinc-800 hover:border-sky-500/30 bg-zinc-900/60"
+            >
+              <Activity className="w-3.5 h-3.5 text-sky-400" />
+              <span>Status Proyek</span>
+            </Link>
             <Link
               href="/agreement"
               className="text-xs font-medium text-zinc-400 hover:text-emerald-400 flex items-center gap-1.5 transition-colors px-3 py-1.5 rounded-lg border border-zinc-800 hover:border-emerald-500/30 bg-zinc-900/60"
@@ -184,10 +192,17 @@ export default function ClientRegistrationPage() {
 
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <Link
-                href="/agreement"
-                className="flex-1 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-emerald-600/20"
+                href={`/status?code=${submittedRef}`}
+                className="flex-1 py-3 px-4 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-medium text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-sky-600/20"
               >
-                <span>Buka Portal Tanda Tangan Kontrak</span>
+                <Activity className="w-4 h-4" />
+                <span>Pantau Live Status Proyek</span>
+              </Link>
+              <Link
+                href="/agreement"
+                className="flex-1 py-3 px-4 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-white font-medium text-sm flex items-center justify-center gap-2 transition-all"
+              >
+                <span>Buka Portal Kontrak</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <button

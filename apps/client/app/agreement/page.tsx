@@ -26,6 +26,7 @@ import {
   Eye,
   EyeOff,
   X,
+  Activity,
 } from 'lucide-react';
 import OfficialContractPDF from '@/components/OfficialContractPDF';
 
@@ -366,7 +367,14 @@ function AgreementPortalContent() {
               className="text-zinc-400 hover:text-white transition-colors flex items-center gap-1.5 text-xs"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Kembali ke Registrasi</span>
+              <span>Registrasi</span>
+            </Link>
+            <Link
+              href="/status"
+              className="text-zinc-400 hover:text-sky-400 transition-colors flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-lg border border-zinc-800 bg-zinc-900/60"
+            >
+              <Activity className="w-3.5 h-3.5 text-sky-400" />
+              <span className="hidden sm:inline">Status Proyek</span>
             </Link>
           </div>
 

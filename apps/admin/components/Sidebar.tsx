@@ -14,12 +14,16 @@ import {
   ExternalLink,
   UserCheck,
   Settings,
+  Receipt,
+  Activity,
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
 const navItems = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard },
   { name: 'Kelola Project', href: '/projects', icon: FolderGit2 },
+  { name: 'Status Proyek Live', href: '/tracking', icon: Activity },
+  { name: 'Invoice & Tagihan', href: '/invoices', icon: Receipt },
   { name: 'Registrasi Klien', href: '/registrations', icon: UserCheck },
   { name: 'Data Klien (Privat)', href: '/clients', icon: Users },
   { name: 'Agreement & Kontrak', href: '/agreements', icon: FileCheck2 },
