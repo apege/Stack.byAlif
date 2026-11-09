@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   ShieldCheck,
@@ -19,6 +19,9 @@ import {
   Loader2,
   X,
   Search,
+  MoreVertical,
+  Copy,
+  Check,
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
@@ -57,6 +60,21 @@ export default function RegistrationsClient({
   const [selectedReg, setSelectedReg] = useState<ClientRegistration | null>(null);
   const [loadingId, setLoadingId] = useState<string | null>(null);
   const [search, setSearch] = useState('');
+  const [openActionMenuId, setOpenActionMenuId] = useState<string | null>(null);
+  const [copiedRegId, setCopiedRegId] = useState<string | null>(null);
+
+  // Close 3-dots action menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside() {
+      setOpenActionMenuId(null);
+    }
+    if (openActionMenuId) {
+      document.addEventListener('click', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [openActionMenuId]);
 
   const filtered = registrations.filter(
     (r) =>
@@ -168,36 +186,38 @@ export default function RegistrationsClient({
       </div>
 
       {/* Registrations Table */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl shadow-xl">
+        <div className="overflow-x-auto overflow-y-visible min-h-[280px]">
+          <table className="min-w-[920px] w-full text-left text-xs">
             <thead className="bg-slate-950/60 text-slate-400 border-b border-slate-800 uppercase tracking-wider text-[11px]">
               <tr>
-                <th className="py-3.5 px-4 font-semibold">Ref ID</th>
-                <th className="py-3.5 px-4 font-semibold">Klien & Bisnis</th>
-                <th className="py-3.5 px-4 font-semibold">Kontak</th>
-                <th className="py-3.5 px-4 font-semibold">Permintaan Domain</th>
-                <th className="py-3.5 px-4 font-semibold">Status</th>
-                <th className="py-3.5 px-4 font-semibold text-right">Aksi</th>
+                <th className="py-3.5 px-4 font-semibold whitespace-nowrap">Ref ID</th>
+                <th className="py-3.5 px-4 font-semibold whitespace-nowrap">Klien & Bisnis</th>
+                <th className="py-3.5 px-4 font-semibold whitespace-nowrap">Kontak</th>
+                <th className="py-3.5 px-4 font-semibold whitespace-nowrap">Permintaan Domain</th>
+                <th className="py-3.5 px-4 font-semibold whitespace-nowrap">Status</th>
+                <th className="py-3.5 px-4 font-semibold text-right whitespace-nowrap w-16">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800 text-slate-300">
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="text-center py-10 text-slate-500">
+                  <td colSpan={6} className="text-center py-16 text-slate-500">
                     Belum ada data registrasi klien yang masuk.
                   </td>
                 </tr>
               ) : (
                 filtered.map((reg) => (
                   <tr key={reg.id} className="hover:bg-slate-800/40 transition-colors">
-                    <td className="py-3.5 px-4 font-mono font-bold text-emerald-400">
-                      {reg.registration_number}
+                    <td className="py-3.5 px-4 whitespace-nowrap">
+                      <span className="font-mono font-bold text-emerald-400 block">
+                        {reg.registration_number}
+                      </span>
                       <span className="block text-[10px] text-slate-500 font-sans mt-0.5">
                         {new Date(reg.created_at).toLocaleDateString('id-ID')}
                       </span>
                     </td>
-                    <td className="py-3.5 px-4">
+                    <td className="py-3.5 px-4 whitespace-nowrap">
                       <div className="font-semibold text-white">{reg.business_name}</div>
                       <div className="text-slate-400 text-[11px]">
                         {reg.full_name} ({reg.ownership_status})
@@ -208,62 +228,164 @@ export default function RegistrationsClient({
                         </span>
                       )}
                     </td>
-                    <td className="py-3.5 px-4">
-                      <div className="text-white">{reg.whatsapp}</div>
-                      <div className="text-slate-500 text-[11px] truncate max-w-[150px]">
+                    <td className="py-3.5 px-4 whitespace-nowrap">
+                      <div className="text-white font-mono text-[11px]">{reg.whatsapp}</div>
+                      <div className="text-slate-400 text-[11px]">
                         {reg.email}
                       </div>
                     </td>
-                    <td className="py-3.5 px-4">
-                      <span className="font-semibold text-slate-200">
+                    <td className="py-3.5 px-4 whitespace-nowrap">
+                      <span className="font-semibold text-slate-200 block">
                         {reg.domain_name || 'Tidak ada'}
                       </span>
                       <span className="block text-[10px] text-slate-400">
                         {reg.domain_identity_option || '-'}
                       </span>
                     </td>
-                    <td className="py-3.5 px-4">
+                    <td className="py-3.5 px-4 whitespace-nowrap">
                       {reg.status === 'converted' ? (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 whitespace-nowrap">
                           <CheckCircle2 className="w-3 h-3" />
                           Klien Resmi
                         </span>
                       ) : reg.status === 'verified' ? (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 whitespace-nowrap">
                           <ShieldCheck className="w-3 h-3" />
                           Terverifikasi
                         </span>
                       ) : reg.status === 'rejected' ? (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20 whitespace-nowrap">
                           <XCircle className="w-3 h-3" />
                           Ditolak
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20 whitespace-nowrap">
                           <Clock className="w-3 h-3" />
                           Perlu Review
                         </span>
                       )}
                     </td>
-                    <td className="py-3.5 px-4 text-right">
-                      <div className="flex items-center justify-end gap-1.5">
+                    <td className="py-3.5 px-4 text-right whitespace-nowrap">
+                      <div className="relative inline-block text-left">
                         <button
-                          onClick={() => setSelectedReg(reg)}
-                          className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors cursor-pointer"
-                          title="Lihat Detail Lengkap"
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setOpenActionMenuId(openActionMenuId === reg.id ? null : reg.id);
+                          }}
+                          className={`p-2 rounded-xl transition cursor-pointer select-none ${
+                            openActionMenuId === reg.id
+                              ? 'bg-[#0052ff] text-white shadow-xs'
+                              : 'bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white'
+                          }`}
+                          title="Menu Aksi"
                         >
-                          <Eye className="w-3.5 h-3.5" />
+                          <MoreVertical className="w-4 h-4" />
                         </button>
-                        {reg.status !== 'converted' && (
-                          <button
-                            onClick={() => handleConvertToClient(reg)}
-                            disabled={loadingId === reg.id}
-                            className="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-[11px] flex items-center gap-1 transition-colors cursor-pointer disabled:opacity-50"
-                            title="Konversi ke Klien & Buat Kontrak"
+
+                        {openActionMenuId === reg.id && (
+                          <div
+                            onClick={(e) => e.stopPropagation()}
+                            className="absolute right-0 top-full mt-1.5 z-50 bg-[#0d1322] border border-slate-800 rounded-2xl shadow-2xl p-1.5 min-w-[210px] animate-in fade-in zoom-in-95 duration-100 divide-y divide-slate-800/80"
                           >
-                            <FileCheck2 className="w-3 h-3" />
-                            <span>Buat Kontrak</span>
-                          </button>
+                            <div className="space-y-0.5 pb-1">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setSelectedReg(reg);
+                                  setOpenActionMenuId(null);
+                                }}
+                                className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-slate-200 hover:text-white hover:bg-slate-800/60 rounded-xl transition text-left cursor-pointer"
+                              >
+                                <Eye className="w-3.5 h-3.5 text-sky-400" />
+                                <span>Lihat Detail Lengkap</span>
+                              </button>
+
+                              {reg.status !== 'converted' && (
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setOpenActionMenuId(null);
+                                    handleConvertToClient(reg);
+                                  }}
+                                  disabled={loadingId === reg.id}
+                                  className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-emerald-400 hover:bg-emerald-500/10 rounded-xl transition text-left cursor-pointer disabled:opacity-50"
+                                >
+                                  {loadingId === reg.id ? (
+                                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                  ) : (
+                                    <FileCheck2 className="w-3.5 h-3.5" />
+                                  )}
+                                  <span>Konversi & Buat Kontrak</span>
+                                </button>
+                              )}
+
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  navigator.clipboard.writeText(reg.registration_number);
+                                  setCopiedRegId(reg.id);
+                                  setTimeout(() => setCopiedRegId(null), 2000);
+                                }}
+                                className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-slate-200 hover:text-white hover:bg-slate-800/60 rounded-xl transition text-left cursor-pointer"
+                              >
+                                {copiedRegId === reg.id ? (
+                                  <>
+                                    <Check className="w-3.5 h-3.5 text-emerald-400" />
+                                    <span className="text-emerald-400 font-semibold">Ref ID Tersalin!</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3.5 h-3.5 text-slate-400" />
+                                    <span>Salin Ref ID</span>
+                                  </>
+                                )}
+                              </button>
+
+                              {reg.whatsapp && (
+                                <a
+                                  href={`https://wa.me/${reg.whatsapp.replace(/[^0-9]/g, '')}`}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  onClick={() => setOpenActionMenuId(null)}
+                                  className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-emerald-400 hover:bg-emerald-500/10 rounded-xl transition text-left cursor-pointer"
+                                >
+                                  <Phone className="w-3.5 h-3.5" />
+                                  <span>Chat via WhatsApp</span>
+                                </a>
+                              )}
+                            </div>
+
+                            <div className="pt-1 space-y-0.5">
+                              {reg.status !== 'verified' && (
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    handleUpdateStatus(reg.id, 'verified');
+                                    setOpenActionMenuId(null);
+                                  }}
+                                  className="w-full flex items-center gap-2.5 px-3 py-1.5 text-xs font-medium text-emerald-400 hover:bg-emerald-500/10 rounded-xl transition text-left cursor-pointer"
+                                >
+                                  <ShieldCheck className="w-3.5 h-3.5" />
+                                  <span>Tandai Terverifikasi</span>
+                                </button>
+                              )}
+
+                              {reg.status !== 'rejected' && (
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    handleUpdateStatus(reg.id, 'rejected');
+                                    setOpenActionMenuId(null);
+                                  }}
+                                  className="w-full flex items-center gap-2.5 px-3 py-1.5 text-xs font-medium text-rose-400 hover:bg-rose-500/10 rounded-xl transition text-left cursor-pointer"
+                                >
+                                  <XCircle className="w-3.5 h-3.5" />
+                                  <span>Tolak Registrasi</span>
+                                </button>
+                              )}
+                            </div>
+                          </div>
                         )}
                       </div>
                     </td>
