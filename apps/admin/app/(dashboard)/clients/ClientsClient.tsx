@@ -146,7 +146,7 @@ export default function ClientsClient({ initialClients }: { initialClients: Clie
 
         <button
           onClick={handleOpenAdd}
-          className="inline-flex items-center gap-2 bg-[#0052ff] hover:bg-[#0045d8] text-white font-medium px-4 py-2.5 rounded-xl text-sm transition shadow-xs cursor-pointer self-start sm:self-auto"
+          className="inline-flex items-center gap-2 bg-[#0052ff] hover:bg-[#0045d8] text-white font-medium px-4 py-2.5 rounded-xl text-sm transition shadow-xs cursor-pointer self-start sm:self-auto shrink-0 whitespace-nowrap"
         >
           <Plus className="w-4 h-4" />
           <span>Tambah Klien Baru</span>

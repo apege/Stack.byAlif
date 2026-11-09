@@ -516,7 +516,7 @@ _Tautan ini dilindungi tanda tangan digital dan enkripsi berstandar UU ITE._`;
 
         <button
           onClick={() => setShowModal(true)}
-          className="inline-flex items-center gap-2 bg-[#0052ff] hover:bg-[#0045d8] text-white font-medium px-4 py-2.5 rounded-xl text-sm transition shadow-xs cursor-pointer"
+          className="inline-flex items-center gap-2 bg-[#0052ff] hover:bg-[#0045d8] text-white font-medium px-4 py-2.5 rounded-xl text-sm transition shadow-xs cursor-pointer shrink-0 whitespace-nowrap"
         >
           <Plus className="w-4 h-4" />
           <span>Buat Agreement Baru</span>
