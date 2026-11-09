@@ -235,26 +235,37 @@ export function validateWhatsAppNumber(phone: string): PhoneValidationResult {
     const nationalNumber = cleaned.replace('+62', '0'); // e.g. 08123456789
     const digitsOnly = nationalNumber.replace(/\D/g, '');
 
-    // Digits count check (Indonesian mobile numbers have 10-13 digits: 08xx-xxxx-xxxx)
-    if (digitsOnly.length < 10) {
+    // Strict regex pattern check for Indonesian mobile cellular format:
+    // Starts with 08, followed by valid 1-9 (never 0), and 7 to 10 more digits (total 10-13 digits)
+    const indonesianMobileRegex = /^08[1-9][0-9]{7,10}$/;
+    if (!indonesianMobileRegex.test(digitsOnly)) {
+      if (digitsOnly.length < 10) {
+        return {
+          valid: false,
+          raw: phone,
+          normalized: cleaned,
+          formatted: cleaned,
+          isIndonesian: true,
+          error: 'Nomor WhatsApp terlalu pendek (minimal 10 digit, contoh: 08123456789).',
+        };
+      }
+      if (digitsOnly.length > 13) {
+        return {
+          valid: false,
+          raw: phone,
+          normalized: cleaned,
+          formatted: cleaned,
+          isIndonesian: true,
+          error: 'Nomor WhatsApp terlalu panjang (maksimal 13 digit nomor seluler).',
+        };
+      }
       return {
         valid: false,
         raw: phone,
         normalized: cleaned,
         formatted: cleaned,
         isIndonesian: true,
-        error: 'Nomor WhatsApp terlalu pendek (minimal 10 digit).',
-      };
-    }
-
-    if (digitsOnly.length > 14) {
-      return {
-        valid: false,
-        raw: phone,
-        normalized: cleaned,
-        formatted: cleaned,
-        isIndonesian: true,
-        error: 'Nomor WhatsApp terlalu panjang (maksimal 13-14 digit).',
+        error: 'Format nomor WhatsApp tidak valid. Harus berupa nomor seluler (08xx).',
       };
     }
 
