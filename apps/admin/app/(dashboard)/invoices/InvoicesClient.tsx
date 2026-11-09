@@ -559,36 +559,39 @@ export default function InvoicesClient({
 
       {/* 4. Modal Buat Invoice Baru */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-2xl p-6 sm:p-8 space-y-6 shadow-2xl my-8">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-[#0d1322] border border-slate-800 rounded-2xl w-full max-w-2xl flex flex-col max-h-[90vh] shadow-2xl overflow-hidden my-auto">
+            {/* Modal Header (Sticky) */}
+            <div className="flex items-center justify-between p-5 sm:p-6 pb-4 border-b border-slate-800/80 shrink-0">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-sky-950 border border-sky-800 flex items-center justify-center text-sky-400">
+                <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-[#0052ff]">
                   <Receipt className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">Terbitkan Invoice Baru</h3>
+                  <h3 className="text-base sm:text-lg font-bold text-white">Terbitkan Invoice Baru</h3>
                   <p className="text-xs text-slate-400">
                     Otomatis generate nomor invoice resmi dengan klausul non-refundable refund policy.
                   </p>
                 </div>
               </div>
               <button
+                type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="text-slate-400 hover:text-white p-1"
+                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition cursor-pointer"
               >
                 ✕
               </button>
             </div>
 
-            {errorMsg && (
-              <div className="p-3.5 rounded-xl bg-red-950/60 border border-red-500/40 text-red-300 text-xs flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
-                <span>{errorMsg}</span>
-              </div>
-            )}
-
-            <form onSubmit={handleCreateInvoice} className="space-y-4 text-xs">
+            {/* Modal Form with Scrollable Body & Sticky Footer */}
+            <form onSubmit={handleCreateInvoice} className="flex flex-col flex-1 overflow-hidden">
+              <div className="p-5 sm:p-6 overflow-y-auto space-y-4 text-xs flex-1">
+                {errorMsg && (
+                  <div className="p-3.5 rounded-xl bg-red-950/60 border border-red-500/40 text-red-300 text-xs flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
+                    <span>{errorMsg}</span>
+                  </div>
+                )}
               {/* Quick Select from existing clients */}
               {clients.length > 0 && (
                 <div>
@@ -794,28 +797,29 @@ export default function InvoicesClient({
                   />
                 </div>
               </div>
+            </div>
 
-              {/* Submit Buttons */}
-              <div className="pt-4 flex items-center justify-end gap-3 border-t border-slate-800">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2.5 rounded-xl border border-slate-800 text-slate-400 hover:text-white font-semibold transition-colors"
-                >
-                  Batal
-                </button>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="px-5 py-2.5 rounded-xl bg-[#0052ff] hover:bg-[#0045d8] text-white font-medium shadow-xs transition-all disabled:opacity-50 cursor-pointer text-sm"
-                >
-                  {loading ? 'Menerbitkan...' : 'Terbitkan & Simpan Invoice'}
-                </button>
-              </div>
-            </form>
-          </div>
+            {/* Modal Footer (Sticky) */}
+            <div className="p-4 sm:p-5 border-t border-slate-800/80 bg-[#090d18] flex items-center justify-end gap-3 shrink-0">
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(false)}
+                className="px-4 py-2.5 rounded-xl border border-slate-800 text-slate-400 hover:text-white font-medium transition cursor-pointer"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="px-5 py-2.5 rounded-xl bg-[#0052ff] hover:bg-[#0045d8] text-white font-medium shadow-xs transition-all disabled:opacity-50 cursor-pointer text-sm"
+              >
+                {loading ? 'Menerbitkan...' : 'Terbitkan & Simpan Invoice'}
+              </button>
+            </div>
+          </form>
         </div>
-      )}
+      </div>
+    )}
     </div>
   );
 }

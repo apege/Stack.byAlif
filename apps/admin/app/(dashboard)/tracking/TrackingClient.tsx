@@ -440,150 +440,159 @@ export default function TrackingClient({
 
       {/* 3. Modal Mulai Tracker Proyek Baru */}
       {isCreateOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-xl p-6 sm:p-8 space-y-6 shadow-2xl my-8">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-[#0d1322] border border-slate-800 rounded-2xl w-full max-w-xl flex flex-col max-h-[90vh] shadow-2xl overflow-hidden my-auto">
+            {/* Modal Header (Sticky) */}
+            <div className="flex items-center justify-between p-5 sm:p-6 pb-4 border-b border-slate-800/80 shrink-0">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-sky-950 border border-sky-800 flex items-center justify-center text-sky-400">
+                <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-[#0052ff]">
                   <Activity className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">Mulai Live Status Proyek</h3>
+                  <h3 className="text-base sm:text-lg font-bold text-white">Mulai Live Status Proyek</h3>
                   <p className="text-xs text-slate-400">
                     Klien bisa memantau progres dan catatan pengerjaan secara real-time.
                   </p>
                 </div>
               </div>
-              <button onClick={() => setIsCreateOpen(false)} className="text-slate-400 hover:text-white p-1">
+              <button
+                type="button"
+                onClick={() => setIsCreateOpen(false)}
+                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition cursor-pointer"
+              >
                 ✕
               </button>
             </div>
 
-            {errorMsg && (
-              <div className="p-3.5 rounded-xl bg-red-950/60 border border-red-500/40 text-red-300 text-xs flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
-                <span>{errorMsg}</span>
-              </div>
-            )}
+            {/* Modal Form with Scrollable Body & Sticky Footer */}
+            <form onSubmit={handleCreateSubmit} className="flex flex-col flex-1 overflow-hidden">
+              <div className="p-5 sm:p-6 overflow-y-auto space-y-4 text-xs flex-1">
+                {errorMsg && (
+                  <div className="p-3.5 rounded-xl bg-red-950/60 border border-red-500/40 text-red-300 text-xs flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
+                    <span>{errorMsg}</span>
+                  </div>
+                )}
 
-            <form onSubmit={handleCreateSubmit} className="space-y-4 text-xs">
-              <div>
-                <label className="block font-medium text-slate-300 mb-1">Nama Proyek *</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Contoh: Redesign Website & Sistem Pemesanan"
-                  value={newProjectName}
-                  onChange={(e) => setNewProjectName(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-medium text-slate-300 mb-1">Nama Klien *</label>
+                  <label className="block font-medium text-slate-300 mb-1">Nama Proyek *</label>
                   <input
                     type="text"
                     required
-                    placeholder="Nama Klien"
-                    value={newClientName}
-                    onChange={(e) => setNewClientName(e.target.value)}
+                    placeholder="Contoh: Redesign Website & Sistem Pemesanan"
+                    value={newProjectName}
+                    onChange={(e) => setNewProjectName(e.target.value)}
                     className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500"
                   />
                 </div>
-                <div>
-                  <label className="block font-medium text-slate-300 mb-1">Nama Perusahaan / Brand</label>
-                  <input
-                    type="text"
-                    placeholder="Brand Klien"
-                    value={newClientCompany}
-                    onChange={(e) => setNewClientCompany(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500"
-                  />
-                </div>
-              </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-medium text-slate-300 mb-1">Nama Klien *</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Nama Klien"
+                      value={newClientName}
+                      onChange={(e) => setNewClientName(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-medium text-slate-300 mb-1">Nama Perusahaan / Brand</label>
+                    <input
+                      type="text"
+                      placeholder="Brand Klien"
+                      value={newClientCompany}
+                      onChange={(e) => setNewClientCompany(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-medium text-slate-300 mb-1">
+                      Nomor Referensi Registrasi (Opsional)
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Contoh: REG-XXXXXXXX"
+                      value={newRegNumber}
+                      onChange={(e) => setNewRegNumber(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500 font-mono"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-medium text-slate-300 mb-1">Estimasi Tanggal Selesai</label>
+                    <input
+                      type="date"
+                      value={newEstCompletion}
+                      onChange={(e) => setNewEstCompletion(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500"
+                    />
+                  </div>
+                </div>
+
                 <div>
-                  <label className="block font-medium text-slate-300 mb-1">
-                    Nomor Referensi Registrasi (Opsional)
-                  </label>
+                  <label className="block font-medium text-slate-300 mb-1">Fase Awal Proyek</label>
+                  <select
+                    value={newPhase}
+                    onChange={(e) => setNewPhase(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500"
+                  >
+                    {PHASES.map((p) => (
+                      <option key={p} value={p}>
+                        {p}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <div className="flex justify-between items-center mb-1">
+                    <label className="font-medium text-slate-300">Persentase Progres Awal</label>
+                    <span className="font-mono text-sky-400 font-bold">{newProgress}%</span>
+                  </div>
                   <input
-                    type="text"
-                    placeholder="Contoh: REG-XXXXXXXX"
-                    value={newRegNumber}
-                    onChange={(e) => setNewRegNumber(e.target.value)}
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="5"
+                    value={newProgress}
+                    onChange={(e) => setNewProgress(Number(e.target.value))}
+                    className="w-full accent-[#0052ff] cursor-pointer"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-medium text-slate-300 mb-1">Link Preview Staging (Opsional)</label>
+                  <input
+                    type="url"
+                    placeholder="https://staging.domain.com"
+                    value={newStagingUrl}
+                    onChange={(e) => setNewStagingUrl(e.target.value)}
                     className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500 font-mono"
                   />
                 </div>
+
                 <div>
-                  <label className="block font-medium text-slate-300 mb-1">Estimasi Tanggal Selesai</label>
-                  <input
-                    type="date"
-                    value={newEstCompletion}
-                    onChange={(e) => setNewEstCompletion(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500"
+                  <label className="block font-medium text-slate-300 mb-1">Catatan Log Awal</label>
+                  <textarea
+                    rows={2}
+                    value={initialNote}
+                    onChange={(e) => setInitialNote(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-sky-500 resize-none"
                   />
                 </div>
               </div>
 
-              <div>
-                <label className="block font-medium text-slate-300 mb-1">Fase Awal Proyek</label>
-                <select
-                  value={newPhase}
-                  onChange={(e) => setNewPhase(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500"
-                >
-                  {PHASES.map((p) => (
-                    <option key={p} value={p}>
-                      {p}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <div className="flex justify-between items-center mb-1">
-                  <label className="font-medium text-slate-300">Persentase Progres Awal</label>
-                  <span className="font-mono text-sky-400 font-bold">{newProgress}%</span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  step="5"
-                  value={newProgress}
-                  onChange={(e) => setNewProgress(Number(e.target.value))}
-                  className="w-full accent-sky-500 cursor-pointer"
-                />
-              </div>
-
-              <div>
-                <label className="block font-medium text-slate-300 mb-1">Link Preview Staging (Opsional)</label>
-                <input
-                  type="url"
-                  placeholder="https://staging.domain.com"
-                  value={newStagingUrl}
-                  onChange={(e) => setNewStagingUrl(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500 font-mono"
-                />
-              </div>
-
-              <div>
-                <label className="block font-medium text-slate-300 mb-1">Catatan Log Awal</label>
-                <textarea
-                  rows={2}
-                  value={initialNote}
-                  onChange={(e) => setInitialNote(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-sky-500 resize-none"
-                />
-              </div>
-
-              <div className="pt-4 flex items-center justify-end gap-3 border-t border-slate-800">
+              {/* Modal Footer (Sticky) */}
+              <div className="p-4 sm:p-5 border-t border-slate-800/80 bg-[#090d18] flex items-center justify-end gap-3 shrink-0">
                 <button
                   type="button"
                   onClick={() => setIsCreateOpen(false)}
-                  className="px-4 py-2.5 rounded-xl border border-slate-800 text-slate-400 hover:text-white font-semibold transition-colors"
+                  className="px-4 py-2.5 rounded-xl border border-slate-800 text-slate-400 hover:text-white font-medium transition cursor-pointer"
                 >
                   Batal
                 </button>
@@ -602,114 +611,123 @@ export default function TrackingClient({
 
       {/* 4. Modal Update Progres Proyek */}
       {editingItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-xl p-6 sm:p-8 space-y-6 shadow-2xl my-8">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-[#0d1322] border border-slate-800 rounded-2xl w-full max-w-xl flex flex-col max-h-[90vh] shadow-2xl overflow-hidden my-auto">
+            {/* Modal Header (Sticky) */}
+            <div className="flex items-center justify-between p-5 sm:p-6 pb-4 border-b border-slate-800/80 shrink-0">
               <div>
-                <h3 className="text-lg font-bold text-white">Update Status Proyek</h3>
+                <h3 className="text-base sm:text-lg font-bold text-white">Update Status Proyek</h3>
                 <p className="text-xs text-sky-400 font-mono mt-0.5">
                   {editingItem.project_name} ({editingItem.tracking_code})
                 </p>
               </div>
-              <button onClick={() => setEditingItem(null)} className="text-slate-400 hover:text-white p-1">
+              <button
+                type="button"
+                onClick={() => setEditingItem(null)}
+                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition cursor-pointer"
+              >
                 ✕
               </button>
             </div>
 
-            {errorMsg && (
-              <div className="p-3.5 rounded-xl bg-red-950/60 border border-red-500/40 text-red-300 text-xs flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
-                <span>{errorMsg}</span>
-              </div>
-            )}
+            {/* Modal Form with Scrollable Body & Sticky Footer */}
+            <form onSubmit={handleUpdateSubmit} className="flex flex-col flex-1 overflow-hidden">
+              <div className="p-5 sm:p-6 overflow-y-auto space-y-4 text-xs flex-1">
+                {errorMsg && (
+                  <div className="p-3.5 rounded-xl bg-red-950/60 border border-red-500/40 text-red-300 text-xs flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
+                    <span>{errorMsg}</span>
+                  </div>
+                )}
 
-            <form onSubmit={handleUpdateSubmit} className="space-y-4 text-xs">
-              <div>
-                <label className="block font-medium text-slate-300 mb-1">Tahapan / Fase Saat Ini</label>
-                <select
-                  value={editPhase}
-                  onChange={(e) => setEditPhase(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500"
-                >
-                  {PHASES.map((p) => (
-                    <option key={p} value={p}>
-                      {p}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <div className="flex justify-between items-center mb-1">
-                  <label className="font-medium text-slate-300">Persentase Progres Proyek</label>
-                  <span className="font-mono text-emerald-400 font-bold text-sm">{editProgress}%</span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  step="5"
-                  value={editProgress}
-                  onChange={(e) => setEditProgress(Number(e.target.value))}
-                  className="w-full accent-emerald-500 cursor-pointer"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-medium text-slate-300 mb-1">Status Proyek</label>
+                  <label className="block font-medium text-slate-300 mb-1">Tahapan / Fase Saat Ini</label>
                   <select
-                    value={editStatus}
-                    onChange={(e) => setEditStatus(e.target.value)}
+                    value={editPhase}
+                    onChange={(e) => setEditPhase(e.target.value)}
                     className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500"
                   >
-                    <option value="in_progress">Sedang Dikerjakan (In Progress)</option>
-                    <option value="review">Tahap Review Klien</option>
-                    <option value="completed">Selesai (Completed / Handover)</option>
-                    <option value="on_hold">Ditunda (On Hold)</option>
-                    <option value="planning">Perencanaan (Planning)</option>
+                    {PHASES.map((p) => (
+                      <option key={p} value={p}>
+                        {p}
+                      </option>
+                    ))}
                   </select>
                 </div>
+
                 <div>
-                  <label className="block font-medium text-slate-300 mb-1">Estimasi Selesai</label>
+                  <div className="flex justify-between items-center mb-1">
+                    <label className="font-medium text-slate-300">Persentase Progres Proyek</label>
+                    <span className="font-mono text-emerald-400 font-bold text-sm">{editProgress}%</span>
+                  </div>
                   <input
-                    type="date"
-                    value={editEstCompletion}
-                    onChange={(e) => setEditEstCompletion(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500"
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="5"
+                    value={editProgress}
+                    onChange={(e) => setEditProgress(Number(e.target.value))}
+                    className="w-full accent-emerald-500 cursor-pointer"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-medium text-slate-300 mb-1">Status Proyek</label>
+                    <select
+                      value={editStatus}
+                      onChange={(e) => setEditStatus(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500"
+                    >
+                      <option value="in_progress">Sedang Dikerjakan (In Progress)</option>
+                      <option value="review">Tahap Review Klien</option>
+                      <option value="completed">Selesai (Completed / Handover)</option>
+                      <option value="on_hold">Ditunda (On Hold)</option>
+                      <option value="planning">Perencanaan (Planning)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block font-medium text-slate-300 mb-1">Estimasi Selesai</label>
+                    <input
+                      type="date"
+                      value={editEstCompletion}
+                      onChange={(e) => setEditEstCompletion(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-medium text-slate-300 mb-1">Link Preview Staging / Demo</label>
+                  <input
+                    type="url"
+                    placeholder="https://staging.domain.com"
+                    value={editStagingUrl}
+                    onChange={(e) => setEditStagingUrl(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500 font-mono"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-medium text-slate-300 mb-1">
+                    Tambah Catatan Log Progres Baru (Akan dilihat Klien)
+                  </label>
+                  <textarea
+                    rows={2}
+                    placeholder="Contoh: Fitur payment gateway dan kalkulator ongkir berhasil terpasang dan siap dites."
+                    value={newLogText}
+                    onChange={(e) => setNewLogText(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-sky-500 resize-none"
                   />
                 </div>
               </div>
 
-              <div>
-                <label className="block font-medium text-slate-300 mb-1">Link Preview Staging / Demo</label>
-                <input
-                  type="url"
-                  placeholder="https://staging.domain.com"
-                  value={editStagingUrl}
-                  onChange={(e) => setEditStagingUrl(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-sky-500 font-mono"
-                />
-              </div>
-
-              <div>
-                <label className="block font-medium text-slate-300 mb-1">
-                  Tambah Catatan Log Progres Baru (Akan dilihat Klien)
-                </label>
-                <textarea
-                  rows={2}
-                  placeholder="Contoh: Fitur payment gateway dan kalkulator ongkir berhasil terpasang dan siap dites."
-                  value={newLogText}
-                  onChange={(e) => setNewLogText(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-sky-500 resize-none"
-                />
-              </div>
-
-              <div className="pt-4 flex items-center justify-end gap-3 border-t border-slate-800">
+              {/* Modal Footer (Sticky) */}
+              <div className="p-4 sm:p-5 border-t border-slate-800/80 bg-[#090d18] flex items-center justify-end gap-3 shrink-0">
                 <button
                   type="button"
                   onClick={() => setEditingItem(null)}
-                  className="px-4 py-2.5 rounded-xl border border-slate-800 text-slate-400 hover:text-white font-semibold transition-colors"
+                  className="px-4 py-2.5 rounded-xl border border-slate-800 text-slate-400 hover:text-white font-medium transition cursor-pointer"
                 >
                   Batal
                 </button>

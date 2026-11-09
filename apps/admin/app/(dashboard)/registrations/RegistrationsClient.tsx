@@ -277,9 +277,10 @@ export default function RegistrationsClient({
 
       {/* Detail Modal */}
       {selectedReg && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-start sm:items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-[#0d1322] border border-slate-800 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden my-auto">
+            {/* Header (Sticky) */}
+            <div className="flex items-center justify-between border-b border-slate-800/80 p-5 sm:p-6 pb-4 shrink-0">
               <div>
                 <span className="text-[11px] font-mono text-emerald-400">
                   {selectedReg.registration_number}
@@ -289,14 +290,16 @@ export default function RegistrationsClient({
                 </h3>
               </div>
               <button
+                type="button"
                 onClick={() => setSelectedReg(null)}
-                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white"
+                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="space-y-4 text-xs">
+            {/* Scrollable Content */}
+            <div className="p-5 sm:p-6 overflow-y-auto space-y-4 text-xs flex-1">
               {/* Section 01 */}
               <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
                 <span className="font-bold text-slate-300 block mb-1 text-sm">
@@ -366,11 +369,12 @@ export default function RegistrationsClient({
               </div>
             </div>
 
-            {/* Actions */}
-            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-800 pt-4">
+            {/* Actions (Sticky Footer) */}
+            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-800/80 p-4 sm:p-5 bg-[#090d18] shrink-0">
               <div className="flex items-center gap-2">
                 {selectedReg.status !== 'verified' && (
                   <button
+                    type="button"
                     onClick={() => handleUpdateStatus(selectedReg.id, 'verified')}
                     className="px-3 py-1.5 rounded-lg bg-emerald-900/60 hover:bg-emerald-800 text-emerald-200 text-xs font-semibold border border-emerald-500/30 cursor-pointer"
                   >
@@ -379,6 +383,7 @@ export default function RegistrationsClient({
                 )}
                 {selectedReg.status !== 'rejected' && (
                   <button
+                    type="button"
                     onClick={() => handleUpdateStatus(selectedReg.id, 'rejected')}
                     className="px-3 py-1.5 rounded-lg bg-red-900/60 hover:bg-red-800 text-red-200 text-xs font-semibold border border-red-500/30 cursor-pointer"
                   >
@@ -389,8 +394,9 @@ export default function RegistrationsClient({
 
               {selectedReg.status !== 'converted' && (
                 <button
+                  type="button"
                   onClick={() => handleConvertToClient(selectedReg)}
-                  className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-lg shadow-emerald-600/20 cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs cursor-pointer"
                 >
                   <FileCheck2 className="w-4 h-4" />
                   <span>Konversi ke Klien & Terbitkan Kontrak</span>
