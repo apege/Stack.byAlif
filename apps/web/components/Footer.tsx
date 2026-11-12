@@ -9,7 +9,7 @@ const socials = [
   { icon: GitFork, href: 'https://github.com/apege', label: 'GitHub' },
   { icon: Camera, href: 'https://instagram.com/stack.byalif', label: 'Instagram' },
   { icon: Mail, href: 'mailto:stackbyalif@gmail.com', label: 'Email' },
-  { icon: MessageCircle, href: 'https://wa.me/62895412735876', label: 'WhatsApp' },
+  { icon: MessageCircle, href: 'https://wa.me/6289674543920', label: 'WhatsApp' },
 ];
 
 export default function Footer() {

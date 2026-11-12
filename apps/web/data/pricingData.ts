@@ -283,13 +283,13 @@ export const pricingTermsData: PricingTerm[] = [
 ];
 
 export function getWhatsAppPricingUrl(pkg: PricingItem): string {
-  const phone = '62895412735876';
+  const phone = '6289674543920';
   const text = `Halo Mas Alif (Stack.byAlif),\n\nSaya tertarik untuk konsultasi pembuatan website dengan paket *${pkg.fullName}* (${pkg.priceFormatted}).\n\nBisa dibantu informasi ketersediaan jadwal dan langkah selanjutnya? Terima kasih.`;
   return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
 }
 
 export function getGeneralWhatsAppPricingUrl(): string {
-  const phone = '62895412735876';
+  const phone = '6289674543920';
   const text = `Halo Mas Alif (Stack.byAlif),\n\nSaya ingin konsultasi mengenai paket pembuatan website / sistem digital kustom. Bisa dibantu diskusi kebutuhan bisnis saya? Terima kasih.`;
   return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
 }
