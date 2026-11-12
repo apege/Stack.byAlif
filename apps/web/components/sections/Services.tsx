@@ -1,5 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 export default function Services() {
@@ -87,6 +89,34 @@ export default function Services() {
             </motion.div>
           ))}
         </div>
+
+        {/* Callout to Dedicated Pricing Page */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-12 sm:mt-16 pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-slate-900/40 p-6 sm:p-8 rounded-2xl border border-slate-800"
+        >
+          <div className="space-y-1">
+            <span className="text-[10px] font-mono font-bold tracking-widest text-blue-400 uppercase">
+              TRANSPARAN &amp; TERJANGKAU
+            </span>
+            <h4 className="text-lg sm:text-xl font-bold text-white">
+              Butuh paket siap pakai untuk usaha atau bisnis Anda?
+            </h4>
+            <p className="text-xs sm:text-sm text-slate-400 max-w-xl">
+              Lihat 6 paket solusi website &amp; sistem bisnis Stack.byAlif mulai dari Rp349.000 dengan domain &amp; deployment siap pakai.
+            </p>
+          </div>
+          <Link
+            href="/pricing"
+            className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs sm:text-sm px-5 py-3 rounded-full transition-all duration-200 shrink-0 group shadow-sm"
+          >
+            <span>Lihat Paket &amp; Harga</span>
+            <ArrowUpRight className="w-4 h-4 text-blue-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

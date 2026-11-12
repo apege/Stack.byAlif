@@ -16,10 +16,11 @@ export default function Footer() {
   const { t } = useLanguage();
 
   const quickLinks = [
-    { href: '#about', label: t('nav.about') },
-    { href: '#services', label: t('nav.services') },
-    { href: '#projects', label: t('nav.work') },
-    { href: '#process', label: t('nav.process') },
+    { href: '/#about', label: t('nav.about') },
+    { href: '/#services', label: t('nav.services') },
+    { href: '/pricing', label: t('nav.pricing') },
+    { href: '/#projects', label: t('nav.work') },
+    { href: '/#process', label: t('nav.process') },
   ];
 
   return (

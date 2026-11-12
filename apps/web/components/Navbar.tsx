@@ -12,10 +12,11 @@ export default function Navbar() {
   const { lang, setLang, t } = useLanguage();
 
   const navLinks = [
-    { href: '#about', label: t('nav.about') },
-    { href: '#services', label: t('nav.services') },
-    { href: '#projects', label: t('nav.work') },
-    { href: '#process', label: t('nav.process') },
+    { href: '/#about', label: t('nav.about') },
+    { href: '/#services', label: t('nav.services') },
+    { href: '/pricing', label: t('nav.pricing') },
+    { href: '/#projects', label: t('nav.work') },
+    { href: '/#process', label: t('nav.process') },
   ];
 
   useEffect(() => {
@@ -108,7 +109,7 @@ export default function Navbar() {
 
           {/* CTA Pill Button: Mulai percakapan ↗ (Desktop) */}
           <a
-            href="#contact"
+            href="/#contact"
             className="hidden sm:flex items-center gap-2 bg-[#061021] hover:bg-slate-800 text-white text-xs md:text-sm font-medium px-4 md:px-5 py-2.5 rounded-full shadow-sm hover:shadow transition-all duration-200 group"
           >
             <span>{t('nav.cta')}</span>
@@ -170,7 +171,7 @@ export default function Navbar() {
               className="pt-6"
             >
               <a
-                href="#contact"
+                href="/#contact"
                 onClick={() => setIsOpen(false)}
                 className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl shadow-lg transition-all text-base"
               >
